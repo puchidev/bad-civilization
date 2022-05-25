@@ -24,7 +24,7 @@ export default {
     .setDescription('주사위를 굴려볼 수 있어.')
     .addIntegerOption((option) =>
       option
-        .setName('눈의 갯수')
+        .setName('눈')
         .setDescription('주사위가 가진 눈의 갯수')
         .setRequired(true),
     ),

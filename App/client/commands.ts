@@ -56,7 +56,10 @@ async function deployCommands({
       body: commands,
     })
     .then(() => onSuccess && onSuccess())
-    .catch(() => onFailure && onFailure());
+    .catch((e) => {
+      console.error(e);
+      onFailure && onFailure();
+    });
 }
 
 interface FetchOptions {
