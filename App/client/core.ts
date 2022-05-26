@@ -3,7 +3,7 @@ import { deployCommands, fetchCommands } from './commands';
 import { intents } from './intents';
 
 /**
- * initialize Discord.js client
+ * Initializes Discord.js client
  */
 async function initClient() {
   if (!process.env.APP_TOKEN) {
@@ -63,6 +63,12 @@ async function initClient() {
       });
     }
   });
+
+  const preparePromises = commands
+    .filter((command) => 'prepare' in command)
+    .map(({ prepare }) => prepare && prepare());
+
+  await Promise.all(preparePromises);
 
   client.login(process.env.APP_TOKEN);
 }

@@ -1,7 +1,16 @@
-import type { SlashCommandBuilder } from '@discordjs/builders';
+import type {
+  SlashCommandBuilder,
+  SlashCommandSubcommandsOnlyBuilder,
+} from '@discordjs/builders';
 import type { CommandInteraction } from 'discord.js';
+import type { PartialBy } from './utils';
+
+export type SlashCommandData =
+  | PartialBy<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>
+  | SlashCommandSubcommandsOnlyBuilder;
 
 export interface CommandConfig {
-  data: SlashCommandBuilder;
-  execute: (interaction: CommandInteraction) => void | Promise<void>;
+  data: SlashCommandData;
+  execute: (interaction: CommandInteraction) => Promise<void>;
+  prepare?: () => Promise<void>;
 }

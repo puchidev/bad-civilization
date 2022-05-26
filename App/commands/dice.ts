@@ -1,15 +1,16 @@
 import { bold, SlashCommandBuilder } from '@discordjs/builders';
 import type { CommandInteraction } from 'discord.js';
 
+import type { CommandConfig } from '../models';
+
 const DEFAULT_NUMBER_OF_SLIDES = 6;
 const MAX_NUMBER_OF_SLIDES = Number.MAX_SAFE_INTEGER;
 
 /**
- * Generate a random integer between `min` and `max` values.
- *
- * @param {number} min
- * @param {number} max
- * @return {number} The generated integer.
+ * Generates a random integer between two numeric values.
+ * @param min lower bound
+ * @param max upper bound
+ * @returns the generated integer
  */
 function getRandomInteger(min: number, max: number): number {
   const $min = Math.ceil(min);
@@ -18,7 +19,7 @@ function getRandomInteger(min: number, max: number): number {
   return Math.floor(Math.random() * ($max - $min + 1)) + $min;
 }
 
-export default {
+const command: CommandConfig = {
   data: new SlashCommandBuilder()
     .setName('주사')
     .setDescription('주사위를 굴려볼 수 있어.')
@@ -55,3 +56,5 @@ export default {
     );
   },
 };
+
+export default command;

@@ -10,5 +10,20 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['@typescript-eslint'],
-  rules: {},
+  rules: {
+    'valid-jsdoc': [
+      'error',
+      {
+        prefer: {
+          arg: 'param',
+          class: 'class',
+          return: 'returns',
+        },
+        requireParamType: false,
+        requireReturn: false,
+        requireReturnType: false,
+        requireReturnDescription: false,
+      },
+    ],
+  },
 };

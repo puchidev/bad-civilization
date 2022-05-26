@@ -1,11 +1,12 @@
 import { bold, SlashCommandBuilder } from '@discordjs/builders';
 import type { CommandInteraction } from 'discord.js';
 
+import type { CommandConfig } from '../models';
+
 /**
- * Remove duplicate items from the array passed.
- *
- * @param {string} optionString
- * @return {string[]} Array of unique options.
+ * Removes duplicate items from the array passed.
+ * @param optionString user typed option
+ * @returns array of unique options.
  */
 function parseOptions(optionString: string) {
   const options = optionString.split(',');
@@ -15,17 +16,16 @@ function parseOptions(optionString: string) {
 }
 
 /**
- * Choose an arbitrary item from the array passed.
- *
- * @param {string[]} array - The array to choose the item from
- * @param {number} rando - Method generating a random seed between 0 and 1
- * @return {string[]} The chosen item from the original array.
+ * Picks an arbitrary item from the array passed.
+ * @param array the array to choose the item from
+ * @param rando method generating a random seed between 0 and 1
+ * @returns the chosen item from the original array.
  */
 function randomSelect(array: string[], rando = Math.random) {
   return array[Math.floor(rando() * array.length)];
 }
 
-export default {
+const command: CommandConfig = {
   data: new SlashCommandBuilder()
     .setName('선택')
     .setDescription('주어진 선택지 중 하나를 골라줄게.')
@@ -57,3 +57,5 @@ export default {
     );
   },
 };
+
+export default command;
