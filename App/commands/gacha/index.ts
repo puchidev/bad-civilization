@@ -130,7 +130,7 @@ const command: CommandConfig = {
 
     createFields().forEach((field) => embed.addFields(field));
 
-    interaction.reply(createTitle());
+    await interaction.reply(createTitle());
     interaction.channel?.send({ embeds: [embed] });
   },
 };

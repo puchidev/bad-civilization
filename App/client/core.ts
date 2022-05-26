@@ -64,6 +64,18 @@ async function initClient() {
     }
   });
 
+  client.on('interactionCreate', async (interaction) => {
+    if (!interaction.isAutocomplete()) {
+      return;
+    }
+
+    const command = commands.get(interaction.commandName);
+
+    if (!command?.autocomplete) return;
+
+    interaction.respond(command.autocomplete());
+  });
+
   const preparePromises = commands
     .filter((command) => 'prepare' in command)
     .map(({ prepare }) => prepare && prepare());
