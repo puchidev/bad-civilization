@@ -5,6 +5,7 @@ import chunk from 'lodash/chunk';
 
 import { createGame, fetchGameConfigs } from './games';
 import { roll } from './roll';
+import { logger } from '../../devtools';
 import type { CommandConfig } from '../../models';
 import type { GachaGame } from './types';
 
@@ -43,10 +44,10 @@ const command: CommandConfig = {
   async prepare() {
     const configs = await fetchGameConfigs({
       onFailure: () => {
-        console.error('Failed to load gacha games.');
+        logger.error('Failed to load gacha games.');
       },
       onSuccess: () => {
-        console.log('Successfully loaded gacha games');
+        logger.info('Successfully loaded gacha games');
       },
     });
 
@@ -56,7 +57,7 @@ const command: CommandConfig = {
         database.set(config.id, game);
       });
     } catch (e) {
-      console.error(e);
+      logger.error(e);
     }
   },
   async execute(interaction: CommandInteraction) {

@@ -3,6 +3,7 @@ import glob from 'glob';
 import { readFile as readFileAsync } from 'node:fs/promises';
 import path from 'node:path';
 
+import { logger } from '../../devtools';
 import { nonNullable } from '../../utils';
 import type { GachaGameConfig, GachaGame, GachaSortedGroup } from './types';
 
@@ -119,9 +120,9 @@ async function fetchGameConfigs({ onFailure, onSuccess }: FetchOptions = {}) {
         const data: GachaGameConfig = JSON.parse(json);
 
         return data;
-      } catch (e) {
+      } catch (error) {
         hasError = true;
-        console.error((e as Error).message);
+        logger.error((error as Error).message);
         return null;
       }
     });

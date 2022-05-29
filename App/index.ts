@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import { initClient } from './client';
+import { logger } from './devtools';
 
 dotenv.config({
   path:
@@ -8,12 +9,13 @@ dotenv.config({
       : '.env.production',
 });
 
-process.on('warning', (message) => {
-  console.warn(`Node warning: ${message}`);
+process.on('warning', (warning) => {
+  logger.fatal(`Node warning: ${warning}`);
+  process.exit(0);
 });
 
 process.on('unhandledRejection', (reason) => {
-  console.warn(`Node unhandled rejection: ${reason}`);
+  logger.warn(`Node unhandled rejection: ${reason}`);
 });
 
 initClient();

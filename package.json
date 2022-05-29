@@ -18,7 +18,9 @@
     "dotenv": "^16.0.1",
     "glob": "^8.0.3",
     "lodash": "^4.17.21",
-    "ts-node": "^10.8.0"
+    "ts-node": "^10.8.0",
+    "winston": "^3.7.2",
+    "winston-daily-rotate-file": "^4.6.1"
   },
   "devDependencies": {
     "@types/glob": "^7.2.0",

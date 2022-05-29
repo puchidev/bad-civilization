@@ -1,4 +1,6 @@
 import { Client } from 'discord.js';
+
+import { logger } from '../devtools';
 import { deployCommands, fetchCommands } from './commands';
 import { intents } from './intents';
 
@@ -11,35 +13,20 @@ async function initClient() {
   }
 
   const client = new Client({ intents });
+  const commands = await fetchCommands();
 
-  const commands = await fetchCommands({
-    onFailure: () => {
-      console.error('Failed to load commands.');
-    },
-    onSuccess: () => {
-      console.info('Successfully loaded commands.');
-    },
-  });
+  // invoke 'prepare' methods of fetched commands
+  await Promise.all(commands.map(({ prepare }) => prepare && prepare()));
 
   client.once('ready', async () => {
     if (client.user) {
-      console.log(`Logged in as ${client.user.tag}!`);
+      logger.info(`Logged in as ${client.user.tag}!`);
     }
 
     const guilds = await client.guilds.fetch();
 
     guilds.forEach((guild) => {
-      deployCommands({
-        guildId: guild.id,
-        onFailure: () => {
-          console.error(`Failed to deploy commands to: ${guild.name}`);
-        },
-        onSuccess: () => {
-          console.info(
-            `Successfully registered application commands to: ${guild.name}`,
-          );
-        },
-      });
+      deployCommands({ commands, guild });
     });
   });
 
@@ -55,7 +42,7 @@ async function initClient() {
     try {
       await command.execute(interaction);
     } catch (error) {
-      console.error(error);
+      logger.error(error);
 
       await interaction.reply({
         content: '명령을 수행할 수 없어요, 마스터.',
@@ -75,12 +62,6 @@ async function initClient() {
 
     interaction.respond(command.autocomplete());
   });
-
-  const preparePromises = commands
-    .filter((command) => 'prepare' in command)
-    .map(({ prepare }) => prepare && prepare());
-
-  await Promise.all(preparePromises);
 
   client.login(process.env.APP_TOKEN);
 }
