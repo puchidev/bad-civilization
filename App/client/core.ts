@@ -38,9 +38,13 @@ async function initClient() {
       return;
     }
 
-    const command = commands.get(interaction.commandName);
+    const { commandName } = interaction;
+    const command = commands.get(commandName);
 
-    if (!command) return;
+    if (!command) {
+      logger.error(`No such command found: ${commandName}`);
+      return;
+    }
 
     try {
       await command.execute(interaction);
@@ -59,11 +63,16 @@ async function initClient() {
       return;
     }
 
-    const command = commands.get(interaction.commandName);
+    const { commandName } = interaction;
+    const command = commands.get(commandName);
 
-    if (!command?.autocomplete) return;
+    if (!command?.autocomplete) {
+      logger.error(`No autocomplete handler found for: ${commandName}`);
+      return;
+    }
 
-    interaction.respond(command.autocomplete());
+    const suggestions = await command.autocomplete(interaction);
+    interaction.respond(suggestions);
   });
 
   client.login(appToken);

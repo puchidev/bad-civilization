@@ -4,22 +4,26 @@ import type {
 } from '@discordjs/builders';
 import type {
   ApplicationCommandOptionChoiceData,
+  AutocompleteInteraction,
   CommandInteraction,
 } from 'discord.js';
-import type { PartialBy } from './utils';
+
+import type { MaybePromise, PartialBy } from './utils';
 
 export type SlashCommandData =
   | PartialBy<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>
   | SlashCommandSubcommandsOnlyBuilder;
 
 export interface AutocompleteOption {
-  name: string;
-  value: string | number;
+  readonly name: string;
+  readonly value: string | number;
 }
 
 export interface CommandConfig {
-  autocomplete?: () => ApplicationCommandOptionChoiceData[];
-  data: SlashCommandData;
-  execute: (interaction: CommandInteraction) => Promise<void>;
-  prepare?: () => Promise<void>;
+  readonly data: SlashCommandData;
+  readonly autocomplete?: (
+    interaction: AutocompleteInteraction,
+  ) => MaybePromise<ApplicationCommandOptionChoiceData[]>;
+  readonly execute: (interaction: CommandInteraction) => Promise<void>;
+  readonly prepare?: () => MaybePromise<void>;
 }

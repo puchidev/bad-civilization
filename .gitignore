@@ -130,5 +130,6 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# Personal editor settings
+# Personal resources
 .vscode/
+.dev/
