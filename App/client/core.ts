@@ -33,6 +33,24 @@ async function initClient() {
     }
   });
 
+  client.on('messageCreate', async (message) => {
+    // type guard
+    if (!client.user || !message.guild) {
+      return;
+    }
+    // ignore
+    // 1. @here, @everyone calls
+    // 2. mentioned by bot
+    if (message.mentions.everyone || message.author.bot) {
+      return;
+    }
+    if (message.mentions.has(client.user.id)) {
+      await message.reply('갱신한다 명령어');
+      await deployCommands({ commands, guild: message.guild });
+      await message.reply('명령어를 다시 등록했어. 조금 기다리면 반영될 거야.');
+    }
+  });
+
   client.on('interactionCreate', async (interaction) => {
     if (!interaction.isCommand()) {
       return;
