@@ -1,431 +1,920 @@
 [
   {
     "umamusume": "골드 시티",
-    "condition": "distance_rate>=50&order_rate>=40&order_rate<=70&is_overtake==1",
-    "effect": "순위율 40~70%(4~6위)에서 추월 대상이 존재"
+    "description": ["주행거리 50% 이상", "40~70% (4~6위)", "추월 대상이 있음"],
+    "effect": {
+      "duration": 6,
+      "speed": 0.3
+    },
+    "condition": "distance_rate>=50&order_rate>=40&order_rate<=70&is_overtake==1"
   },
   {
     "umamusume": "골드 시티 [축제]",
-    "condition": "is_finalcorner==1&corner!=0&order_rate>=30&order_rate<=70&blocked_side_continuetime>=2",
-    "effect": "순위율 30~70%(3~6위)이며 몸싸움 2초 이상"
+    "description": ["최종 코너", "30~70% (3~6위)", "몸싸움 2초 이상"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.25,
+      "acceleration": 0.3
+    },
+    "condition": "is_finalcorner==1&corner!=0&order_rate>=30&order_rate<=70&blocked_side_continuetime>=2"
   },
   {
     "umamusume": "골드 십",
-    "condition": "distance_rate>=50&distance_rate<=60&order_rate>50",
-    "effect": "순위율 50%보다 낮음(6~9위)"
+    "description": ["주행거리 50~60%", "50%보다 뒤 (6~9위)"],
+    "effect": {
+      "duration": 6,
+      "speed": 0.25
+    },
+    "condition": "distance_rate>=50&distance_rate<=60&order_rate>50"
   },
   {
     "umamusume": "그래스 원더",
-    "condition": "is_finalcorner==1&corner==0&change_order_onetime<0&order>=3",
-    "effect": "추월했을 때 3위 이하(3~9위)"
+    "description": ["최종 직선", "추월했을 때 3위 이하(3~9위)"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "condition": "is_finalcorner==1&corner==0&change_order_onetime<0&order>=3"
   },
   {
     "umamusume": "그래스 원더 [힐러]",
-    "condition": "phase==1&change_order_onetime>0&order_rate>=40",
-    "effect": "추월당했을 때 순위율 40%보다 뒤(4~9위)"
+    "description": ["중반", "추월당했을 때 40%보다 뒤 (4~9위)"],
+    "effect": {
+      "duration": 0,
+      "heal": 0.75
+    },
+    "condition": "phase==1&change_order_onetime>0&order_rate>=40"
   },
   {
     "umamusume": "나리타 브라이언",
+    "description": [
+      "중반에 몸싸움 2초 이상",
+      "최종 코너",
+      "추월했을 때 75% 이내 (2~7위)",
+      "자신의 배후 내곽에 말딸이 있음"
+    ],
+    "effect": {
+      "duration": 5,
+      "speed": 0.45
+    },
     "precondition": "phase==1&blocked_side_continuetime>=2",
-    "condition": "is_finalcorner==1&order>=2&order_rate<=75&is_behind_in==1&change_order_onetime<0",
-    "effect": "중반에 몸싸움 2초 이상 달성 후, 추월했을 때 자신의 배후 내곽에 말딸이 있고, 순위율 75%(2~9위) 이내"
+    "condition": "is_finalcorner==1&order>=2&order_rate<=75&is_behind_in==1&change_order_onetime<0"
   },
   {
     "umamusume": "나리타 타이신",
-    "condition": "is_finalcorner==1&order_rate>=40&order_rate<=75&is_overtake==1",
-    "effect": "순위율 40~75%(4~7위)에서 추월 대상이 존재"
+    "description": ["최종 코너 이후", "40~75% (4~7위)", "추월 대상이 있음"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "condition": "is_finalcorner==1&order_rate>=40&order_rate<=75&is_overtake==1"
   },
   {
     "umamusume": "나이스 네이처",
-    "condition": "phase>=2&order==3&bashin_diff_behind<=1",
-    "effect": "3위에서 뒤와 1마신 이하 차이"
+    "description": ["종반", "3위", "뒤와 1마신 이하 차이"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "condition": "phase>=2&order==3&bashin_diff_behind<=1"
   },
   {
     "umamusume": "나이스 네이처 [치어리더]",
+    "description": [
+      "최종 코너 이후에 1명 추월",
+      "최종 직선",
+      "40~70% (4~6위)",
+      "인기순위 4위 이하 → 지속시간 6s",
+      "인기순위 1~3위 → 지속시간 5s"
+    ],
+    "effect": {
+      "duration": 6,
+      "speed": 0.35
+    },
     "precondition": "is_finalcorner==1&change_order_onetime<0",
     "condition": [
       "is_finalcorner==1&corner==0&order_rate>=40&order_rate<=70&popularity>=4",
       "is_finalcorner==1&corner==0&order_rate>=40&order_rate<=70&popularity<4"
-    ],
-    "effect": "인기순위 4위 이하, 최종 코너 이후에 1명을 추월하고, 최종 직선에서 순위율 40~70%(4~6위)"
+    ]
   },
   {
     "umamusume": "니시노 플라워",
+    "description": [
+      "중반 코너에서 2초 몸싸움",
+      "최종 코너 후반 이후",
+      "3위~40% (3~4위)"
+    ],
+    "effect": {
+      "duration": 4,
+      "acceleration": 0.4
+    },
     "precondition": "phase==1&blocked_side_continuetime>=2&corner!=0",
-    "condition": "phase>=2&is_finalcorner_laterhalf==1&order>=3&order_rate<=40@phase>=2&is_finalcorner==1&corner==0&order>=3&order_rate<=40",
-    "effect": "중반 코너에서 2초 경합 후, 최종 코너 후반부 이후에 3위~순위율 40% 사이(3~4위)"
+    "condition": "phase>=2&is_finalcorner_laterhalf==1&order>=3&order_rate<=40@phase>=2&is_finalcorner==1&corner==0&order>=3&order_rate<=40"
   },
   {
     "umamusume": "다이와 스칼렛",
-    "condition": "distance_rate>=50&order==1&bashin_diff_behind<=1@distance_rate>=50&order==2&is_overtake==1",
-    "effect": "1위에서 뒤와 1마신 이하 차이 / 또는, 2위이며 추월 대상이 존재"
+    "description": [
+      "주행거리 50% 이상",
+      "1위에서 뒤와 1마신 이하 차이",
+      "OR 2위에서 추월 대상이 있음"
+    ],
+    "effect": {
+      "duration": 5,
+      "speed": 0.25,
+      "acceleration": 0.3
+    },
+    "condition": "distance_rate>=50&order==1&bashin_diff_behind<=1@distance_rate>=50&order==2&is_overtake==1"
   },
   {
     "umamusume": "라이스 샤워",
+    "description": ["최종 코너 이후", "4위 이내에서 추월"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
     "precondition": "is_finalcorner==1&order<=4&change_order_onetime<0",
-    "condition": "is_finalcorner==1&corner==0",
-    "effect": "최종 코너 이후에 4위 이내에서 추월"
+    "condition": "is_finalcorner==1&corner==0"
   },
   {
     "umamusume": "라이스 샤워 [할로윈]",
-    "condition": "phase==1&order>=2&order_rate<=50&overtake_target_time>=1",
-    "effect": "2위~50% 사이(2~5위)에서 1초 이상 추월 대상이 됨"
+    "description": [
+      "중반",
+      "2위~50% (2~5위)",
+      "1초 이상 추월 대상이 됨",
+      "앞의 모든 말딸 체력 아주 약간 감소"
+    ],
+    "effect": {
+      "duration": 0,
+      "heal": 0.55,
+      "drain": -0.005
+    },
+    "condition": "phase==1&order>=2&order_rate<=50&overtake_target_time>=1"
   },
   {
     "umamusume": "마루젠스키",
-    "condition": "is_finalcorner==1&order<=5&order_rate<=50",
-    "effect": "5위 이내이며 순위율 50% 이내"
+    "description": ["최종 코너", "5위 이내이며 50% 이내 (1~5위)"],
+    "effect": {
+      "duration": 4,
+      "acceleration": 0.4
+    },
+    "condition": "is_finalcorner==1&order<=5&order_rate<=50"
   },
   {
     "umamusume": "마루젠스키 [수영복]",
-    "condition": "distance_rate>=50&activate_count_heal>=1&order<=3",
-    "effect": "1~3위이고 체력회복 스킬 1회 이상 발동"
+    "description": ["주행거리 50% 이상", "1~3위", "회복 스킬 1회 이상 발동"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "condition": "distance_rate>=50&activate_count_heal>=1&order<=3"
   },
   {
     "umamusume": "마야노 탑건",
-    "condition": "is_finalcorner==1&blocked_side_continuetime>=2&order<=3",
-    "effect": "몸싸움 2초 이상이며 1~3위 사이"
+    "description": ["최종 코너", "몸싸움 2초 이상", "1~3위 사이"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.25,
+      "acceleration": 0.3
+    },
+    "condition": "is_finalcorner==1&blocked_side_continuetime>=2&order<=3"
   },
   {
     "umamusume": "마야노 탑건 [웨딩]",
+    "description": [
+      "최종 코너",
+      "추월했을 때 40% 이내 (1~4위) → 지속 5s, 속도 0.35",
+      "추월했을 때 50~80% 사이 (5~7위) → 지속 4s, 가속도 0.4"
+    ],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
     "condition": [
       "is_finalcorner==1&corner!=0&order_rate<=40&change_order_onetime<0",
       "is_finalcorner==1&corner!=0&order_rate>=50&order_rate<=80&change_order_onetime<0"
-    ],
-    "effect": "추월했을 때 순위율 40% 이내(1~4위) / 추월했을 때 순위율 50~80% 사이(5~7위)"
+    ]
   },
   {
     "umamusume": "마치카네 탄호이저",
-    "condition": "distance_rate>=50&phase==1&order>=3&order_rate<=70",
-    "effect": "3위~70% 사이(3~6위)"
+    "description": ["중반", "주행거리 50% 이상", "3위~70% (3~6위)"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.25,
+      "heal": 0.55
+    },
+    "condition": "distance_rate>=50&phase==1&order>=3&order_rate<=70"
   },
   {
     "umamusume": "마치카네 후쿠키타루",
-    "condition": "phase>=2&order>=3&blocked_front==1",
-    "effect": "3위보다 뒤에서 앞이 막혀 있음"
+    "description": ["종반", "3위보다 뒤", "앞에서 블럭"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "condition": "phase>=2&order>=3&blocked_front==1"
   },
   {
     "umamusume": "마치카네 후쿠키타루 [풀아머]",
-    "condition": "distance_rate>=50&order_rate>=40&overtake_target_time>=2",
-    "effect": "순위율 40%보다 뒤(4~9위)에서 추월 대상이 됨"
+    "description": [
+      "주행거리 50% 이상",
+      "40%보다 뒤 (4~9위)",
+      "추월 대상이 됨"
+    ],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35,
+      "acceleration": 0.1
+    },
+    "condition": "distance_rate>=50&order_rate>=40&overtake_target_time>=2"
   },
   {
     "umamusume": "맨하탄 카페",
-    "condition": "distance_rate>=50&order_rate>=40&order_rate<=70",
-    "effect": "순위율 40~70%(4~6위)"
+    "description": ["주행거리 50% 이상", "40~70% (4~6위)"],
+    "effect": {
+      "duration": 6,
+      "speed": 0.25
+    },
+    "condition": "distance_rate>=50&order_rate>=40&order_rate<=70"
   },
   {
     "umamusume": "메이쇼 도토",
-    "condition": "phase>=2&corner!=0&order>=3&change_order_onetime<0",
-    "effect": "추월했을 때 3위보다 뒤"
+    "description": ["종반 이후 코너", "추월했을 때 3위보다 뒤 (3~9위)"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.25,
+      "acceleration": 0.3
+    },
+    "condition": "phase>=2&corner!=0&order>=3&change_order_onetime<0"
   },
   {
     "umamusume": "메지로 도베르",
-    "condition": "phase>=2&corner!=0&is_finalcorner==0&temptation_count==0&order_rate>=50&order_rate<=70@phase==1&corner!=0&is_finalcorner==1&temptation_count==0&order_rate>=50&order_rate<=70",
-    "effect": "종반의 최종이 아닌 코너, 또는 중반 최종 코너에서 흥분한 적 없이 순위율 50~70%(5~6위)"
+    "description": [
+      "종반의 최종이 아닌 코너",
+      "OR 중반 최종 코너",
+      "흥분 X",
+      "50~70% (5~6위)"
+    ],
+    "effect": {
+      "duration": 4,
+      "acceleration": 0.4
+    },
+    "condition": "phase>=2&corner!=0&is_finalcorner==0&temptation_count==0&order_rate>=50&order_rate<=70@phase==1&corner!=0&is_finalcorner==1&temptation_count==0&order_rate>=50&order_rate<=70"
   },
   {
     "umamusume": "메지로 라이언",
-    "condition": "phase>=2&corner!=0&order_rate>=65&order_rate<=70",
-    "effect": "순위율 65~70%(6위)"
+    "description": ["종반 코너", "65~70% (6위)"],
+    "effect": {
+      "duration": 4,
+      "acceleration": 0.4
+    },
+    "condition": "phase>=2&corner!=0&order_rate>=65&order_rate<=70"
   },
   {
     "umamusume": "메지로 맥퀸",
-    "condition": "is_finalcorner==1&corner!=0&distance_diff_rate<=30",
-    "effect": "모든 말딸의 거리차 중 상위 30% 이내"
+    "description": ["최종 코너", "모든 말딸 사이 거리상 상위 30% 이내 포지션"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "condition": "is_finalcorner==1&corner!=0&distance_diff_rate<=30"
   },
   {
     "umamusume": "메지로 맥퀸 [빙닭]",
-    "condition": "is_finalcorner==1&hp_per<=45&order<=3&order_rate<=50&bashin_diff_behind<=1&overtake_target_time>=1",
-    "effect": "체력 45% 이하이며 3위 이내이거나 순위율 50% 이내일 때, 1초 이상 추월 대상이 됨"
+    "description": [
+      "최종 코너",
+      "체력 45% 이하",
+      "3위 이내이거나 50% 이내 (1~5위)",
+      "1초 이상 추월 대상이 됨"
+    ],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "condition": "is_finalcorner==1&hp_per<=45&order<=3&order_rate<=50&bashin_diff_behind<=1&overtake_target_time>=1"
   },
   {
     "umamusume": "메지로 브라이트",
-    "condition": "distance_rate>=50&order_rate>=40order_rate<=80",
-    "effect": "순위율 40~80%(4~7위)"
+    "description": [
+      "주행거리 50% 이상",
+      "40~80% (4~7위)",
+      "남은 체력에 따라 지속시간 상승",
+      "HP < 2000 | 1.0x | 5s",
+      "2000 <= HP < 2400 | 1.5x | 7.5s",
+      "2400 <= HP < 2600 | 2.0x | 10s",
+      "2600 <= HP < 2800 | 2.2x | 11s",
+      "2800 <= HP < 3000 | 2.5x | 12.5s",
+      "3000 <= HP < 3200 | 3.0x | 15s",
+      "3200 <= HP < 3500 | 3.5x | 17.5s",
+      "3500 <= HP | 4.0x | 20s"
+    ],
+    "effect": {
+      "duration": 5,
+      "speed": 0.15
+    },
+    "condition": "distance_rate>=50&order_rate>=40order_rate<=80"
   },
   {
     "umamusume": "메지로 아르당",
-    "condition": "is_finalcorner==1&corner==0&bashin_diff_behind<=1",
-    "effect": "뒤와 1마신 이하 차이"
+    "description": ["최종 직선", "뒤와 1마신 이하 차이"],
+    "effect": {
+      "duration": 4,
+      "speed": 0.45,
+      "drain": -0.01
+    },
+    "condition": "is_finalcorner==1&corner==0&bashin_diff_behind<=1"
+  },
+  {
+    "umamusume": "메지로 파머",
+    "description": ["주행거리 50% 이상", "순위율 20% 유지"],
+    "effect": {
+      "duration": 6,
+      "speed": 0.25,
+      "heal": 0.55
+    },
+    "condition": "distance_rate>=50&order_rate_in20_continue==1"
   },
   {
     "umamusume": "미호노 부르봉",
-    "condition": "is_badstart==0&temptation_count==0&order<=3&is_finalcorner==1&corner==0",
-    "effect": "지연출발이나 흥분한 적 없이 3위 이내"
+    "description": ["최종 직선", "지연출발X 흥분X", "3위 이내 (1~3위)"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "condition": "is_badstart==0&temptation_count==0&order<=3&is_finalcorner==1&corner==0"
   },
   {
     "umamusume": "미호노 부르봉 [발렌타인]",
-    "condition": "order<=4&phase==1&corner!=0&bashin_diff_behind<=3",
-    "effect": "4위 이내에서 뒤와 3마신 이하 차이"
+    "description": ["중반 코너", "4위 이내 (1~4위)", "뒤와 3마신 이하 차이"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35,
+      "heal": 0.015
+    },
+    "condition": "order<=4&phase==1&corner!=0&bashin_diff_behind<=3"
   },
   {
     "umamusume": "보드카",
-    "condition": "order>=3&order_rate<=50&remain_distance<=200&bashin_diff_infront<=1@order>=3&order_rate<=50&remain_distance<=200&bashin_diff_behind<=1",
-    "effect": "3위 이내이면서 순위율 50% 이내(2~5위), 앞뒤와 1마신 이하 차이"
+    "description": [
+      "잔여거리 200m 이하",
+      "3위 이내면서 50% 이내 (2~5위)",
+      "앞뒤와 1마신 이하 차이"
+    ],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "condition": "order>=3&order_rate<=50&remain_distance<=200&bashin_diff_infront<=1@order>=3&order_rate<=50&remain_distance<=200&bashin_diff_behind<=1"
   },
   {
     "umamusume": "비와 하야히데",
-    "condition": "order_rate_in40_continue==1&phase==1&distance_rate>=50&order>=2&order_rate<=40",
-    "effect": "추월했을 때 4위 이내"
+    "description": ["최종 코너 이후", "추월했을 때 4위 이내"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "condition": "order_rate_in40_continue==1&phase==1&distance_rate>=50&order>=2&order_rate<=40"
   },
   {
     "umamusume": "비와 하야히데 [크리스마스]",
-    "condition": "is_finalcorner==1&change_order_onetime<0&order<=4",
-    "effect": "출발 5초 후부터 순위율 40% 이내를 유지했고, 2위~40% 사이(2~4위)"
+    "description": [
+      "주행거리 50% 이상",
+      "출발 5초 후부터 40% 이내 (1~4위) 유지",
+      "2위~40% (2~4위)에서 발동"
+    ],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "condition": "is_finalcorner==1&change_order_onetime<0&order<=4"
   },
   {
     "umamusume": "사일런스 스즈카",
-    "condition": "distance_rate>=50&order==1&bashin_diff_behind>=1",
-    "effect": "1위이며 뒤와 1마신 이상 차이"
+    "description": ["주행거리 50% 이상", "1위", "뒤와 1마신 이상 차이"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "condition": "distance_rate>=50&order==1&bashin_diff_behind>=1"
   },
   {
     "umamusume": "사쿠라 바쿠신 오",
-    "condition": "distance_rate>=50&order<=3&blocked_side_continuetime>=2",
-    "effect": "3위 이내이며 몸싸움 2초 이상"
+    "description": ["주행거리 50% 이상", "3위 이내", "몸싸움 2초 이상"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "condition": "distance_rate>=50&order<=3&blocked_side_continuetime>=2"
   },
   {
     "umamusume": "사쿠라 치요노 오",
-    "condition": "remain_distance<=300&order_rate<=40&bashin_diff_infront<=1",
-    "effect": "순위율 40% 이내(2~4위)이며 앞과 1마신 이하 차이"
+    "description": [
+      "잔여거리 300m 이하",
+      "40% 이내 (2~4위)",
+      "앞과 1마신 이하 차이"
+    ],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "condition": "remain_distance<=300&order_rate<=40&bashin_diff_infront<=1"
   },
   {
     "umamusume": "사토노 다이아몬드",
+    "description": [
+      "최종 직선",
+      "2~5위",
+      "선두와 5m(2마신) 이하 차이 → 속도 0.45",
+      "선두와 5m(2마신) 초과 차이 → 속도 0.35"
+    ],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
     "condition": [
       "is_last_straight_onetime==1&order>=2&order<=5&distance_diff_top<=5",
       "is_last_straight_onetime==1&order>=2&order<=5&distance_diff_top>5"
-    ],
-    "effect": "2~5위에서 선두와 5m(2마신) 이하 차이"
+    ]
   },
   {
     "umamusume": "세이운 스카이",
-    "condition": "phase>=2&corner!=0&order==1",
-    "effect": "1위"
+    "description": ["종반 코너", "1위"],
+    "effect": {
+      "duration": 4,
+      "acceleration": 0.4
+    },
+    "condition": "phase>=2&corner!=0&order==1"
   },
   {
     "umamusume": "세이운 스카이 [무도회]",
+    "description": [
+      "종반 직선",
+      "2위 이내 (1~2위)",
+      "안쪽 코스면 추가로 가속도 1.0"
+    ],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
     "condition": [
       "phase>=2&corner==0&order<=2&straight_front_type==2",
       "phase>=2&corner==0&order<=2"
-    ],
-    "effect": "2위 이내(1~2위)에서 안쪽 코스"
+    ]
   },
   {
     "umamusume": "슈퍼 크릭",
-    "condition": "phase_random==1&order>=2&order_rate<=40",
-    "effect": "2위~40% 사이(2~4위)"
+    "description": ["중반 랜덤", "2위~40% (2~4위)"],
+    "effect": {
+      "duration": 5,
+      "heal": 0.75
+    },
+    "condition": "phase_random==1&order>=2&order_rate<=40"
   },
   {
     "umamusume": "슈퍼 크릭 [할로윈]",
-    "condition": "is_finalcorner==1&corner==0&order<=4&bashin_diff_infront<=1",
-    "effect": "4위 이내(2~4위)에서 앞과 1마신 이하 차이"
+    "description": ["최종 직선", "4위 이내 (2~4위)", "앞과 1마신 이하 차이"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.25,
+      "acceleration": 0.3
+    },
+    "condition": "is_finalcorner==1&corner==0&order<=4&bashin_diff_infront<=1"
   },
   {
     "umamusume": "스마트 팔콘",
-    "condition": "phase==1&corner==0&order<=2&bashin_diff_behind<=1",
-    "effect": "2위 이내에서 뒤와 1마신 이하 차이"
+    "description": ["중반 직선", "2위 이내", "뒤와 1마신 이하 차이"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "condition": "phase==1&corner==0&order<=2&bashin_diff_behind<=1"
   },
   {
     "umamusume": "스페셜 위크",
-    "condition": "phase>=2&order>=1&order_rate<=50&change_order_onetime<0",
-    "effect": "추월했을 때 1위~50% 사이(1~5위)"
+    "description": ["종반", "추월했을 때 1위~50% (1~5위)"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35,
+      "acceleration": 0.1
+    },
+    "condition": "phase>=2&order>=1&order_rate<=50&change_order_onetime<0"
   },
   {
     "umamusume": "스페셜 위크 [수영복]",
-    "condition": "phase==1&order>=2&order_rate<=70&activate_count_middle>=2",
-    "effect": "2위 이하 또는 순위율 70% 이내(2~6위)이며, 중반에 스킬 2개 이상 발동"
+    "description": [
+      "중반",
+      "2위 이하 또는 70% 이내 (2~6위)",
+      "중반에 스킬 2개 이상 발동"
+    ],
+    "effect": {
+      "duration": 5,
+      "heal": 0.55
+    },
+    "condition": "phase==1&order>=2&order_rate<=70&activate_count_middle>=2"
   },
   {
     "umamusume": "심볼리 루돌프",
-    "condition": "is_finalcorner==1&change_order_up_end_after>=3&corner==0",
-    "effect": "종반에 3회 이상 추월"
+    "description": ["최종 직선", "종반에 3회 이상 추월"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.45
+    },
+    "condition": "is_finalcorner==1&change_order_up_end_after>=3&corner==0"
   },
   {
     "umamusume": "심볼리 루돌프 [축제]",
-    "condition": "is_finalcorner==1&order_rate<=40&overtake_target_time>=2",
-    "effect": "순위율 40% 이내(1~4위)에서 2초 이상 추월 대상이 됨"
+    "description": ["최종 코너", "40% 이내 (1~4위)", "2초 이상 추월 대상이 됨"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "condition": "is_finalcorner==1&order_rate<=40&overtake_target_time>=2"
   },
   {
     "umamusume": "아그네스 디지털",
-    "condition": "change_order_up_end_after>=2",
-    "effect": "종반에 2회 이상 추월"
+    "description": ["종반", "종반에 2회 이상 추월"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "condition": "change_order_up_end_after>=2"
   },
   {
     "umamusume": "아그네스 타키온",
-    "condition": "distance_rate>=50&corner!=0&order>=3&order_rate<=40",
-    "effect": "3위~40% 사이(3~4위)"
+    "description": ["주행거리 50% 이상 코너", "3위~40% (3~4위)"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.25,
+      "heal": 0.55
+    },
+    "condition": "distance_rate>=50&corner!=0&order>=3&order_rate<=40"
   },
   {
     "umamusume": "야에노 무테키",
+    "description": [
+      "잔여거리 300m",
+      "최종 코너 이후에 1회 이상 추월",
+      "40% 이내 (1~4위)"
+    ],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
     "precondition": "is_finalcorner==1&change_order_onetime<0",
-    "condition": "remain_distance<=300&order_rate<=40",
-    "effect": "최종 코너 이후에 1회 이상 추월했고, 300m 남은 지점에서 순위율 40% 이내(1~4위)"
+    "condition": "remain_distance<=300&order_rate<=40"
   },
   {
     "umamusume": "아이네스 후우진",
+    "description": [
+      "잔여거리 299~295m",
+      "잔여 305~300m 지점에서 오르막 주행",
+      "잔여 299~295m 지점에서 평지나 내리막을 2위 이내(1~2위)로 주행",
+      "오르막, 내리막 조건이 안 맞다면 → 속도 0.25"
+    ],
+    "effect": {
+      "duration": 5,
+      "speed": 0.45
+    },
     "precondition": "remain_distance<=305&remain_distance>=300&slope==1",
     "condition": [
       "remain_distance<=299&remain_distance>=295&order<=2&slope==0@remain_distance<=299&remain_distance>=295&order<=2&slope==2",
       "remain_distance<=299&remain_distance>=295&order<=2"
-    ],
-    "effect": "잔여거리 305~300m 지점에서 오르막을 주행하고, 299~295m 지점에서 평지 또는 내리막을  2위 이내(1~2위)로 주행"
+    ]
   },
   {
     "umamusume": "어드마이어 베가",
+    "description": [
+      "최종 직선",
+      "선두와 5m(2마신) 이상 차이",
+      "80% 이하 (8~9위) → 속도 0.45",
+      "80% 이내 (2~7위) → 속도 0.35"
+    ],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
     "condition": [
       "is_finalcorner==1&corner==0&distance_diff_top>=5&order_rate<80",
       "is_finalcorner==1&corner==0&distance_diff_top>=5&order_rate>=80"
-    ],
-    "effect": "선두와 5m(2마신) 이상 차이이며 순위율 80% 미만(2~7위)"
+    ]
   },
   {
     "umamusume": "에어 그루브",
-    "condition": "is_finalcorner==1&corner!=0&order>=3&change_order_onetime<0",
-    "effect": "추월했을 때 3위 이하(3~9위)"
+    "description": ["최종 코너", "추월했을 때 3위보다 뒤 (3~9위)"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "condition": "is_finalcorner==1&corner!=0&order>=3&change_order_onetime<0"
   },
   {
     "umamusume": "에어 그루브 [웨딩]",
-    "condition": "phase==1&order>=3&order_rate<=50&is_overtake==1",
-    "effect": "3위~50% 사이(3~5위)에서 추월 대상이 존재"
+    "description": ["중반", "3위~50% (3~5위)", "추월 대상이 있음"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "condition": "phase==1&order>=3&order_rate<=50&is_overtake==1"
   },
   {
     "umamusume": "에이신 플래시",
-    "condition": "is_badstart==0&temptation_count==0&order>=3&is_finalcorner==1&corner==0",
-    "effect": "지연출발 또는 흥분한 적이 없고 3위 이하(3~9위)"
+    "description": ["최종 직선", "지연출발 X 흥분X", "3위보다 뒤 (3~9위)"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "condition": "is_badstart==0&temptation_count==0&order>=3&is_finalcorner==1&corner==0"
   },
   {
     "umamusume": "에이신 플래시 [발렌타인]",
-    "condition": "change_order_up_finalcorner_after>=3&is_finalcorner==1&corner==0",
-    "effect": "최종 코너 이후 3회 이상 추월"
+    "description": ["최종 직선", "최종 코너 이후 3회 이상 추월"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "condition": "change_order_up_finalcorner_after>=3&is_finalcorner==1&corner==0"
   },
   {
     "umamusume": "엘 콘도르 파사",
-    "condition": "is_finalcorner==1&corner==0&hp_per>=30&order<=2",
-    "effect": "체력 30% 이상이고 1~2위"
+    "description": ["최종 직선", "체력 30% 이상이고 1~2위"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.25,
+      "acceleration": 0.3
+    },
+    "condition": "is_finalcorner==1&corner==0&hp_per>=30&order<=2"
   },
   {
     "umamusume": "엘 콘도르 파사 [몽크]",
-    "condition": "is_finalcorner==1&corner!=0&is_overtake==1&order>=4&order_rate<=75",
-    "effect": "4위~75% 사이(4~7위)에서 추월 대상이 존재"
+    "description": ["최종 코너", "4위~75% (4~7위)", "추월 대상이 있음"],
+    "effect": {
+      "duration": 4,
+      "acceleration": 0.4
+    },
+    "condition": "is_finalcorner==1&corner!=0&is_overtake==1&order>=4&order_rate<=75"
   },
   {
     "umamusume": "오구리 캡",
-    "condition": "order>=2&order<=5&order_rate<=50&remain_distance<=201&remain_distance>=199",
-    "effect": "2위 이하, 5위 이내 또는 순위율 50% 이내(2~5위)"
+    "description": [
+      "잔여거리 199~201m",
+      "2위 이하이며, 5위 이내 또는 50% 이내 (2~5위)"
+    ],
+    "effect": {
+      "duration": 5,
+      "speed": 0.45
+    },
+    "condition": "order>=2&order<=5&order_rate<=50&remain_distance<=201&remain_distance>=199"
   },
   {
     "umamusume": "오구리 캡 [크리스마스]",
-    "condition": "activate_count_heal>=3&distance_rate>=50",
-    "effect": "회복 스킬 3회 이상 발동"
+    "description": ["주행거리 50% 이상", "회복 스킬 3회 이상 발동"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.25,
+      "acceleration": 0.3,
+      "heal": 0.035
+    },
+    "condition": "activate_count_heal>=3&distance_rate>=50"
   },
   {
     "umamusume": "위닝 티켓",
+    "description": [
+      "최종 직선",
+      "최종 코너 이후에 몸싸움 2초 이상",
+      "최종 직선에서 5위 이내 (1~5위)"
+    ],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
     "precondition": "is_finalcorner==1&blocked_side_continuetime>=2",
-    "condition": "is_finalcorner==1&corner==0&order<=5",
-    "effect": "최종 코너 이후에 몸싸움 2초 이상을 달성하고, 최종 직선에서 5위 이내"
+    "condition": "is_finalcorner==1&corner==0&order<=5"
   },
   {
     "umamusume": "카렌쨩",
-    "condition": "distance_rate>=50&distance_rate<=65&order>=2&order_rate<=40&change_order_onetime<0",
-    "effect": "2위~40% 사이(2~4위)"
+    "description": ["주행거리 50~65%", "2위~40% (2~4위)"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.25,
+      "acceleration": 0.3
+    },
+    "condition": "distance_rate>=50&distance_rate<=65&order>=2&order_rate<=40&change_order_onetime<0"
   },
   {
     "umamusume": "카와카미 프린세스",
-    "condition": "is_finalcorner==1&corner==0&blocked_side_continuetime>=2",
-    "effect": "몸싸움 2초 이상"
+    "description": ["최종 직선", "몸싸움 2초 이상"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "condition": "is_finalcorner==1&corner==0&blocked_side_continuetime>=2"
   },
   {
     "umamusume": "키타산 블랙",
+    "description": [
+      "주행거리 50% 이상 코너",
+      "2위 이내 (1~2위)",
+      "장거리가 아닐 시 가속도 상승 없음"
+    ],
+    "effect": {
+      "duration": 5,
+      "speed": 0.25,
+      "acceleration": 0.3
+    },
     "condition": [
       "distance_rate>=50&corner==3&order<=2",
       "phase==2&straight_front_type==2&order<=2"
-    ],
-    "effect": "2위 이내"
+    ]
   },
   {
     "umamusume": "킹 헤일로",
-    "condition": "temptation_count==0&remain_distance<=201&remain_distance>=199&order>=4&order_rate<=70",
-    "effect": "흥분한 적 없이 4위~70% 사이(4~6위)"
+    "description": ["흥분 X", "4위~70% (4~6위)"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.45
+    },
+    "condition": "temptation_count==0&remain_distance<=201&remain_distance>=199&order>=4&order_rate<=70"
   },
   {
     "umamusume": "킹 헤일로 [치어리더]",
+    "description": ["주행거리 50% 이상에서 70% 이하(6~9위), 흥분한 적이 없음"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35,
+      "acceleration": 0.1
+    },
     "precondition": "distance_rate>=50&order_rate_out70_continue==1&temptation_count==0",
-    "condition": "is_finalcorner==1&corner==0",
-    "effect": "주행거리 50% 이상에서 순위율 70% 이하(6~9위), 흥분한 적이 없음"
+    "condition": "is_finalcorner==1&corner==0"
   },
   {
     "umamusume": "타마모 크로스",
-    "condition": "distance_rate>=50&corner==0&order_rate>=70&order_rate<=75&is_overtake==1@distance_rate>=50&corner==0&order_rate<=30&order_rate>=20",
-    "effect": "순위율 70~75%(6~7위)에서 추월 대상이 존재하거나, 또는 순위율 20~30%(2~3위)"
+    "description": [
+      "주행거리 50% 이상 직선",
+      "70~75% (6~7위)에서 추월 대상이 있음",
+      "OR 20~30% (2~3위)"
+    ],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35,
+      "acceleration": 0.1
+    },
+    "condition": "distance_rate>=50&corner==0&order_rate>=70&order_rate<=75&is_overtake==1@distance_rate>=50&corner==0&order_rate<=30&order_rate>=20"
   },
   {
     "umamusume": "타이키 셔틀",
-    "condition": "is_finalcorner_laterhalf==1&corner!=0&order>=3&order_rate<=40",
-    "effect": "3위~40% 사이(3~4위)"
+    "description": ["최종 코너 후반부", "3위~40% (3~4위)"],
+    "effect": {
+      "duration": 4,
+      "acceleration": 0.4
+    },
+    "condition": "is_finalcorner_laterhalf==1&corner!=0&order>=3&order_rate<=40"
   },
   {
     "umamusume": "토센 조던",
-    "condition": "is_finalcorner==1&corner==0&order>=2&order_rate<=30&overtake_target_time>=2@is_finalcorner==1&corner==0&order_rate<=20&change_order_onetime<0",
-    "effect": "2위~30% 사이(2~3위)에서 2초 이상 추월 대상이 되거나, 추월했을 때 순위율 20% 이내(1~2위)"
+    "description": [
+      "최종 직선",
+      "2위~30% (2~3위)에서 2초 이상 추월 대상이 됨",
+      "OR 추월했을 때 20% 이내 (1~2위)"
+    ],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "condition": "is_finalcorner==1&corner==0&order>=2&order_rate<=30&overtake_target_time>=2@is_finalcorner==1&corner==0&order_rate<=20&change_order_onetime<0"
   },
   {
     "umamusume": "토카이 테이오",
-    "condition": "is_finalcorner==1&corner==0&order<=3&bashin_diff_infront<=1&is_overtake==1",
-    "effect": "3위 이내(2~3위)에서 앞과 1마신 이하 차이, 추월 대상이 존재"
+    "description": [
+      "최종 직선",
+      "3위 이내 (2~3위)",
+      "앞과 1마신 이하 차이",
+      "추월 대상이 있음"
+    ],
+    "effect": {
+      "duration": 5,
+      "speed": 0.45
+    },
+    "condition": "is_finalcorner==1&corner==0&order<=3&bashin_diff_infront<=1&is_overtake==1"
   },
   {
     "umamusume": "토카이 테이오 [불닭]",
+    "description": [
+      "최종 직선",
+      "최종 코너 이후에 추월 대상이 있음",
+      "5위 이내면서 50% 이내 (1~5위)",
+      "그 위치에서 2초 이상 순위 유지"
+    ],
+    "effect": {
+      "duration": 5,
+      "speed": 0.45
+    },
     "precondition": "is_finalcorner==1&is_overtake==1&order<=5&order_rate<=50&overtake_target_no_order_up_time>=2",
-    "condition": "is_finalcorner==1&corner==0",
-    "effect": "최종 코너 이후에 추월 대상이 있고, 5위 이내이자 순위율 50% 이내(1~5위)에서 2초 이상 순위를 유지"
+    "condition": "is_finalcorner==1&corner==0"
   },
   {
     "umamusume": "티엠 오페라 오",
-    "condition": "is_finalcorner==1,&bashin_diff_behind<=1&order<=4@is_finalcorner==1&bashin_diff_infront<=1&order<=4",
-    "effect": "4위 이내에서 앞 또는 뒤와 1마신 이하 차이"
+    "description": [
+      "최종 코너 이후",
+      "4위 이내 (1~4위)",
+      "앞 또는 뒤와 1마신 이하 차이"
+    ],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "condition": "is_finalcorner==1,&bashin_diff_behind<=1&order<=4@is_finalcorner==1&bashin_diff_infront<=1&order<=4"
   },
   {
     "umamusume": "티엠 오페라 오 [신년]",
+    "description": [
+      "잔여거리 399~401m",
+      "40% 이내 (1~4위)",
+      "스킬 발동 수 7개 이상 → 속도 0.45",
+      "스킬 발동 수 6개 이하 → 속도 0.35"
+    ],
+    "effect": {
+      "duration": 4,
+      "speed": 0.45
+    },
     "condition": [
       "remain_distance<=401&remain_distance>=399&order_rate<=40&activate_count_all>=7",
       "remain_distance<=401&remain_distance>=399&order_rate<=40&activate_count_all<=6"
-    ],
-    "effect": "순위율 40% 이내(1~4위)이고 스킬 발동 수 7개 이상"
+    ]
   },
   {
     "umamusume": "파인 모션",
-    "condition": "distance_rate>=50&order>=2&order_rate<=40&blocked_side_continuetime>=2",
-    "effect": "2위~40% 사이(2~4위)에서 몸싸움 2초 이상"
+    "description": ["주행거리 50% 이상", "2위~40% (2~4위)", "몸싸움 2초 이상"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "condition": "distance_rate>=50&order>=2&order_rate<=40&blocked_side_continuetime>=2"
   },
   {
     "umamusume": "하루우라라",
-    "condition": "is_finalcorner==1&corner!=0&order_rate>50&near_count>=1",
-    "effect": "순위율 50% 이하(5~9위)에서 전후좌우 1.5m 안에 다른 말딸이 1명 이상 존재"
+    "description": [
+      "최종 코너",
+      "50% 이하 (5~9위)",
+      "전후좌우 1.5m 안에 다른 말딸이 1명 이상 존재"
+    ],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "condition": "is_finalcorner==1&corner!=0&order_rate>50&near_count>=1"
   },
   {
     "umamusume": "하루우라라 [신년]",
-    "condition": "is_finalcorner==1&corner!=0&distance_diff_top>=7",
-    "effect": "선두와 7m 이상 차이"
+    "description": ["최종 코너", "선두와 7m 이상 차이"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "condition": "is_finalcorner==1&corner!=0&distance_diff_top>=7"
   },
   {
     "umamusume": "후지 키세키",
-    "condition": "is_finalcorner==1&corner==0&order_rate<=30&behind_near_lane_time_set1>=1",
-    "effect": "순위율 30% 이내(1~3위)에서 뒤에 다른 말딸이 1초간 있을 경우"
+    "description": [
+      "최종 직선",
+      "30% 이내 (1~3위)",
+      "뒤에 다른 말딸이 1초간 있음"
+    ],
+    "effect": {
+      "duration": 5,
+      "speed": 0.45
+    },
+    "condition": "is_finalcorner==1&corner==0&order_rate<=30&behind_near_lane_time_set1>=1"
   },
   {
     "umamusume": "후지 키세키 [무도회]",
-    "condition": "is_finalcorner==1&change_order_onetime<0&order_rate<=40",
-    "effect": "1회 추월시 순위율 40% 이내(1~4위)"
+    "description": ["최종 코너", "추월했을 때 40% 이내 (1~4위)"],
+    "effect": {
+      "duration": 4,
+      "speed": 0.45
+    },
+    "condition": "is_finalcorner==1&change_order_onetime<0&order_rate<=40"
   },
   {
     "umamusume": "히시 아마존",
+    "description": [
+      "최종 직선",
+      "최종 코너 이후에 뒤쪽 내곽에 말딸이 있음",
+      "40% 이하 (4~8위)"
+    ],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
     "precondition": "is_finalcorner==1&is_behind_in==1&change_order_onetime<0&order_rate>=40",
-    "condition": "is_finalcorner==1&corner==0",
-    "effect": "최종 코너 이후에 뒤쪽 내곽에 말딸이 있고, 순위율 40% 이하(4~8위)를 달성"
+    "condition": "is_finalcorner==1&corner==0"
   },
   {
     "umamusume": "히시 아케보노",
-    "condition": "distance_rate>=45&distance_rate<=60&order>=3&order_rate<=50&hp_per<=70",
-    "effect": "체력 70% 이하이고 3위~50% 사이(3~5위)"
+    "description": ["주행거리 45~60%", "체력 70% 이하", "3위~50% (3~5위)"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.25,
+      "acceleration": 0.3
+    },
+    "condition": "distance_rate>=45&distance_rate<=60&order>=3&order_rate<=50&hp_per<=70"
   }
 ]

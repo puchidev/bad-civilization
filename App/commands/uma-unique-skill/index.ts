@@ -4,24 +4,11 @@ import type { CommandInteraction } from 'discord.js';
 import skills from './skills.json';
 
 import type { CommandConfig } from '../../models';
-
-interface Skill {
-  umamusume: string;
-  precondition?: string;
-  condition: string | string[];
-  effect: string;
-}
+import { endsWithJongSeong } from '../../utils';
+import { beautifyCondition, formatEffect } from './utils';
+import type { Skill } from './types';
 
 const database = new Collection<string, Skill>();
-
-/**
- * Beautify condition string
- * @param text skill condition written in one-liner style.
- * @returns beautified multiline text.
- */
-function beautifyCondition(text: string) {
-  return text.split(/[@&]/g).join('\n');
-}
 
 const command: CommandConfig = {
   data: new SlashCommandBuilder()
@@ -46,6 +33,10 @@ const command: CommandConfig = {
       return;
     }
 
+    await interaction.reply(
+      `'${uma}'${endsWithJongSeong(uma) ? '으' : ''}로 고유 스킬을 검색할게.`,
+    );
+
     let skill = database.get(uma);
 
     if (!skill) {
@@ -53,7 +44,7 @@ const command: CommandConfig = {
 
       switch (matches.size) {
         case 0:
-          interaction.reply(`흠터레스팅… ${uma}라는 말딸은 처음 듣는걸.`);
+          interaction.followUp('아무 것도 찾지 못했어…');
           return;
 
         case 1:
@@ -65,16 +56,19 @@ const command: CommandConfig = {
           break;
 
         default:
-          interaction.reply(`${[...matches.keys()].join(', ')}`);
+          interaction.followUp(
+            `이 중에 무얼 찾아보고 싶어?\n${[...matches.keys()].join(', ')}`,
+          );
           return;
       }
     }
 
-    const { umamusume, effect, precondition, condition } = skill;
+    const { umamusume, description, effect, precondition, condition } = skill;
 
     const embed = new MessageEmbed()
       .setTitle(`${umamusume}의 고유 스킬`)
-      .addField('조건', effect);
+      .setDescription(description.join('\n'))
+      .addField('효과', formatEffect(effect));
 
     if (precondition) {
       embed.addField('전제조건식', beautifyCondition(precondition));
@@ -86,7 +80,6 @@ const command: CommandConfig = {
       embed.addField('조건식', beautifyCondition(condition));
     }
 
-    await interaction.reply(`${uma}의 고유 스킬`);
     interaction.channel?.send({ embeds: [embed] });
   },
 };
