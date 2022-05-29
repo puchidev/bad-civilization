@@ -25,8 +25,13 @@ async function fetchCommands() {
         const basePath = process.cwd();
         const fullPath = path.resolve(basePath, filePath);
         const command: CommandConfig = (await import(fullPath)).default;
+        const commandName = command.data.name;
 
-        commands.set(command.data.name, command);
+        if (commands.has(commandName)) {
+          logger.error(`Duplicate command name ${command}`);
+        }
+
+        commands.set(commandName, command);
       } catch (error) {
         hasError = true;
         logger.error((error as Error).message);

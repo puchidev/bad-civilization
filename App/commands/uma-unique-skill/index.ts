@@ -26,12 +26,7 @@ const command: CommandConfig = {
     });
   },
   async execute(interaction: CommandInteraction) {
-    const uma = interaction.options.getString('말딸');
-
-    if (!uma) {
-      interaction.reply('어떤 말딸의 고유스킬이 알고 싶어?');
-      return;
-    }
+    const uma = interaction.options.getString('말딸', true);
 
     await interaction.reply(
       `'${uma}'${endsWithJongSeong(uma) ? '으' : ''}로 고유 스킬을 검색할게.`,

@@ -9,8 +9,6 @@ import { logger } from '../../devtools';
 import type { CommandConfig } from '../../models';
 import type { GachaGame } from './types';
 
-const DEFAULT_TIMES = 10;
-
 const database = new Collection<string, GachaGame>();
 
 const command: CommandConfig = {
@@ -42,33 +40,20 @@ const command: CommandConfig = {
         ),
     ),
   async prepare() {
-    const configs = await fetchGameConfigs({
-      onFailure: () => {
-        logger.error('Failed to load gacha games.');
-      },
-      onSuccess: () => {
-        logger.info('Successfully loaded gacha games');
-      },
-    });
+    const configs = await fetchGameConfigs();
 
     try {
       configs.forEach((config) => {
         const game = createGame(config);
         database.set(config.id, game);
       });
-    } catch (e) {
-      logger.error(e);
+    } catch (error) {
+      logger.error(error);
     }
   },
   async execute(interaction: CommandInteraction) {
-    const gameName = interaction.options.getString('종류');
-    const times = interaction.options.getInteger('횟수') ?? DEFAULT_TIMES;
-
-    if (!gameName) {
-      interaction.reply('무슨 가챠를 돌려볼래?');
-      return;
-    }
-
+    const gameName = interaction.options.getString('종류', true);
+    const times = interaction.options.getInteger('횟수', true);
     const game = database.get(gameName);
 
     if (!game) {

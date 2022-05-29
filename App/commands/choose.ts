@@ -9,7 +9,7 @@ import type { CommandConfig } from '../models';
  * @returns array of unique options.
  */
 function parseOptions(optionString: string) {
-  const options = optionString.split(',');
+  const options = optionString.split(/ +/g);
   const uniqueOptions = [...new Set(options)];
 
   return uniqueOptions;
@@ -32,20 +32,15 @@ const command: CommandConfig = {
     .addStringOption((option) =>
       option
         .setName('선택지')
-        .setDescription('선택지 (쉼표로 구분)')
+        .setDescription('선택지 (띄어쓰기로 구분)')
         .setRequired(true),
     ),
   async execute(interaction: CommandInteraction) {
-    const options = interaction.options.getString('선택지');
-
-    if (!options) {
-      return;
-    }
-
+    const options = interaction.options.getString('선택지', true);
     const optionArray = parseOptions(options);
 
     if (optionArray.length < 2) {
-      interaction.reply('두 개 이상의 선택지를 쉼표로 구분해서 적어주겠어?');
+      interaction.reply('두 개 이상의 선택지를 띄어쓰기로 구분해서 적어줄래?');
       return;
     }
 
