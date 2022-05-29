@@ -8,7 +8,10 @@ import { intents } from './intents';
  * Initializes Discord.js client
  */
 async function initClient() {
-  if (!process.env.APP_TOKEN) {
+  const appToken = process.env.APP_TOKEN;
+  const isProductionEnv = process.env.NODE_ENV === 'production';
+
+  if (!appToken) {
     throw new Error('App token not found.');
   }
 
@@ -22,12 +25,12 @@ async function initClient() {
     if (client.user) {
       logger.info(`Logged in as ${client.user.tag}!`);
     }
+  });
 
-    const guilds = await client.guilds.fetch();
-
-    guilds.forEach((guild) => {
+  client.on('guildCreate', async (guild) => {
+    if (isProductionEnv) {
       deployCommands({ commands, guild });
-    });
+    }
   });
 
   client.on('interactionCreate', async (interaction) => {
@@ -44,8 +47,8 @@ async function initClient() {
     } catch (error) {
       logger.error(error);
 
-      await interaction.reply({
-        content: '명령을 수행할 수 없어요, 마스터.',
+      interaction.reply({
+        content: `${interaction.commandName} 명령을 수행하지 못했어…`,
         ephemeral: true,
       });
     }
@@ -63,7 +66,7 @@ async function initClient() {
     interaction.respond(command.autocomplete());
   });
 
-  client.login(process.env.APP_TOKEN);
+  client.login(appToken);
 }
 
 export { initClient };
