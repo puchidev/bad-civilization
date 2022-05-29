@@ -3,7 +3,7 @@ import type { CommandInteraction } from 'discord.js';
 
 import type { CommandConfig } from '../models';
 
-const DEFAULT_NUMBER_OF_SLIDES = 6;
+const MIN_NUMBER_OF_SLIDES = 2;
 const MAX_NUMBER_OF_SLIDES = Number.MAX_SAFE_INTEGER;
 
 /**
@@ -27,26 +27,12 @@ const command: CommandConfig = {
       option
         .setName('눈')
         .setDescription('주사위가 가진 눈의 갯수')
-        .setRequired(true),
+        .setRequired(true)
+        .setMinValue(MIN_NUMBER_OF_SLIDES)
+        .setMaxValue(MAX_NUMBER_OF_SLIDES),
     ),
   async execute(interaction: CommandInteraction) {
-    const size =
-      interaction.options.getInteger('size') ?? DEFAULT_NUMBER_OF_SLIDES;
-
-    if (size > MAX_NUMBER_OF_SLIDES) {
-      interaction.reply('너무 많은 눈을 가진 주사위는 혼돈을 가져올 뿐이야.');
-      return;
-    }
-
-    if (size < 2) {
-      interaction.reply(
-        `${bold(
-          size.toString(),
-        )}개의 눈을 가진 주사위가 이 세계에 존재할 수 있을까?`,
-      );
-      return;
-    }
-
+    const size = interaction.options.getInteger('눈', true);
     const result = getRandomInteger(1, size);
 
     interaction.reply(
