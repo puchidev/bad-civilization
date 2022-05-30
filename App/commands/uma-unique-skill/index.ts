@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
+import { SlashCommandBuilder, underscore } from '@discordjs/builders';
 import { Collection, MessageEmbed } from 'discord.js';
 import type { CommandInteraction } from 'discord.js';
 import skills from './skills.json';
@@ -8,7 +8,43 @@ import { endsWithJongSeong } from '../../utils';
 import { beautifyCondition, formatEffect } from './utils';
 import type { Skill } from './types';
 
-const database = new Collection<string, Skill>();
+type Database = Collection<string, Skill>;
+
+const database: Database = new Collection();
+
+/**
+ * Finds all keys that matches given keyword(s).
+ * `foo` matches `foo`, `fooo`, `foox`, `afoo`, etc.
+ * `foo bar` matches `foo bar` `bar foo` ` afoo bbar ` ` xbar yfoo`
+ * @param keyword search keyword(s) string
+ * @returns matching database key or keys
+ */
+function searchDatabase(keyword: string) {
+  const _keyword = keyword.trim();
+  const isMultipleKeywords = _keyword.includes(' ');
+
+  let matches: Database;
+
+  if (isMultipleKeywords) {
+    const pattern = new RegExp(
+      `^${_keyword
+        .split(/ /g)
+        .map((word) => `(?=.*${word})`)
+        .join('')}.*$`,
+    );
+    matches = database.filter((_value, key) => pattern.test(key));
+  } else {
+    matches = database.filter((_value, key) => key.includes(_keyword));
+  }
+
+  if (matches.size === 0) {
+    return null;
+  }
+  if (matches.size === 1) {
+    return matches.first()!;
+  }
+  return matches;
+}
 
 const command: CommandConfig = {
   data: new SlashCommandBuilder()
@@ -17,7 +53,7 @@ const command: CommandConfig = {
     .addStringOption((option) => {
       return option
         .setName('말딸')
-        .setDescription('검색하려는 말딸의 이름 일부')
+        .setDescription('말딸의 이름 일부 (ex. 네이처, 치어 네이처, …)')
         .setRequired(true);
     }),
   async prepare() {
@@ -32,30 +68,26 @@ const command: CommandConfig = {
       `'${uma}'${endsWithJongSeong(uma) ? '으' : ''}로 고유 스킬을 검색할게.`,
     );
 
-    let skill = database.get(uma);
+    const searchResults = searchDatabase(uma);
+    let skill: Skill;
 
-    if (!skill) {
-      const matches = database.filter((_value, key) => key.includes(uma));
+    if (!searchResults) {
+      interaction.followUp('아무 것도 찾지 못했어…');
+      return;
+    }
 
-      switch (matches.size) {
-        case 0:
-          interaction.followUp('아무 것도 찾지 못했어…');
-          return;
+    if (searchResults instanceof Collection) {
+      const [first, ...rest] = [...searchResults.keys()];
 
-        case 1:
-          const _skill = matches.first();
-          if (!_skill) {
-            return;
-          }
-          skill = _skill;
-          break;
+      await interaction.followUp(
+        `가장 가까운 ${underscore(
+          first,
+        )}의 결과를 보여줄게. 이런 데이터도 찾았어.\n${rest.join(', ')}`,
+      );
 
-        default:
-          interaction.followUp(
-            `이 중에 무얼 찾아보고 싶어?\n${[...matches.keys()].join(', ')}`,
-          );
-          return;
-      }
+      skill = searchResults.first()!;
+    } else {
+      skill = searchResults;
     }
 
     const { umamusume, description, effect, precondition, condition } = skill;
