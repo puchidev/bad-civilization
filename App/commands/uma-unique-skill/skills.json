@@ -736,11 +736,13 @@
   },
   {
     "umamusume": "킹 헤일로 [치어리더]",
-    "description": ["주행거리 50% 이상에서 70% 이하(6~9위), 흥분한 적이 없음"],
+    "description": [
+      "주행거리 50% 지점까지 70% 이하(6~9위) 유지, 흥분 X",
+      "최종 직선"
+    ],
     "effect": {
-      "duration": 5,
-      "speed": 0.35,
-      "acceleration": 0.1
+      "duration": 4,
+      "acceleration": 0.4
     },
     "precondition": "distance_rate>=50&order_rate_out70_continue==1&temptation_count==0",
     "condition": "is_finalcorner==1&corner==0"
