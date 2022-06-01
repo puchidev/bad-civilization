@@ -8,6 +8,22 @@ class Database<T extends { [key: string]: any }> {
   protected data = new Collection<keyof T, T>();
 
   /**
+   * Returns an array of all keys in the database.
+   * @returns all keys in the database
+   */
+  public get keys() {
+    return [...this.data.keys()];
+  }
+
+  /**
+   * Count the number of records in database.
+   * @returns number of records in database
+   */
+  public get size() {
+    return this.data.size;
+  }
+
+  /**
    * Adds a record in data.
    * @param record database record
    * @param idKey key used as record identifier
