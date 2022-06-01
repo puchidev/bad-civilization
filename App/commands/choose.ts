@@ -1,5 +1,4 @@
 import { bold, SlashCommandBuilder } from '@discordjs/builders';
-import type { CommandInteraction } from 'discord.js';
 
 import type { CommandConfig } from '../models';
 
@@ -35,7 +34,7 @@ const command: CommandConfig = {
         .setDescription('선택지 (띄어쓰기로 구분)')
         .setRequired(true),
     ),
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction) {
     const options = interaction.options.getString('선택지', true);
     const optionArray = parseOptions(options);
 

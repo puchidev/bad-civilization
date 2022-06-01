@@ -1,5 +1,4 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import type { CommandInteraction } from 'discord.js';
 
 import { deployCommands, fetchCommands } from '../client/commands';
 import type { CommandConfig } from '../models';
@@ -8,7 +7,7 @@ const command: CommandConfig = {
   data: new SlashCommandBuilder()
     .setName('갱신')
     .setDescription('서버에 명령어를 재등록합니다.'),
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction) {
     const guild = interaction.guild;
 
     if (!guild) {

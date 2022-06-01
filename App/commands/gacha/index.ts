@@ -1,6 +1,6 @@
 import { bold, underscore, SlashCommandBuilder } from '@discordjs/builders';
 import { Collection, MessageEmbed } from 'discord.js';
-import type { CommandInteraction, EmbedFieldData } from 'discord.js';
+import type { EmbedFieldData } from 'discord.js';
 import chunk from 'lodash/chunk';
 
 import { createGame, fetchGameConfigs } from './games';
@@ -51,7 +51,7 @@ const command: CommandConfig = {
       logger.error(error);
     }
   },
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction) {
     const gameName = interaction.options.getString('종류', true);
     const times = interaction.options.getInteger('횟수', true);
     const game = database.get(gameName);

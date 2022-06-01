@@ -1,6 +1,5 @@
 import { SlashCommandBuilder, underscore } from '@discordjs/builders';
 import { Collection, MessageEmbed } from 'discord.js';
-import type { CommandInteraction } from 'discord.js';
 import skillData from './skills.json';
 
 import { Database } from '../../classes';
@@ -24,7 +23,7 @@ const command: CommandConfig = {
   async prepare() {
     skills.addAll(skillData, 'umamusume');
   },
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction) {
     const uma = interaction.options.getString('말딸', true);
 
     await interaction.reply(

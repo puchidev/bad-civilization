@@ -1,5 +1,4 @@
 import { bold, SlashCommandBuilder } from '@discordjs/builders';
-import type { CommandInteraction } from 'discord.js';
 
 import type { CommandConfig } from '../models';
 
@@ -31,7 +30,7 @@ const command: CommandConfig = {
         .setMinValue(MIN_NUMBER_OF_SLIDES)
         .setMaxValue(MAX_NUMBER_OF_SLIDES),
     ),
-  async execute(interaction: CommandInteraction) {
+  async execute(interaction) {
     const size = interaction.options.getInteger('눈', true);
     const result = getRandomInteger(1, size);
 
