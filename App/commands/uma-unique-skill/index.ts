@@ -1,50 +1,15 @@
 import { SlashCommandBuilder, underscore } from '@discordjs/builders';
 import { Collection, MessageEmbed } from 'discord.js';
 import type { CommandInteraction } from 'discord.js';
-import skills from './skills.json';
+import skillData from './skills.json';
 
+import { Database } from '../../classes';
 import type { CommandConfig } from '../../models';
 import { endsWithJongSeong } from '../../utils';
 import { beautifyCondition, formatEffect } from './utils';
 import type { Skill } from './types';
 
-type Database = Collection<string, Skill>;
-
-const database: Database = new Collection();
-
-/**
- * Finds all keys that matches given keyword(s).
- * `foo` matches `foo`, `fooo`, `foox`, `afoo`, etc.
- * `foo bar` matches `foo bar` `bar foo` ` afoo bbar ` ` xbar yfoo`
- * @param keyword search keyword(s) string
- * @returns matching database key or keys
- */
-function searchDatabase(keyword: string) {
-  const _keyword = keyword.trim();
-  const isMultipleKeywords = _keyword.includes(' ');
-
-  let matches: Database;
-
-  if (isMultipleKeywords) {
-    const pattern = new RegExp(
-      `^${_keyword
-        .split(/ /g)
-        .map((word) => `(?=.*${word})`)
-        .join('')}.*$`,
-    );
-    matches = database.filter((_value, key) => pattern.test(key));
-  } else {
-    matches = database.filter((_value, key) => key.includes(_keyword));
-  }
-
-  if (matches.size === 0) {
-    return null;
-  }
-  if (matches.size === 1) {
-    return matches.first()!;
-  }
-  return matches;
-}
+const skills = new Database<Skill>();
 
 const command: CommandConfig = {
   data: new SlashCommandBuilder()
@@ -57,9 +22,7 @@ const command: CommandConfig = {
         .setRequired(true);
     }),
   async prepare() {
-    skills.forEach((skill) => {
-      database.set(skill.umamusume, skill);
-    });
+    skills.addAll(skillData, 'umamusume');
   },
   async execute(interaction: CommandInteraction) {
     const uma = interaction.options.getString('말딸', true);
@@ -68,26 +31,26 @@ const command: CommandConfig = {
       `'${uma}'${endsWithJongSeong(uma) ? '으' : ''}로 고유 스킬을 검색할게.`,
     );
 
-    const searchResults = searchDatabase(uma);
+    const foundSkills = skills.find(uma);
     let skill: Skill;
 
-    if (!searchResults) {
+    if (!foundSkills) {
       interaction.followUp('아무 것도 찾지 못했어…');
       return;
     }
 
-    if (searchResults instanceof Collection) {
-      const [first, ...rest] = [...searchResults.keys()];
+    if (foundSkills instanceof Collection) {
+      const [first, ...rest] = [...foundSkills.keys()];
 
       await interaction.followUp(
-        `가장 가까운 ${underscore(
+        `처음 찾은 ${underscore(
           first,
         )}의 결과를 보여줄게. 이런 데이터도 찾았어.\n${rest.join(', ')}`,
       );
 
-      skill = searchResults.first()!;
+      skill = foundSkills.first()!;
     } else {
-      skill = searchResults;
+      skill = foundSkills;
     }
 
     const { umamusume, description, effect, precondition, condition } = skill;
