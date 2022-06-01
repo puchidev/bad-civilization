@@ -26,9 +26,13 @@ function getLengthType(length: number) {
  * @returns basic information text
  */
 function formatBasicInfo(track: RaceTrack) {
-  const { racetrack, terrain, length } = track;
+  const { racetrack, statusRef, terrain, length } = track;
   const lengthType = getLengthType(length);
-  const output = `${racetrack} | ${terrain} | ${length}m (${lengthType})`;
+  let output = `${racetrack} | ${terrain} | ${length}m (${lengthType})`;
+
+  if (statusRef) {
+    output += ` | ${statusRef.join(', ')} 보정`;
+  }
 
   return output;
 }

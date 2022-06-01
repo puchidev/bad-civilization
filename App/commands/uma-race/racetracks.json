@@ -15,7 +15,8 @@
       "openingLeg": "0-300",
       "middleLeg": "300-1200",
       "finalLeg": "1200-1800"
-    }
+    },
+    "statusRef": null
   },
   {
     "id": "chukyo-turf-1200",
@@ -33,7 +34,8 @@
       "openingLeg": "0-200",
       "middleLeg": "200-800",
       "finalLeg": "800-1200"
-    }
+    },
+    "statusRef": null
   },
   {
     "id": "kyoto-turf-1600",
@@ -51,7 +53,8 @@
       "openingLeg": "0-270",
       "middleLeg": "270-1070",
       "finalLeg": "1070-1600"
-    }
+    },
+    "statusRef": ["스피드"]
   },
   {
     "id": "kyoto-turf-2000",
@@ -69,7 +72,8 @@
       "openingLeg": "0-330",
       "middleLeg": "330-1330",
       "finalLeg": "1330-2000"
-    }
+    },
+    "statusRef": ["파워"]
   },
   {
     "id": "kyoto-turf-2200",
@@ -87,7 +91,8 @@
       "openingLeg": "0-370",
       "middleLeg": "370-1470",
       "finalLeg": "1470-2200"
-    }
+    },
+    "statusRef": ["스피드"]
   },
   {
     "id": "kyoto-turf-3000",
@@ -105,7 +110,8 @@
       "openingLeg": "0-500",
       "middleLeg": "500-2000",
       "finalLeg": "2000-3000"
-    }
+    },
+    "statusRef": ["파워", "지능"]
   },
   {
     "id": "kyoto-turf-3200",
@@ -123,7 +129,8 @@
       "openingLeg": "0-530",
       "middleLeg": "530-2130",
       "finalLeg": "2130-3200"
-    }
+    },
+    "statusRef": []
   },
   {
     "id": "hanshin-turf-1600",
@@ -141,7 +148,8 @@
       "openingLeg": "0-270",
       "middleLeg": "270-1070",
       "finalLeg": "1070-1600"
-    }
+    },
+    "statusRef": ["파워"]
   },
   {
     "id": "hanshin-turf-2000",
@@ -159,7 +167,8 @@
       "openingLeg": "0-330",
       "middleLeg": "330-1330",
       "finalLeg": "1330-2000"
-    }
+    },
+    "statusRef": ["근성"]
   },
   {
     "id": "hanshin-turf-2200",
@@ -177,7 +186,8 @@
       "openingLeg": "0-370",
       "middleLeg": "370-1470",
       "finalLeg": "1470-2200"
-    }
+    },
+    "statusRef": ["스피드"]
   },
   {
     "id": "hanshin-turf-3200",
@@ -195,7 +205,8 @@
       "openingLeg": "0-530",
       "middleLeg": "530-2130",
       "finalLeg": "2130-3200"
-    }
+    },
+    "statusRef": null
   },
   {
     "id": "nakayama-turf-1200",
@@ -213,7 +224,8 @@
       "openingLeg": "0-200",
       "middleLeg": "200-800",
       "finalLeg": "800-1200"
-    }
+    },
+    "statusRef": ["파워"]
   },
   {
     "id": "nakayama-turf-2000",
@@ -231,7 +243,8 @@
       "openingLeg": "0-330",
       "middleLeg": "330-1330",
       "finalLeg": "1330-2000"
-    }
+    },
+    "statusRef": null
   },
   {
     "id": "nakayama-turf-2500",
@@ -249,7 +262,8 @@
       "openingLeg": "0-420",
       "middleLeg": "420-1670",
       "finalLeg": "1670-2500"
-    }
+    },
+    "statusRef": null
   },
   {
     "id": "ooi-dirt-1200",
@@ -267,7 +281,8 @@
       "openingLeg": "0-200",
       "middleLeg": "200-800",
       "finalLeg": "800-1200"
-    }
+    },
+    "statusRef": null
   },
   {
     "id": "ooi-dirt-1800",
@@ -285,7 +300,8 @@
       "openingLeg": "0-300",
       "middleLeg": "300-1200",
       "finalLeg": "1200-1800"
-    }
+    },
+    "statusRef": null
   },
   {
     "id": "ooi-dirt-2000",
@@ -303,7 +319,8 @@
       "openingLeg": "0-330",
       "middleLeg": "330-1330",
       "finalLeg": "1330-2000"
-    }
+    },
+    "statusRef": null
   },
   {
     "id": "tokyo-dirt-1600",
@@ -321,7 +338,8 @@
       "openingLeg": "0-270",
       "middleLeg": "270-1070",
       "finalLeg": "1070-1600"
-    }
+    },
+    "statusRef": null
   },
   {
     "id": "tokyo-turf-1600",
@@ -339,7 +357,8 @@
       "openingLeg": "0-270",
       "middleLeg": "270-1070",
       "finalLeg": "1070-1600"
-    }
+    },
+    "statusRef": ["스태미너", "근성"]
   },
   {
     "id": "tokyo-turf-2000",
@@ -357,7 +376,8 @@
       "openingLeg": "0-330",
       "middleLeg": "330-1330",
       "finalLeg": "1330-2000"
-    }
+    },
+    "statusRef": null
   },
   {
     "id": "tokyo-turf-2400",
@@ -375,6 +395,7 @@
       "openingLeg": "0-400",
       "middleLeg": "400-1600",
       "finalLeg": "1600-2400"
-    }
+    },
+    "statusRef": null
   }
 ]

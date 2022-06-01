@@ -9,6 +9,7 @@ export interface RaceTrack {
   length: number;
   map: string;
   racetrack: string;
+  statusRef: string[] | null;
   terrain: string;
 }
 
