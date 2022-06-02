@@ -860,17 +860,22 @@
       "전후좌우 1.5m 안에 다른 말딸이 1명 이상 존재"
     ],
     "effect": {
-      "duration": 5,
-      "speed": 0.35
+      "duration": 0,
+      "heal": 0.035
     },
     "condition": "is_finalcorner==1&corner!=0&order_rate>50&near_count>=1"
   },
   {
     "umamusume": "하루우라라 [신년]",
-    "description": ["최종 코너", "선두와 7m 이상 차이"],
+    "description": [
+      "최종 코너",
+      "선두와 7m 이상 차이",
+      "선두와 거리차(m) / 62.5 <= 미지수 x → 지속시간 4s",
+      "선두와 거리차(m) / 62.5 > 미지수 x → 지속시간 8s"
+    ],
     "effect": {
       "duration": 5,
-      "speed": 0.35
+      "speed": 0.25
     },
     "condition": "is_finalcorner==1&corner!=0&distance_diff_top>=7"
   },
