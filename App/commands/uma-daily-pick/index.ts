@@ -2,6 +2,7 @@ import { bold, SlashCommandBuilder } from '@discordjs/builders';
 
 import { Database } from '../../classes';
 import type { CommandConfig } from '../../models';
+import { getLocalDate } from '../../utils';
 import umamusumeData from './umamusume.json';
 
 interface Umamusume {
@@ -24,7 +25,7 @@ const command: CommandConfig = {
       throw new Error('Unable to specify the requestor.');
     }
 
-    const today = new Date();
+    const today = getLocalDate('Asia/Seoul');
     const seed = [
       today.getFullYear(),
       today.getMonth() + 1,
