@@ -1,6 +1,7 @@
 import { bold, SlashCommandBuilder } from '@discordjs/builders';
 
 import type { CommandConfig } from '../models';
+import { randomSelect } from '../utils';
 
 /**
  * Removes duplicate items from the array passed.
@@ -12,16 +13,6 @@ function parseOptions(optionString: string) {
   const uniqueOptions = [...new Set(options)];
 
   return uniqueOptions;
-}
-
-/**
- * Picks an arbitrary item from the array passed.
- * @param array the array to choose the item from
- * @param rando method generating a random seed between 0 and 1
- * @returns the chosen item from the original array.
- */
-function randomSelect(array: string[], rando = Math.random) {
-  return array[Math.floor(rando() * array.length)];
 }
 
 const command: CommandConfig = {

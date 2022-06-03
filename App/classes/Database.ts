@@ -1,4 +1,6 @@
 import { Collection } from 'discord.js';
+import seedrandom from 'seedrandom';
+import { randomSelect } from '../utils';
 
 /**
  * @class
@@ -80,6 +82,22 @@ class Database<T extends { [key: string]: any }> {
     }
 
     return matches;
+  }
+
+  /**
+   * Returns an arbitrary item in the database.
+   * @param seed a seed to make the output predictable
+   * @returns a 'random' item.
+   */
+  public random(seed?: string) {
+    const randomKey = randomSelect(this.keys, seed ? seedrandom(seed) : null);
+    const randomItem = this.data.get(randomKey);
+
+    if (!randomItem) {
+      throw new Error(`Unexpected key for seed: ${seed}`);
+    }
+
+    return randomItem;
   }
 }
 
