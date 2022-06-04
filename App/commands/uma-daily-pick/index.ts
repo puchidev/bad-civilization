@@ -2,7 +2,7 @@ import { bold, SlashCommandBuilder } from '@discordjs/builders';
 
 import { Database } from '../../classes';
 import type { CommandConfig } from '../../models';
-import { getLocalDate } from '../../utils';
+import { endsWithJongSeong, getLocalDate } from '../../utils';
 import umamusumeData from './umamusume.json';
 
 interface Umamusume {
@@ -35,7 +35,9 @@ const command: CommandConfig = {
     const selected = umamusume.random(seed);
 
     await interaction.reply(
-      `오늘 트레이너님의 애마는 ${bold(selected.name)}이에요.`,
+      `오늘 트레이너님의 애마는 ${bold(selected.name)}${
+        endsWithJongSeong(selected.name) ? '이에' : '예'
+      }요.`,
     );
   },
 };

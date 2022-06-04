@@ -64,7 +64,7 @@ const command: CommandConfig = {
     }
 
     if (Array.isArray(condition)) {
-      embed.addField('조건식', condition.map(beautifyCondition).join('\n'));
+      embed.addField('조건식', condition.map(beautifyCondition).join('\nOR\n'));
     } else {
       embed.addField('조건식', beautifyCondition(condition));
     }
