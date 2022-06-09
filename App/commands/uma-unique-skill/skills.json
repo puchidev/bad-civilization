@@ -701,6 +701,16 @@
     "condition": "distance_rate>=50&distance_rate<=65&order>=2&order_rate<=40&change_order_onetime<0"
   },
   {
+    "umamusume": "카렌쨩 (웨딩)",
+    "description": ["잔여거리 350m", "20~40% (2~4위)"],
+    "effect": {
+      "duration": 5,
+      "speed": 0.25,
+      "acceleration": 0.3
+    },
+    "condition": "remain_distance<=350&order_rate<=40&order_rate>=20&bashin_diff_behind<=1"
+  },
+  {
     "umamusume": "카와카미 프린세스",
     "description": ["최종 직선", "몸싸움 2초 이상"],
     "effect": {
@@ -851,6 +861,23 @@
       "speed": 0.35
     },
     "condition": "distance_rate>=50&order>=2&order_rate<=40&blocked_side_continuetime>=2"
+  },
+  {
+    "umamusume": "파인 모션 (웨딩)",
+    "description": [
+      "최종 코너 이후",
+      "20~40% (2~4위)",
+      "잔여거리 401m 이상 → 가속도 0.1",
+      "잔여거리 401m 미만 → 가속도 0"
+    ],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "condition": [
+      "remain_distance>=401&phase>=2&is_finalcorner==1&order_rate>=20&order_rate<=40",
+      "remain_distance>=401&phase>=2&is_finalcorner==1&order_rate>=20&order_rate<=40"
+    ]
   },
   {
     "umamusume": "하루우라라",
