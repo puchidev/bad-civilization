@@ -691,6 +691,20 @@
     "condition": "is_finalcorner==1&corner==0&order<=5"
   },
   {
+    "umamusume": "이나리 원",
+    "description": [
+      "주행거리 50% 이상",
+      "근성속업(追い比べ) 발동한 적 있음",
+      "레이스 내내 40%보다 뒤 순위 유지 (5~9위)"
+    ],
+    "effect": {
+      "duration": 5,
+      "speed": 0.45
+    },
+    "precondition": "distance_rate>=50&order_rate_out40_continue==1",
+    "condition": "compete_fight_count>0"
+  },
+  {
     "umamusume": "카렌쨩",
     "description": ["주행거리 50~65%", "2위~40% (2~4위)"],
     "effect": {
