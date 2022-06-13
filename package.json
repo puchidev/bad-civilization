@@ -3,6 +3,7 @@
   "version": "0.1.1",
   "main": "./App/index.ts",
   "private": true,
+  "packageManager": "yarn@3.2.1",
   "scripts": {
     "build": "tsc",
     "dev": "cross-env NODE_ENV=development ts-node-dev --respawn --transpile-only ./App/index.ts",
@@ -37,6 +38,7 @@
     "@types/seedrandom": "^3.0.2",
     "@typescript-eslint/eslint-plugin": "^5.26.0",
     "@typescript-eslint/parser": "^5.26.0",
+    "@yarnpkg/sdks": "^3.0.0-rc.9",
     "cross-env": "^7.0.3",
     "eslint": ">=5.16.0",
     "eslint-config-google": "^0.14.0",

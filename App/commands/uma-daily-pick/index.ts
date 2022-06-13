@@ -35,7 +35,7 @@ const command: CommandConfig = {
     const selected = umamusume.random(seed);
 
     await interaction.reply(
-      `오늘 트레이너님의 애마는 ${bold(selected.name)}${
+      `오늘 ${bold(username)} 트레이너님의 애마는 ${bold(selected.name)}${
         endsWithJongSeong(selected.name) ? '이에' : '예'
       }요.`,
     );
