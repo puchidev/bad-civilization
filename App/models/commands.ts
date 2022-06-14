@@ -7,6 +7,7 @@ import type {
   AutocompleteInteraction,
   Collection,
   CommandInteraction,
+  Message,
 } from 'discord.js';
 
 import type { MaybePromise, PartialBy } from './utils';
@@ -25,8 +26,9 @@ export interface CommandConfig {
   readonly autocomplete?: (
     interaction: AutocompleteInteraction,
   ) => MaybePromise<ApplicationCommandOptionChoiceData[]>;
-  readonly execute: (interaction: CommandInteraction) => Promise<void>;
+  readonly interact: (interaction: CommandInteraction) => Promise<void>;
   readonly prepare?: () => MaybePromise<void>;
+  readonly respond?: (message: Message, params: string[]) => Promise<void>;
 }
 
 export type CommandCollection = Collection<string, CommandConfig>;

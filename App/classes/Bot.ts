@@ -52,7 +52,7 @@ class Bot extends Client {
 
     await Promise.all(prepare);
 
-    this.login(process.env.APP_TOKEN);
+    super.login(process.env.APP_TOKEN);
   }
 
   /**
@@ -74,7 +74,7 @@ class Bot extends Client {
         const commandName = command.data.name;
 
         if (commands.has(commandName)) {
-          throw new Error(`Duplicate command name: ${command}`);
+          throw new Error(`Duplicate command name: ${commandName}`);
         }
 
         commands.set(commandName, command);
@@ -127,28 +127,35 @@ class Bot extends Client {
     });
 
     this.on('messageCreate', async (message) => {
-      if (!this.user || !message.guild) {
+      if (!this.user || !message.guild || message.author.bot) {
         return;
       }
 
-      // ignore next cases:
-      // - @here, @everyone calls
-      // - mentioned by an another bot
-      // - not mentioned our bot
-      if (
-        message.mentions.everyone ||
-        message.author.bot ||
-        !message.mentions.has(this.user.id)
-      ) {
+      // purge commands when someone mentions our bot
+      if (!message.mentions.everyone && message.mentions.has(this.user.id)) {
+        await message.reply('갱신한다 명령어. 조금 기다리면 반영될 거야.');
+        this.deployCommands(message.guild);
         return;
       }
 
-      if (message.mentions.has(this.user.id)) {
-        await message.reply('갱신한다 명령어');
-        await this.deployCommands(message.guild);
-        await message.reply(
-          '명령어를 다시 등록했어. 조금 기다리면 반영될 거야.',
-        );
+      const isCommand = message.content.startsWith('!');
+
+      if (isCommand) {
+        const [commandName, ...params] = message.content.slice(1).split(/ +/);
+        const command = this.commands.get(commandName);
+
+        if (!command) {
+          logger.error(`No such command found: ${commandName}`);
+          return;
+        }
+
+        if (!command.respond) {
+          logger.error(`No respond handler found for: ${commandName}`);
+          message.reply(`${commandName} 명령을 수행하지 못했어…`);
+          return;
+        }
+
+        command.respond(message, params);
       }
     });
 
@@ -168,7 +175,7 @@ class Bot extends Client {
         return;
       }
 
-      if (interaction.isAutocomplete()) {
+      if (isAutocomplete) {
         if (!command.autocomplete) {
           logger.error(`No autocomplete handler found for: ${commandName}`);
           return;
@@ -183,9 +190,9 @@ class Bot extends Client {
         }
       }
 
-      if (interaction.isCommand()) {
+      if (isCommand) {
         try {
-          await command.execute(interaction);
+          await command.interact(interaction);
         } catch (e) {
           logger.debug(e);
           logger.error(`Failed to execute ${commandName}`);

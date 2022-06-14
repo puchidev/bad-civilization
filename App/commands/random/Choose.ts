@@ -25,7 +25,7 @@ const command: CommandConfig = {
         .setDescription('선택지 (띄어쓰기로 구분)')
         .setRequired(true),
     ),
-  async execute(interaction) {
+  async interact(interaction) {
     const options = interaction.options.getString('선택지', true);
     const optionArray = parseOptions(options);
 

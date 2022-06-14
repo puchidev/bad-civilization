@@ -34,7 +34,7 @@ const command: CommandConfig = {
 
     return builder;
   })(),
-  async execute(interaction) {
+  async interact(interaction) {
     const { channel } = interaction;
 
     if (!channel) {

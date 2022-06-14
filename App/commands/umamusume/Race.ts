@@ -10,6 +10,100 @@ import type { Race, RaceTrack } from './types';
 const races = new Database<Race>();
 const tracks = new Database<RaceTrack>();
 
+const command: CommandConfig = {
+  data: new SlashCommandBuilder()
+    .setName('레이스')
+    .setDescription('경마장 맵을 검색해 보자')
+    .addStringOption((option) =>
+      option
+        .setName('이름')
+        .setDescription('레이스 이름의 일부 (ex. 아리마, 야스, …)')
+        .setRequired(true),
+    ),
+  async prepare() {
+    try {
+      const promises = [
+        'database/umamusume/race.json',
+        'database/umamusume/racetrack.json',
+      ].map((path) => fetchData(path));
+
+      const [raceList, raceTrackList] = await Promise.all(promises);
+
+      races.addAll(raceList as Race[], 'name');
+      tracks.addAll(raceTrackList as RaceTrack[], 'id');
+    } catch (e) {
+      console.debug(e);
+      console.error('Failed to establish race list.');
+    }
+  },
+  async interact(interaction) {
+    const name = interaction.options.getString('이름', true);
+
+    await interaction.reply(
+      `'${name}'${endsWithJongSeong(name) ? '으' : ''}로 레이스를 검색할게.`,
+    );
+
+    let race = races.find(name);
+
+    if (race instanceof Collection) {
+      const [first, ...rest] = [...race.keys()];
+
+      await interaction.followUp(
+        `가장 가까운 ${underscore(
+          first,
+        )}의 결과를 보여줄게. 이런 데이터도 찾았어.\n${rest.join(', ')}`,
+      );
+
+      race = race.first()!;
+    }
+
+    if (!race) {
+      interaction.followUp('아무 것도 찾지 못했어…');
+      return;
+    }
+
+    const track = tracks.find(race.trackId);
+
+    if (!track || track instanceof Collection) {
+      interaction.followUp(`${race.name} 경기장 데이터베이스에 문제가 있어.`);
+      return;
+    }
+
+    const embed = createResultEmbed({ race, track });
+    interaction.channel?.send({ embeds: [embed] });
+  },
+  async respond(message, [name]) {
+    let race = races.find(name);
+
+    if (race instanceof Collection) {
+      const [first, ...rest] = [...race.keys()];
+
+      await message.reply(
+        `가장 가까운 ${underscore(
+          first,
+        )}의 결과를 보여줄게. 이런 데이터도 찾았어.\n${rest.join(', ')}`,
+      );
+
+      race = race.first()!;
+    }
+
+    if (!race) {
+      message.reply('아무 것도 찾지 못했어…');
+      return;
+    }
+
+    const track = tracks.find(race.trackId);
+
+    if (!track || track instanceof Collection) {
+      message.reply(`${race.name} 경기장 데이터베이스에 문제가 있어.`);
+      return;
+    }
+
+    const embed = createResultEmbed({ race, track });
+    message.reply({ embeds: [embed] });
+  },
+};
+
 /**
  * Transforms a race track length to human-readable text.
  * @param length length of race track
@@ -96,73 +190,23 @@ function formatCourseRange(ranges: string | null) {
     .join(', ');
 }
 
-const command: CommandConfig = {
-  data: new SlashCommandBuilder()
-    .setName('레이스')
-    .setDescription('경마장 맵을 검색해 보자')
-    .addStringOption((option) =>
-      option
-        .setName('이름')
-        .setDescription('레이스 이름의 일부 (ex. 아리마, 야스, …)')
-        .setRequired(true),
-    ),
-  async prepare() {
-    try {
-      const promises = ['umamusume/race.json', 'umamusume/racetrack.json'].map(
-        (path) => fetchData(path),
-      );
-      const [raceList, raceTrackList] = await Promise.all(promises);
+/**
+ * Creates a message embed containing information about the found race.
+ * @param option option object
+ * @param option.race race
+ * @param option.track race track
+ * @returns created message embed
+ */
+function createResultEmbed({ race, track }: { race: Race; track: RaceTrack }) {
+  const embed = new MessageEmbed()
+    .setTitle(`${race.name} 경기장 정보`)
+    .addFields(
+      { name: '기본정보', value: formatBasicInfo(track) },
+      { name: '코스', value: formatCourseInfo(track) },
+    )
+    .setImage(track.map);
 
-      races.addAll(raceList as Race[], 'name');
-      tracks.addAll(raceTrackList as RaceTrack[], 'id');
-    } catch (e) {
-      console.debug(e);
-      console.error('Failed to establish race list.');
-    }
-  },
-  async execute(interaction) {
-    const name = interaction.options.getString('이름', true);
-
-    await interaction.reply(
-      `'${name}'${endsWithJongSeong(name) ? '으' : ''}로 레이스를 검색할게.`,
-    );
-
-    let race = races.find(name);
-
-    if (race instanceof Collection) {
-      const [first, ...rest] = [...race.keys()];
-
-      await interaction.followUp(
-        `가장 가까운 ${underscore(
-          first,
-        )}의 결과를 보여줄게. 이런 데이터도 찾았어.\n${rest.join(', ')}`,
-      );
-
-      race = race.first()!;
-    }
-
-    if (!race) {
-      interaction.followUp('아무 것도 찾지 못했어…');
-      return;
-    }
-
-    const track = tracks.find(race.trackId);
-
-    if (!track || track instanceof Collection) {
-      interaction.followUp(`${race.name} 경기장 데이터베이스에 문제가 있어.`);
-      return;
-    }
-
-    const embed = new MessageEmbed()
-      .setTitle(`${race.name} 경기장 정보`)
-      .addFields(
-        { name: '기본정보', value: formatBasicInfo(track) },
-        { name: '코스', value: formatCourseInfo(track) },
-      )
-      .setImage(track.map);
-
-    interaction.channel?.send({ embeds: [embed] });
-  },
-};
+  return embed;
+}
 
 export default command;

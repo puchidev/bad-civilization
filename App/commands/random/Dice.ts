@@ -30,7 +30,7 @@ const command: CommandConfig = {
         .setMinValue(MIN_NUMBER_OF_SLIDES)
         .setMaxValue(MAX_NUMBER_OF_SLIDES),
     ),
-  async execute(interaction) {
+  async interact(interaction) {
     const size = interaction.options.getInteger('눈', true);
     const result = getRandomInteger(1, size);
 

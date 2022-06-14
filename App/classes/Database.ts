@@ -10,19 +10,19 @@ class Database<T extends { [key: string]: any }> {
   protected readonly data = new Collection<keyof T, T>();
 
   /**
-   * Returns an array of all keys in the database.
-   * @returns all keys in the database
-   */
-  public get keys() {
-    return [...this.data.keys()];
-  }
-
-  /**
    * Count the number of records in database.
    * @returns number of records in database
    */
   public get size() {
     return this.data.size;
+  }
+
+  /**
+   * Returns an array of all keys in the database.
+   * @returns all keys in the database
+   */
+  public keys(): Array<keyof T> {
+    return [...this.data.keys()];
   }
 
   /**
@@ -45,6 +45,15 @@ class Database<T extends { [key: string]: any }> {
       const key = record[idKey];
       this.data.set(key, record);
     });
+  }
+
+  /**
+   * Find the record matching the passed key.
+   * @param key key to search
+   * @returns matching record if exists
+   */
+  public get(key: string) {
+    return this.data.get(key);
   }
 
   /**
@@ -90,7 +99,7 @@ class Database<T extends { [key: string]: any }> {
    * @returns a 'random' item.
    */
   public random(seed?: string) {
-    const randomKey = randomSelect(this.keys, seed ? seedrandom(seed) : null);
+    const randomKey = randomSelect(this.keys(), seed ? seedrandom(seed) : null);
     const randomItem = this.data.get(randomKey);
 
     if (!randomItem) {

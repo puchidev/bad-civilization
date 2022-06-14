@@ -14,7 +14,7 @@ const command: CommandConfig = {
   async prepare() {
     try {
       const umamusumeList: Umamusume[] = await fetchData(
-        'umamusume/umamusume.json',
+        'database/umamusume/umamusume.json',
       );
       umamusume.addAll(umamusumeList, 'name');
     } catch (e) {
@@ -22,28 +22,49 @@ const command: CommandConfig = {
       console.error('Failed to establish umamusume list.');
     }
   },
-  async execute(interaction) {
+  async interact(interaction) {
     const username = interaction.member?.user.username;
 
     if (!username) {
       throw new Error('Unable to specify the requestor.');
     }
 
-    const today = getLocalDate('Asia/Seoul');
-    const seed = [
-      today.getFullYear(),
-      today.getMonth() + 1,
-      today.getDate(),
-      username,
-    ].join('-');
-    const selected = umamusume.random(seed);
+    const myUmamusume = getDailyUmamusumeFor(username);
 
     await interaction.reply(
-      `오늘 ${bold(username)} 트레이너님의 애마는 ${bold(selected.name)}${
-        endsWithJongSeong(selected.name) ? '이에' : '예'
+      `오늘 ${bold(username)} 트레이너님의 애마는 ${bold(myUmamusume.name)}${
+        endsWithJongSeong(myUmamusume.name) ? '이에' : '예'
+      }요.`,
+    );
+  },
+  async respond(message) {
+    const username = message.author.username;
+    const myUmamusume = getDailyUmamusumeFor(username);
+
+    await message.reply(
+      `오늘 ${bold(username)} 트레이너님의 애마는 ${bold(myUmamusume.name)}${
+        endsWithJongSeong(myUmamusume.name) ? '이에' : '예'
       }요.`,
     );
   },
 };
+
+/**
+ * Picks an arbitrary umamusume matching the given username.
+ * @param username requestor's name.
+ * @returns picked umamusume object.
+ */
+function getDailyUmamusumeFor(username: string) {
+  const today = getLocalDate('Asia/Seoul');
+  const seed = [
+    today.getFullYear(),
+    today.getMonth() + 1,
+    today.getDate(),
+    username,
+  ].join('-');
+  const selected = umamusume.random(seed);
+
+  return selected;
+}
 
 export default command;

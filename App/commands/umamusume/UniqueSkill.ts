@@ -8,6 +8,87 @@ import type { Skill, SkillEffect } from './types';
 
 const skills = new Database<Skill>();
 
+const command: CommandConfig = {
+  data: new SlashCommandBuilder()
+    .setName('고유')
+    .setDescription('말딸의 고유스킬을 확인해 보자')
+    .addStringOption((option) => {
+      return option
+        .setName('말딸')
+        .setDescription('말딸의 이름 일부 (ex. 네이처, 치어 네이처, …)')
+        .setRequired(true);
+    }),
+  async prepare() {
+    try {
+      const uniqueSkillList: Skill[] = await fetchData(
+        'database/umamusume/unique-skill.json',
+      );
+      skills.addAll(uniqueSkillList, 'umamusume');
+    } catch (e) {
+      console.debug(e);
+      console.error(`Failed to establish umamusume's unique skill list.`);
+    }
+  },
+  async interact(interaction) {
+    const uma = interaction.options.getString('말딸', true);
+
+    await interaction.reply(
+      `'${uma}'${endsWithJongSeong(uma) ? '으' : ''}로 고유 스킬을 검색할게.`,
+    );
+
+    const foundSkills = skills.find(uma);
+    let skill: Skill;
+
+    if (!foundSkills) {
+      interaction.followUp('아무 것도 찾지 못했어…');
+      return;
+    }
+
+    if (foundSkills instanceof Collection) {
+      const [first, ...rest] = [...foundSkills.keys()];
+
+      await interaction.followUp(
+        `처음 찾은 ${underscore(
+          first,
+        )}의 결과를 보여줄게. 이런 데이터도 찾았어.\n${rest.join(', ')}`,
+      );
+
+      skill = foundSkills.first()!;
+    } else {
+      skill = foundSkills;
+    }
+
+    const embed = createResultEmbed(skill);
+    interaction.channel?.send({ embeds: [embed] });
+  },
+  async respond(message, [uma]) {
+    const foundSkills = skills.find(uma);
+    let skill: Skill;
+
+    if (!foundSkills) {
+      message.reply('아무 것도 찾지 못했어…');
+      return;
+    }
+
+    if (foundSkills instanceof Collection) {
+      const [first, ...rest] = [...foundSkills.keys()];
+
+      await message.reply(
+        `처음 찾은 ${underscore(
+          first,
+        )}의 결과를 보여줄게. 이런 데이터도 찾았어.\n${rest.join(', ')}`,
+      );
+
+      skill = foundSkills.first()!;
+    } else {
+      skill = foundSkills;
+    }
+
+    const embed = createResultEmbed(skill);
+    message.reply({ embeds: [embed] });
+  },
+};
+
 /**
  * Beautify condition string
  * @param text skill condition written in one-liner style
@@ -50,75 +131,30 @@ function formatEffect(effect: SkillEffect) {
   return text;
 }
 
-const command: CommandConfig = {
-  data: new SlashCommandBuilder()
-    .setName('고유')
-    .setDescription('말딸의 고유스킬을 확인해 보자')
-    .addStringOption((option) => {
-      return option
-        .setName('말딸')
-        .setDescription('말딸의 이름 일부 (ex. 네이처, 치어 네이처, …)')
-        .setRequired(true);
-    }),
-  async prepare() {
-    try {
-      const uniqueSkillList: Skill[] = await fetchData(
-        'umamusume/unique-skill.json',
-      );
-      skills.addAll(uniqueSkillList, 'umamusume');
-    } catch (e) {
-      console.debug(e);
-      console.error(`Failed to establish umamusume's unique skill list.`);
-    }
-  },
-  async execute(interaction) {
-    const uma = interaction.options.getString('말딸', true);
+/**
+ * Creates a message embed containing information about the found race.
+ * @param skill found skill
+ * @returns created message embed
+ */
+function createResultEmbed(skill: Skill) {
+  const { umamusume, description, effect, precondition, condition } = skill;
 
-    await interaction.reply(
-      `'${uma}'${endsWithJongSeong(uma) ? '으' : ''}로 고유 스킬을 검색할게.`,
-    );
+  const embed = new MessageEmbed()
+    .setTitle(`${umamusume}의 고유 스킬`)
+    .setDescription(description.join('\n'))
+    .addField('효과', formatEffect(effect));
 
-    const foundSkills = skills.find(uma);
-    let skill: Skill;
+  if (precondition) {
+    embed.addField('전제조건식', beautifyCondition(precondition));
+  }
 
-    if (!foundSkills) {
-      interaction.followUp('아무 것도 찾지 못했어…');
-      return;
-    }
+  if (Array.isArray(condition)) {
+    embed.addField('조건식', condition.map(beautifyCondition).join('\nOR\n'));
+  } else {
+    embed.addField('조건식', beautifyCondition(condition));
+  }
 
-    if (foundSkills instanceof Collection) {
-      const [first, ...rest] = [...foundSkills.keys()];
-
-      await interaction.followUp(
-        `처음 찾은 ${underscore(
-          first,
-        )}의 결과를 보여줄게. 이런 데이터도 찾았어.\n${rest.join(', ')}`,
-      );
-
-      skill = foundSkills.first()!;
-    } else {
-      skill = foundSkills;
-    }
-
-    const { umamusume, description, effect, precondition, condition } = skill;
-
-    const embed = new MessageEmbed()
-      .setTitle(`${umamusume}의 고유 스킬`)
-      .setDescription(description.join('\n'))
-      .addField('효과', formatEffect(effect));
-
-    if (precondition) {
-      embed.addField('전제조건식', beautifyCondition(precondition));
-    }
-
-    if (Array.isArray(condition)) {
-      embed.addField('조건식', condition.map(beautifyCondition).join('\nOR\n'));
-    } else {
-      embed.addField('조건식', beautifyCondition(condition));
-    }
-
-    interaction.channel?.send({ embeds: [embed] });
-  },
-};
+  return embed;
+}
 
 export default command;

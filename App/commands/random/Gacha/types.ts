@@ -39,6 +39,7 @@ export interface GachaSortedGroup extends GachaGroup {
 }
 
 export interface GachaGame {
+  id: string;
   name: string;
   rules: GachaRules;
   groups: GachaSortedGroup[];

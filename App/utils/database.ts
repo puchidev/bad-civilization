@@ -11,7 +11,7 @@ import { logger } from '../devtools';
  */
 async function fetchData<T = any>(subPath: string): Promise<T> {
   const basePath = process.cwd();
-  const fullPath = path.resolve(basePath, 'database', subPath);
+  const fullPath = path.resolve(basePath, subPath);
   const json = await readFileAsync(fullPath, 'utf8');
   const data: T = JSON.parse(json);
 
@@ -20,31 +20,27 @@ async function fetchData<T = any>(subPath: string): Promise<T> {
 
 /**
  * Fetches data from JSON files in `/database/*`.
- * @param pattern the JSON file's path.
+ * @param subPath the JSON file's path.
  * @returns Fetched data.
  */
-async function fetchAllData<T = any>(pattern: string): Promise<T[]> {
+async function fetchAllData<T = any>(subPath: string): Promise<T[]> {
   const collection: T[] = [];
-  let hasError = false;
 
-  glob.sync(pattern).map(async (subPath) => {
+  const promises = glob.sync(subPath).map(async (filePath) => {
     try {
       const basePath = process.cwd();
-      const fullPath = path.resolve(basePath, 'database', subPath);
+      const fullPath = path.resolve(basePath, filePath);
       const json = await readFileAsync(fullPath, 'utf8');
       const data: T = JSON.parse(json);
 
       collection.push(data);
-    } catch (error) {
-      hasError = true;
-      logger.debug(error);
-      return null;
+    } catch (e) {
+      logger.debug(e);
+      throw new Error(`Failed to fetch data from ${subPath}.`);
     }
   });
 
-  if (hasError) {
-    throw new Error(`Failed to fetch data from ${pattern}.`);
-  }
+  await Promise.all(promises);
 
   return collection;
 }

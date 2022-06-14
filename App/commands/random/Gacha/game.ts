@@ -9,7 +9,7 @@ import type { GachaGameConfig, GachaGame, GachaSortedGroup } from './types';
  * @returns Processed game data
  */
 function createGame(config: GachaGameConfig) {
-  const { name, rules, groups, membersByGroup } = config;
+  const { id, name, rules, groups, membersByGroup } = config;
 
   // sort groups by highest tier
   groups.sort((a, z) => a.tier - z.tier);
@@ -82,6 +82,7 @@ function createGame(config: GachaGameConfig) {
   });
 
   const game: GachaGame = {
+    id,
     name,
     rules,
     groups: sortedGroups,
