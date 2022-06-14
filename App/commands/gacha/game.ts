@@ -1,46 +1,6 @@
 import BigNumber from 'bignumber.js';
-import glob from 'glob';
-import { readFile as readFileAsync } from 'node:fs/promises';
-import path from 'node:path';
 
-import { logger } from '../../devtools';
-import { nonNullable } from '../../utils';
 import type { GachaGameConfig, GachaGame, GachaSortedGroup } from './types';
-
-/**
- * Fetches game configuration data in JSON format.
- * @returns collection of game configurations
- */
-async function fetchGameConfigs() {
-  let hasError = false;
-
-  const fetchPromises = glob
-    .sync('App/commands/gacha/games/*.json')
-    .map(async (filePath) => {
-      try {
-        const basePath = process.cwd();
-        const fullPath = path.resolve(basePath, filePath);
-        const json = await readFileAsync(fullPath, 'utf8');
-        const config: GachaGameConfig = JSON.parse(json);
-
-        return config;
-      } catch (error) {
-        hasError = true;
-        logger.error((error as Error).message);
-        return null;
-      }
-    });
-
-  const configs = (await Promise.all(fetchPromises)).filter(nonNullable);
-
-  if (hasError) {
-    logger.error('Failed to load gacha games.');
-  } else {
-    logger.info('Successfully loaded gacha games');
-  }
-
-  return configs;
-}
 
 /**
  * Create a new game object using provided configuration.
@@ -130,4 +90,4 @@ function createGame(config: GachaGameConfig) {
   return game;
 }
 
-export { createGame, fetchGameConfigs };
+export { createGame };

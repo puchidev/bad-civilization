@@ -1,10 +1,9 @@
 import { SlashCommandBuilder, underscore } from '@discordjs/builders';
 import { Collection, MessageEmbed } from 'discord.js';
-import skillData from './skills.json';
 
 import { Database } from '../../classes';
 import type { CommandConfig } from '../../models';
-import { endsWithJongSeong } from '../../utils';
+import { endsWithJongSeong, fetchData } from '../../utils';
 import { beautifyCondition, formatEffect } from './utils';
 import type { Skill } from './types';
 
@@ -21,7 +20,15 @@ const command: CommandConfig = {
         .setRequired(true);
     }),
   async prepare() {
-    skills.addAll(skillData, 'umamusume');
+    try {
+      const uniqueSkillList: Skill[] = await fetchData(
+        'umamusume/unique-skill.json',
+      );
+      skills.addAll(uniqueSkillList, 'umamusume');
+    } catch (e) {
+      console.debug(e);
+      console.error(`Failed to establish umamusume's unique skill list.`);
+    }
   },
   async execute(interaction) {
     const uma = interaction.options.getString('말딸', true);

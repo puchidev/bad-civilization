@@ -1,11 +1,9 @@
 import { SlashCommandBuilder, underscore } from '@discordjs/builders';
 import { Collection, MessageEmbed } from 'discord.js';
-import raceData from './races.json';
-import trackData from './racetracks.json';
 
 import { Database } from '../../classes';
 import type { CommandConfig } from '../../models';
-import { endsWithJongSeong } from '../../utils';
+import { endsWithJongSeong, fetchData } from '../../utils';
 import { formatBasicInfo, formatCourseInfo } from './utils';
 import type { Race, RaceTrack } from './types';
 
@@ -19,17 +17,22 @@ const command: CommandConfig = {
     .addStringOption((option) =>
       option
         .setName('이름')
-        .setDescription('레이스의 이름')
-        .setRequired(true)
-        .setAutocomplete(true),
+        .setDescription('레이스 이름의 일부 (ex. 아리마, 야스, …)')
+        .setRequired(true),
     ),
   async prepare() {
-    raceData.forEach((race) => {
-      races.add(race, 'name');
-    });
-    trackData.forEach((track) => {
-      tracks.add(track, 'id');
-    });
+    try {
+      const promises = ['umamusume/race.json', 'umamusume/racetrack.json'].map(
+        (path) => fetchData(path),
+      );
+      const [raceList, raceTrackList] = await Promise.all(promises);
+
+      races.addAll(raceList as Race[], 'name');
+      tracks.addAll(raceTrackList as RaceTrack[], 'id');
+    } catch (e) {
+      console.debug(e);
+      console.error('Failed to establish race list.');
+    }
   },
   async execute(interaction) {
     const name = interaction.options.getString('이름', true);

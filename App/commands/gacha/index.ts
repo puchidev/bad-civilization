@@ -3,11 +3,12 @@ import { Collection, MessageEmbed } from 'discord.js';
 import type { EmbedFieldData } from 'discord.js';
 import chunk from 'lodash/chunk';
 
-import { createGame, fetchGameConfigs } from './games';
-import { roll } from './roll';
 import { logger } from '../../devtools';
 import type { CommandConfig } from '../../models';
-import type { GachaGame } from './types';
+import { fetchAllData } from '../../utils';
+import { createGame } from './game';
+import { roll } from './roll';
+import type { GachaGame, GachaGameConfig } from './types';
 
 const database = new Collection<string, GachaGame>();
 
@@ -40,15 +41,16 @@ const command: CommandConfig = {
         ),
     ),
   async prepare() {
-    const configs = await fetchGameConfigs();
-
     try {
+      const configs = await fetchAllData<GachaGameConfig>('gacha/*.json');
+
       configs.forEach((config) => {
         const game = createGame(config);
         database.set(config.id, game);
       });
-    } catch (error) {
-      logger.error(error);
+    } catch (e) {
+      logger.debug(e);
+      console.error(`Failed to establish gacha game list.`);
     }
   },
   async execute(interaction) {
