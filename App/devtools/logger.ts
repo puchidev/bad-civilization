@@ -45,6 +45,7 @@ function createLogger() {
     const defaultTransports = [
       // console
       new transports.Console({
+        level: 'trace',
         format: format.combine(addTimestamp, addColors, formatLog),
       }),
     ];

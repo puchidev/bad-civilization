@@ -7,7 +7,7 @@ import { randomSelect } from '../utils';
  * @description Stores & controls serializable data in a `Collection` instance.
  */
 class Database<T extends { [key: string]: any }> {
-  protected data = new Collection<keyof T, T>();
+  protected readonly data = new Collection<keyof T, T>();
 
   /**
    * Returns an array of all keys in the database.

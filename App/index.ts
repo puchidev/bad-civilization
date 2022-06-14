@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import { initClient } from './client';
+import { Bot } from './classes';
 import { logger } from './devtools';
 
 dotenv.config({
@@ -19,7 +19,7 @@ process.on('unhandledRejection', (reason) => {
 });
 
 try {
-  initClient();
+  new Bot().init();
 } catch (e) {
   logger.error(e);
 }
