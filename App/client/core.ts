@@ -1,7 +1,7 @@
 import { Client } from 'discord.js';
 
+import { deployCommands, fetchCommands } from '../commands';
 import { logger } from '../devtools';
-import { deployCommands, fetchCommands } from './commands';
 import { intents } from './intents';
 
 /**

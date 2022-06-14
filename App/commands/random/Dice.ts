@@ -1,6 +1,6 @@
 import { bold, SlashCommandBuilder } from '@discordjs/builders';
 
-import type { CommandConfig } from '../models';
+import type { CommandConfig } from '../../models';
 
 const MIN_NUMBER_OF_SLIDES = 2;
 const MAX_NUMBER_OF_SLIDES = Number.MAX_SAFE_INTEGER;

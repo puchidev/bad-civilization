@@ -5,6 +5,7 @@ import type {
 import type {
   ApplicationCommandOptionChoiceData,
   AutocompleteInteraction,
+  Collection,
   CommandInteraction,
 } from 'discord.js';
 
@@ -27,3 +28,5 @@ export interface CommandConfig {
   readonly execute: (interaction: CommandInteraction) => Promise<void>;
   readonly prepare?: () => MaybePromise<void>;
 }
+
+export type CommandCollection = Collection<string, CommandConfig>;

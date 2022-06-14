@@ -6,9 +6,9 @@ import chunk from 'lodash/chunk';
 import { logger } from '../../devtools';
 import type { CommandConfig } from '../../models';
 import { fetchAllData } from '../../utils';
-import { createGame } from './game';
-import { roll } from './roll';
-import type { GachaGame, GachaGameConfig } from './types';
+import { createGame } from './Gacha/game';
+import { roll } from './Gacha/roll';
+import type { GachaGame, GachaGameConfig } from './Gacha/types';
 
 const database = new Collection<string, GachaGame>();
 

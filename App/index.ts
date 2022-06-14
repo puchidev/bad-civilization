@@ -18,4 +18,8 @@ process.on('unhandledRejection', (reason) => {
   logger.warn(`Node unhandled rejection: ${reason}`);
 });
 
-initClient();
+try {
+  initClient();
+} catch (e) {
+  logger.error(e);
+}

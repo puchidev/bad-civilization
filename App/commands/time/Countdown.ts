@@ -3,9 +3,14 @@ import { SlashCommandBuilder, userMention } from '@discordjs/builders';
 import { Collection, User } from 'discord.js';
 import type { MessageReaction, Snowflake } from 'discord.js';
 
-import type { CommandConfig } from '../../models';
-import * as config from './config';
-import { startCountdown } from './countdown';
+import type { CommandConfig, MaybePromise } from '../../models';
+
+const REQUEST_DURATION = 3 * 60 * 1000; // 3 min.
+const REPROMPT_MEMBERS_IN = 1 * 60 * 1000; // 1 min.
+const COUNT_START_FROM = 3; // count from this number
+const COUNT_TEXT_REPEAT = 5; // count string's length
+const DELAY_BEFORE_COUNT = 2 * 1000; // 2 sec.
+const DELAY_BETWEEN_COUNT = 800; // 0.8 sec.
 
 const OK = '🆗';
 
@@ -76,7 +81,7 @@ const command: CommandConfig = {
         ${unreadyMembers.map((memberId) => userMention(memberId)).join(' ')}
         카운트다운에 초대됐어. 준비되었는지 알려주겠어?
       `);
-    }, config.REPROMPT_MEMBERS_IN);
+    }, REPROMPT_MEMBERS_IN);
 
     const filter = (reaction: MessageReaction, user: User) => {
       return memberIds.includes(user.id) && reaction.emoji.name === OK;
@@ -84,7 +89,7 @@ const command: CommandConfig = {
 
     const collector = startMessage.createReactionCollector({
       filter,
-      time: config.REQUEST_DURATION,
+      time: REQUEST_DURATION,
     });
 
     const handleUnready = () => {
@@ -102,10 +107,10 @@ const command: CommandConfig = {
         모두들 준비된 모양이야. 카운트다운을 시작할게.
       `);
 
-      startCountdown(config.COUNT_START_FROM, {
+      startCountdown(COUNT_START_FROM, {
         onCount: async (currentCount) => {
           const message = String(currentCount || 'ㄱ').repeat(
-            config.COUNT_TEXT_REPEAT,
+            COUNT_TEXT_REPEAT,
           );
           channel.send(message);
         },
@@ -129,5 +134,41 @@ const command: CommandConfig = {
     });
   },
 };
+
+interface CountdownOptions {
+  onCount: (currentCount: number) => MaybePromise<unknown>;
+  onEnd: () => MaybePromise<unknown>;
+}
+
+/**
+ * Counts down to zero and invoke callback on each tick.
+ * @param currentCount current value of countdown
+ * @param options additional parameters
+ * @param options.onCount function to invoke on each count
+ * @param options.onEnd function to invoke on end of countdown
+ */
+function countdown(currentCount: number, options: CountdownOptions) {
+  options.onCount(currentCount);
+
+  if (currentCount === 0) {
+    options.onEnd();
+    return;
+  }
+
+  setTimeout(() => {
+    countdown(currentCount - 1, options);
+  }, DELAY_BETWEEN_COUNT);
+}
+
+/**
+ * Starts countdown ticks.
+ * @param currentCount current value of countdown
+ * @param options additional parameters
+ */
+function startCountdown(currentCount: number, options: CountdownOptions) {
+  setTimeout(() => {
+    countdown(currentCount, options);
+  }, DELAY_BEFORE_COUNT);
+}
 
 export default command;
