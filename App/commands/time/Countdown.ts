@@ -3,7 +3,7 @@ import { SlashCommandBuilder, userMention } from '@discordjs/builders';
 import { Collection, User } from 'discord.js';
 import type { MessageReaction, Snowflake } from 'discord.js';
 
-import type { CommandConfig, MaybePromise } from '../../models';
+import type { CommandConfig, MaybePromise } from '#App/models';
 
 const REQUEST_DURATION = 3 * 60 * 1000; // 3 min.
 const REPROMPT_MEMBERS_IN = 1 * 60 * 1000; // 1 min.

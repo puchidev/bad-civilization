@@ -1,7 +1,7 @@
 import { bold, SlashCommandBuilder } from '@discordjs/builders';
 
-import type { CommandConfig } from '../../models';
-import { randomSelect } from '../../utils';
+import type { CommandConfig } from '#App/models';
+import { randomSelect } from '#App/utils';
 
 /**
  * Removes duplicate items from the array passed.

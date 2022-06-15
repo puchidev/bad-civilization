@@ -5,8 +5,8 @@ import glob from 'glob';
 import path from 'node:path';
 import type { Guild } from 'discord.js';
 
-import { logger } from '../devtools';
-import type { CommandConfig } from '../models';
+import { logger } from '#App/devtools';
+import type { CommandConfig } from '#App/models';
 
 /**
  * Creates a Discord bot client with custom options.

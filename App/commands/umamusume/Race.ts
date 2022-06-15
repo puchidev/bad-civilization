@@ -2,9 +2,9 @@ import dedent from 'dedent';
 import { SlashCommandBuilder, underscore } from '@discordjs/builders';
 import { Collection, MessageEmbed } from 'discord.js';
 
-import { Database } from '../../classes';
-import type { CommandConfig } from '../../models';
-import { endsWithJongSeong, fetchData } from '../../utils';
+import { Database } from '#App/classes';
+import type { CommandConfig } from '#App/models';
+import { endsWithJongSeong, fetchData } from '#App/utils';
 import type { Race, RaceTrack } from './types';
 
 const races = new Database<Race>();

@@ -4,10 +4,10 @@ import { MessageEmbed } from 'discord.js';
 import type { EmbedFieldData } from 'discord.js';
 import chunk from 'lodash/chunk';
 
-import { Database } from '../../classes';
-import { logger } from '../../devtools';
-import type { CommandConfig } from '../../models';
-import { fetchAllData } from '../../utils';
+import { Database } from '#App/classes';
+import { logger } from '#App/devtools';
+import type { CommandConfig } from '#App/models';
+import { fetchAllData } from '#App/utils';
 import { createGame } from './Gacha/game';
 import { roll } from './Gacha/roll';
 import type { GachaGame, GachaGameConfig, GachaPull } from './Gacha/types';

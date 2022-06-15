@@ -1,8 +1,8 @@
 import { bold, SlashCommandBuilder } from '@discordjs/builders';
 
-import { Database } from '../../classes';
-import type { CommandConfig } from '../../models';
-import { endsWithJongSeong, fetchData, getLocalDate } from '../../utils';
+import { Database } from '#App/classes';
+import type { CommandConfig } from '#App/models';
+import { endsWithJongSeong, fetchData, getLocalDate } from '#App/utils';
 import type { Umamusume } from './types';
 
 const umamusume = new Database<Umamusume>();

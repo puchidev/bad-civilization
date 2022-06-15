@@ -1,6 +1,6 @@
 import { Collection } from 'discord.js';
 import seedrandom from 'seedrandom';
-import { randomSelect } from '../utils';
+import { randomSelect } from '#App/utils';
 
 /**
  * @class

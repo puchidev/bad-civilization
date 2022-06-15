@@ -3,17 +3,19 @@
   "version": "0.1.1",
   "main": "./App/index.ts",
   "private": true,
+  "engines": {
+    "node": "^16",
+    "yarn": "^3"
+  },
   "packageManager": "yarn@3.2.1",
   "scripts": {
-    "build": "tsc",
-    "dev": "cross-env NODE_ENV=development ts-node-dev --respawn --transpile-only ./App/index.ts",
+    "dev": "cross-env NODE_ENV=development ts-node-dev -r tsconfig-paths/register --respawn --transpile-only ./App/index.ts",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "lint:staged": "lint-staged",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
     "prepare": "husky install",
-    "start": "cross-env NODE_ENV=production ts-node ./App/index.ts"
+    "start": "cross-env NODE_ENV=production ts-node -r tsconfig-paths/register --transpile-only ./App/index.ts"
   },
   "dependencies": {
     "@discordjs/builders": "^0.13.0",
@@ -27,6 +29,7 @@
     "lodash": "^4.17.21",
     "seedrandom": "^3.0.5",
     "ts-node": "^10.8.0",
+    "tsconfig-paths": "^4.0.0",
     "winston": "^3.7.2",
     "winston-daily-rotate-file": "^4.6.1"
   },
