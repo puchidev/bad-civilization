@@ -171,7 +171,6 @@ class Bot extends Client {
       const command = this.commands.get(interaction.commandName);
 
       if (!command) {
-        logger.error(`No such command found: ${commandName}`);
         return;
       }
 

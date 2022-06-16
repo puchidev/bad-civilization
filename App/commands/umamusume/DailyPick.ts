@@ -23,12 +23,7 @@ const command: CommandConfig = {
     }
   },
   async interact(interaction) {
-    const username = interaction.member?.user.username;
-
-    if (!username) {
-      throw new Error('Unable to specify the requestor.');
-    }
-
+    const username = interaction.user.username;
     const myUmamusume = getDailyUmamusumeFor(username);
 
     await interaction.reply(
