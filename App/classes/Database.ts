@@ -49,7 +49,7 @@ class Database<V extends Record<string, any>> extends Collection<string, V> {
     // `foo` -> /foo/i
     // `foo bar baz` -> /^(?=.*foo)(?=.*bar)(?=.*baz).*$/i
     const pattern = new RegExp(
-      _keywordOrKeywords.includes(' ')
+      isMultiple
         ? `^${_keywordOrKeywords
             .split(/ /g)
             .map((word) => `(?=.*${word})`)

@@ -1,6 +1,6 @@
 import dedent from 'dedent';
 import { SlashCommandBuilder, userMention } from '@discordjs/builders';
-import { Collection, User } from 'discord.js';
+import { Collection, CommandInteraction, User } from 'discord.js';
 import type { MessageReaction, Snowflake } from 'discord.js';
 
 import type { CommandConfig, MaybePromise } from '#App/models';
@@ -17,23 +17,43 @@ const OK = '🆗';
 const requests = new Set<Snowflake>();
 
 const command: CommandConfig = {
-  data: (() => {
-    const builder = new SlashCommandBuilder()
-      .setName('카운트')
-      .setDescription(
-        '멤버를 모으고 카운트다운을 실행합니다. (현재 4명까지 지원)',
-      );
-
-    [...Array(4)].map((_, index) => {
-      builder.addUserOption((option) =>
-        option
-          .setName(`멤버${index + 1}`)
-          .setDescription(`초대할 ${index + 1}번째 멤버`),
-      );
-    });
-
-    return builder;
-  })(),
+  data: new SlashCommandBuilder()
+    .setName('카운트')
+    .setDescription('동시시청을 위해 카운트다운을 실행합니다.')
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName('멤버')
+        .setDescription('멤버들을 불러 카운트다운을 시작합니다.')
+        .addUserOption((option) =>
+          option
+            .setName(`초대멤버1`)
+            .setDescription(`카운트다운에 초대할 1번째 멤버`)
+            .setRequired(true),
+        )
+        .addUserOption((option) =>
+          option
+            .setName(`초대멤버2`)
+            .setDescription(`카운트다운에 초대할 2번째 멤버`),
+        )
+        .addUserOption((option) =>
+          option
+            .setName(`초대멤버3`)
+            .setDescription(`카운트다운에 초대할 3번째 멤버`),
+        ),
+    )
+    .addSubcommand((subcommand) =>
+      subcommand
+        .setName('역할')
+        .setDescription('역할에 속한 멤버들을 불러 카운트다운을 시작합니다.')
+        .addRoleOption((option) =>
+          option
+            .setName('초대역할')
+            .setDescription(
+              '카운트다운에 초대할 역할 (소속된 모든 멤버를 부릅니다.)',
+            )
+            .setRequired(true),
+        ),
+    ),
   async interact(interaction) {
     const { channel } = interaction;
 
@@ -47,12 +67,9 @@ const command: CommandConfig = {
       return;
     }
 
-    const memberIds = [...Array(4)]
-      .map((_, index) => interaction.options.getUser(`멤버${index + 1}`))
-      .filter((user): user is User => user !== null)
-      .map((user) => user.id);
+    const userIds = getUserIds(interaction);
 
-    if (memberIds.length === 0) {
+    if (userIds.length === 0) {
       interaction.reply('카운트다운에 초대할 사람을 지정해줘.');
       return;
     }
@@ -60,7 +77,7 @@ const command: CommandConfig = {
     requests.add(channel.id);
 
     await interaction.reply(dedent`
-      ${memberIds.map((userId) => userMention(userId)).join(' ')}
+      ${userIds.map((userId) => userMention(userId)).join(' ')}
       곧 카운트다운을 시작하려고 해.
     `);
 
@@ -72,20 +89,19 @@ const command: CommandConfig = {
     await startMessage.react(OK);
 
     const readiness = new Collection<string, boolean>();
-    memberIds.forEach((memberId) => readiness.set(memberId, true));
+    userIds.forEach((userId) => readiness.set(userId, true));
 
     const repromptTimeout = setTimeout(() => {
-      const unreadyMembers = [...readiness.filter((value) => !value).keys()];
+      const unreadyUserIds = [...readiness.filter((value) => !value).keys()];
 
       interaction.followUp(dedent`
-        ${unreadyMembers.map((memberId) => userMention(memberId)).join(' ')}
+        ${unreadyUserIds.map((userId) => userMention(userId)).join(' ')}
         카운트다운에 초대됐어. 준비되었는지 알려주겠어?
       `);
     }, REPROMPT_MEMBERS_IN);
 
-    const filter = (reaction: MessageReaction, user: User) => {
-      return memberIds.includes(user.id) && reaction.emoji.name === OK;
-    };
+    const filter = (reaction: MessageReaction, user: User) =>
+      userIds.includes(user.id) && reaction.emoji.name === OK;
 
     const collector = startMessage.createReactionCollector({
       filter,
@@ -103,7 +119,7 @@ const command: CommandConfig = {
       collector.off('end', handleUnready);
 
       await interaction.followUp(dedent`
-        ${memberIds.map((userId) => userMention(userId)).join(' ')}
+        ${userIds.map((userId) => userMention(userId)).join(' ')}
         모두들 준비된 모양이야. 카운트다운을 시작할게.
       `);
 
@@ -134,6 +150,40 @@ const command: CommandConfig = {
     });
   },
 };
+
+/**
+ * Finds all members to be invited to the countdown.
+ * @param interaction interaction object
+ * @returns collection of users to be invited
+ */
+function getUserIds(interaction: CommandInteraction) {
+  const subcommand = interaction.options.getSubcommand();
+
+  switch (subcommand) {
+    case '역할': {
+      const role = interaction.options.getRole('초대역할');
+
+      if (!role || !('members' in role)) {
+        return [] as string[];
+      }
+
+      const userIds = role.members.map((member) => member.user.id);
+      return userIds;
+    }
+
+    case '멤버': {
+      const userIds = [1, 2, 3]
+        .map((number) => interaction.options.getUser(`초대멤버${number}`))
+        .filter((user): user is User => user !== null)
+        .map((user) => user.id);
+
+      return userIds;
+    }
+
+    default:
+      throw new Error(`Unhandled subcommand: ${subcommand}`);
+  }
+}
 
 interface CountdownOptions {
   onCount: (currentCount: number) => MaybePromise<unknown>;
