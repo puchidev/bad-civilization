@@ -1,38 +1,21 @@
 import { Collection } from 'discord.js';
-import seedrandom from 'seedrandom';
-import { randomSelect } from '#App/utils';
+import { findBestMatch } from 'string-similarity';
+import { random } from '#App/utils';
 
 /**
  * @class
  * @description Stores & controls serializable data in a `Collection` instance.
+ * @see https://discord.js.org/#/docs/collection/main/class/Collection (parent class `Collection`)
  */
-class Database<T extends { [key: string]: any }> {
-  protected readonly data = new Collection<keyof T, T>();
-
-  /**
-   * Count the number of records in database.
-   * @returns number of records in database
-   */
-  public get size() {
-    return this.data.size;
-  }
-
-  /**
-   * Returns an array of all keys in the database.
-   * @returns all keys in the database
-   */
-  public keys(): Array<keyof T> {
-    return [...this.data.keys()];
-  }
-
+class Database<V extends Record<string, any>> extends Collection<string, V> {
   /**
    * Adds a record in data.
    * @param record database record
    * @param idKey key used as record identifier
    */
-  public add(record: T, idKey: keyof T) {
+  public add(record: V, idKey: keyof V) {
     const key = record[idKey];
-    this.data.set(key, record);
+    this.set(key, record);
   }
 
   /**
@@ -40,20 +23,8 @@ class Database<T extends { [key: string]: any }> {
    * @param records database records
    * @param idKey key used as record identifier
    */
-  public addAll(records: T[], idKey: keyof T) {
-    records.forEach((record) => {
-      const key = record[idKey];
-      this.data.set(key, record);
-    });
-  }
-
-  /**
-   * Find the record matching the passed key.
-   * @param key key to search
-   * @returns matching record if exists
-   */
-  public get(key: string) {
-    return this.data.get(key);
+  public addAll(records: V[], idKey: keyof V) {
+    records.forEach((record) => this.add(record, idKey));
   }
 
   /**
@@ -64,9 +35,17 @@ class Database<T extends { [key: string]: any }> {
    * @param keywordOrKeywords a single search keyword, or multiple keywords seperated by spaces
    * @returns found records
    */
-  public find(keywordOrKeywords: string) {
+  public search(keywordOrKeywords: string) {
+    const allKeys = [...this.keys()];
     const _keywordOrKeywords = keywordOrKeywords.trim();
+    const isMultiple = _keywordOrKeywords.includes(' ');
 
+    if (!isMultiple && this.has(_keywordOrKeywords)) {
+      const exactMatch = this.get(_keywordOrKeywords)!;
+      return { match: exactMatch };
+    }
+
+    // Filter out keys that contain all search keywords
     // `foo` -> /foo/i
     // `foo bar baz` -> /^(?=.*foo)(?=.*bar)(?=.*baz).*$/i
     const pattern = new RegExp(
@@ -78,35 +57,41 @@ class Database<T extends { [key: string]: any }> {
         : _keywordOrKeywords,
       'i',
     );
+    const matchingKeys = allKeys.filter((key) => pattern.test(key));
 
-    const matches = this.data.filter((_value, key) =>
-      pattern.test(String(key)),
-    );
-
-    if (matches.size === 0) {
-      return null;
-    }
-    if (matches.size === 1) {
-      return matches.first()!;
+    if (matchingKeys.length === 0) {
+      return { match: null };
     }
 
-    return matches;
+    if (matchingKeys.length === 1) {
+      const key = matchingKeys[0];
+      const match = this.get(key) ?? null;
+      return { match };
+    }
+
+    const { bestMatchIndex } = findBestMatch(_keywordOrKeywords, matchingKeys);
+    const bestMatchKey = matchingKeys[bestMatchIndex];
+    const bestMatchValue = this.get(bestMatchKey)!;
+    const suggestions = matchingKeys.filter((key) => key !== bestMatchKey);
+
+    return { match: bestMatchValue, suggestions };
   }
 
   /**
-   * Returns an arbitrary item in the database.
-   * @param seed a seed to make the output predictable
-   * @returns a 'random' item.
+   * Returns a record in the database matching the given `seed`.
+   * @param seed string used to trigger pseudo-random number generation
+   * @returns the selected item
    */
-  public random(seed?: string) {
-    const randomKey = randomSelect(this.keys(), seed ? seedrandom(seed) : null);
-    const randomItem = this.data.get(randomKey);
+  public randomWith(seed: string) {
+    const keys = [...this.keys()];
+    const matchingKey = random(keys, seed);
+    const matchingItem = this.get(matchingKey);
 
-    if (!randomItem) {
-      throw new Error(`Unexpected key for seed: ${seed}`);
+    if (!matchingItem) {
+      throw new Error(`Failed to find matching item for seed: ${seed}`);
     }
 
-    return randomItem;
+    return matchingItem;
   }
 }
 

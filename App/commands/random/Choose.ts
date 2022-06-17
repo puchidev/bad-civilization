@@ -1,7 +1,7 @@
 import { bold, SlashCommandBuilder } from '@discordjs/builders';
 
 import type { CommandConfig } from '#App/models';
-import { randomSelect } from '#App/utils';
+import { random } from '#App/utils';
 
 /**
  * Removes duplicate items from the array passed.
@@ -34,7 +34,7 @@ const command: CommandConfig = {
       return;
     }
 
-    const chosen = randomSelect(optionArray);
+    const chosen = random(optionArray);
     interaction.reply(
       `${bold(optionArray.join(', '))} 중 마스터가 원하는 것은 ${bold(
         chosen,

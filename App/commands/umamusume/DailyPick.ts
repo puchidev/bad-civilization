@@ -57,7 +57,7 @@ function getDailyUmamusumeFor(username: string) {
     today.getDate(),
     username,
   ].join('-');
-  const selected = umamusume.random(seed);
+  const selected = umamusume.randomWith(seed);
 
   return selected;
 }

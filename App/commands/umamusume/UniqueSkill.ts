@@ -1,5 +1,6 @@
-import { SlashCommandBuilder, underscore } from '@discordjs/builders';
-import { Collection, MessageEmbed } from 'discord.js';
+import { bold, SlashCommandBuilder } from '@discordjs/builders';
+import dedent from 'dedent';
+import { MessageEmbed } from 'discord.js';
 
 import { Database } from '#App/classes';
 import type { CommandConfig } from '#App/models';
@@ -36,55 +37,46 @@ const command: CommandConfig = {
       `'${uma}'${endsWithJongSeong(uma) ? '으' : ''}로 고유 스킬을 검색할게.`,
     );
 
-    const foundSkills = skills.find(uma);
-    let skill: Skill;
+    const { match, suggestions } = skills.search(uma);
 
-    if (!foundSkills) {
+    if (!match) {
       interaction.followUp('아무 것도 찾지 못했어…');
       return;
     }
 
-    if (foundSkills instanceof Collection) {
-      const [first, ...rest] = [...foundSkills.keys()];
-
-      await interaction.followUp(
-        `처음 찾은 ${underscore(
-          first,
-        )}의 결과를 보여줄게. 이런 데이터도 찾았어.\n${rest.join(', ')}`,
-      );
-
-      skill = foundSkills.first()!;
-    } else {
-      skill = foundSkills;
+    if (suggestions) {
+      await interaction.followUp(dedent`
+        찾는 건 ${bold(match.umamusume)}일까?
+        이런 키워드는 어때? ${suggestions.join(', ')}
+      `);
     }
 
-    const embed = createResultEmbed(skill);
+    const embed = createResultEmbed(match);
     interaction.channel?.send({ embeds: [embed] });
   },
-  async respond(message, [uma]) {
-    const foundSkills = skills.find(uma);
-    let skill: Skill;
+  async respond(message, keywords) {
+    if (keywords.length === 0) {
+      message.reply(
+        '찾는 말딸의 이름 일부를 입력해줘. 가령 `!고유 테이오` 처럼?',
+      );
+      return;
+    }
 
-    if (!foundSkills) {
+    const { match, suggestions } = skills.search(keywords.join(' '));
+
+    if (!match) {
       message.reply('아무 것도 찾지 못했어…');
       return;
     }
 
-    if (foundSkills instanceof Collection) {
-      const [first, ...rest] = [...foundSkills.keys()];
-
-      await message.reply(
-        `처음 찾은 ${underscore(
-          first,
-        )}의 결과를 보여줄게. 이런 데이터도 찾았어.\n${rest.join(', ')}`,
-      );
-
-      skill = foundSkills.first()!;
-    } else {
-      skill = foundSkills;
+    if (suggestions) {
+      await message.reply(dedent`
+        찾는 건 ${bold(match.umamusume)}일까?
+        이런 키워드는 어때? ${suggestions.join(', ')}
+      `);
     }
 
-    const embed = createResultEmbed(skill);
+    const embed = createResultEmbed(match);
     message.reply({ embeds: [embed] });
   },
 };

@@ -140,23 +140,27 @@ class Bot extends Client {
 
       const isCommand = message.content.startsWith('!');
 
-      if (isCommand) {
-        const [commandName, ...params] = message.content.slice(1).split(/ +/);
-        const command = this.commands.get(commandName);
-
-        if (!command) {
-          logger.error(`No such command found: ${commandName}`);
-          return;
-        }
-
-        if (!command.respond) {
-          logger.error(`No respond handler found for: ${commandName}`);
-          message.reply(`${commandName} 명령을 수행하지 못했어…`);
-          return;
-        }
-
-        command.respond(message, params);
+      if (!isCommand) {
+        return;
       }
+
+      const [commandName, ...params] = message.content
+        .slice(1)
+        .trim()
+        .split(/ +/);
+      const command = this.commands.get(commandName);
+
+      if (!command) {
+        return;
+      }
+
+      if (!command.respond) {
+        logger.error(`No respond handler found for: ${commandName}`);
+        message.reply(`${commandName} 명령을 수행하지 못했어…`);
+        return;
+      }
+
+      command.respond(message, params);
     });
 
     this.on('interactionCreate', async (interaction) => {
@@ -168,7 +172,7 @@ class Bot extends Client {
       }
 
       const { commandName } = interaction;
-      const command = this.commands.get(interaction.commandName);
+      const command = this.commands.get(commandName);
 
       if (!command) {
         return;
@@ -197,7 +201,7 @@ class Bot extends Client {
           logger.error(`Failed to execute ${commandName}`);
 
           interaction.reply({
-            content: `${interaction.commandName} 명령을 수행하지 못했어…`,
+            content: `${commandName} 명령을 수행하지 못했어…`,
             ephemeral: true,
           });
         }

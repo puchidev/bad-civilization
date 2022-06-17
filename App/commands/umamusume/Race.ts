@@ -1,6 +1,6 @@
+import { bold, SlashCommandBuilder } from '@discordjs/builders';
 import dedent from 'dedent';
-import { SlashCommandBuilder, underscore } from '@discordjs/builders';
-import { Collection, MessageEmbed } from 'discord.js';
+import { MessageEmbed } from 'discord.js';
 
 import { Database } from '#App/classes';
 import type { CommandConfig } from '#App/models';
@@ -43,63 +43,59 @@ const command: CommandConfig = {
       `'${name}'${endsWithJongSeong(name) ? '으' : ''}로 레이스를 검색할게.`,
     );
 
-    let race = races.find(name);
+    const { match: matchingRace, suggestions } = races.search(name);
 
-    if (race instanceof Collection) {
-      const [first, ...rest] = [...race.keys()];
-
-      await interaction.followUp(
-        `가장 가까운 ${underscore(
-          first,
-        )}의 결과를 보여줄게. 이런 데이터도 찾았어.\n${rest.join(', ')}`,
-      );
-
-      race = race.first()!;
-    }
-
-    if (!race) {
+    if (!matchingRace) {
       interaction.followUp('아무 것도 찾지 못했어…');
       return;
     }
 
-    const track = tracks.find(race.trackId);
-
-    if (!track || track instanceof Collection) {
-      interaction.followUp(`${race.name} 경기장 데이터베이스에 문제가 있어.`);
-      return;
+    if (suggestions) {
+      await interaction.followUp(dedent`
+        찾는 건 ${bold(matchingRace.name)}일까?
+        이런 키워드는 어때? ${suggestions.join(', ')}
+      `);
     }
 
-    const embed = createResultEmbed({ race, track });
+    const matchingTrack = tracks.get(matchingRace.trackId);
+
+    if (!matchingTrack) {
+      throw new Error(`No matching race track of id: ${matchingRace.trackId}`);
+    }
+
+    const embed = createResultEmbed({
+      race: matchingRace,
+      track: matchingTrack,
+    });
     interaction.channel?.send({ embeds: [embed] });
   },
-  async respond(message, [name]) {
-    let race = races.find(name);
+  async respond(message, keywords) {
+    const { match: matchingRace, suggestions } = races.search(
+      keywords.join(' '),
+    );
 
-    if (race instanceof Collection) {
-      const [first, ...rest] = [...race.keys()];
-
-      await message.reply(
-        `가장 가까운 ${underscore(
-          first,
-        )}의 결과를 보여줄게. 이런 데이터도 찾았어.\n${rest.join(', ')}`,
-      );
-
-      race = race.first()!;
-    }
-
-    if (!race) {
+    if (!matchingRace) {
       message.reply('아무 것도 찾지 못했어…');
       return;
     }
 
-    const track = tracks.find(race.trackId);
-
-    if (!track || track instanceof Collection) {
-      message.reply(`${race.name} 경기장 데이터베이스에 문제가 있어.`);
-      return;
+    if (suggestions) {
+      await message.reply(dedent`
+        찾는 건 ${bold(matchingRace.name)}일까?
+        이런 키워드는 어때? ${suggestions.join(', ')}
+      `);
     }
 
-    const embed = createResultEmbed({ race, track });
+    const matchingTrack = tracks.get(matchingRace.trackId);
+
+    if (!matchingTrack) {
+      throw new Error(`No matching race track of id: ${matchingRace.trackId}`);
+    }
+
+    const embed = createResultEmbed({
+      race: matchingRace,
+      track: matchingTrack,
+    });
     message.reply({ embeds: [embed] });
   },
 };
