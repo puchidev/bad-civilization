@@ -101,7 +101,9 @@ const command: CommandConfig = {
     }, REPROMPT_MEMBERS_IN);
 
     const filter = (reaction: MessageReaction, user: User) =>
-      userIds.includes(user.id) && reaction.emoji.name === OK;
+      reaction.emoji.name === OK &&
+      readiness.has(user.id) &&
+      readiness.get(user.id) !== true;
 
     const collector = startMessage.createReactionCollector({
       filter,
@@ -116,7 +118,9 @@ const command: CommandConfig = {
 
     const handleReady = async () => {
       clearTimeout(repromptTimeout);
+
       collector.off('end', handleUnready);
+      collector.off('collect', handleCollect);
 
       await interaction.followUp(dedent`
         ${userIds.map((userId) => userMention(userId)).join(' ')}
@@ -136,18 +140,18 @@ const command: CommandConfig = {
       });
     };
 
-    collector.on('end', handleUnready);
-
-    collector.on('collect', (_reaction, user) => {
+    const handleCollect = (_reaction: MessageReaction, user: User) => {
       const userId = user.id;
 
-      if (readiness.has(userId)) {
-        readiness.set(userId, true);
-      }
+      readiness.set(userId, true);
+
       if (readiness.every((isReady) => isReady)) {
         handleReady();
       }
-    });
+    };
+
+    collector.on('end', handleUnready);
+    collector.on('collect', handleCollect);
   },
 };
 
