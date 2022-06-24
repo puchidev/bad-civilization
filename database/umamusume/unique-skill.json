@@ -490,6 +490,20 @@
     "condition": "phase==1&corner==0&order<=2&bashin_diff_behind<=1"
   },
   {
+    "umamusume": "스윕 토쇼",
+    "description": [
+      "잔여거리 300m",
+      "최종 코너 돌입시까지 50%보다 뒤 순위 유지(6~9위)",
+      "흥분하지 않음"
+    ],
+    "effect": {
+      "duration": 6,
+      "speed": 0.35
+    },
+    "precondition": "order_rate_out50_continue==1&temptation_count==0&is_finalcorner==1",
+    "condition": "remain_distance<=300"
+  },
+  {
     "umamusume": "스페셜 위크",
     "description": ["종반", "추월했을 때 1위~50% (1~5위)"],
     "effect": {
