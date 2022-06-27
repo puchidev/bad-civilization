@@ -5,23 +5,23 @@ import { MessageEmbed } from 'discord.js';
 import { Database } from '#App/classes';
 import type { CommandConfig } from '#App/models';
 import { endsWithJongSeong, fetchData } from '#App/utils';
-import type { Skill, SkillEffect } from './types';
+import type { UniqueSkill, SkillEffect } from './types';
 
-const skills = new Database<Skill>();
+const skills = new Database<UniqueSkill>();
 
 const command: CommandConfig = {
   data: new SlashCommandBuilder()
     .setName('고유')
     .setDescription('말딸의 고유스킬을 확인해 보자')
-    .addStringOption((option) => {
-      return option
+    .addStringOption((option) =>
+      option
         .setName('말딸')
         .setDescription('말딸의 이름 일부 (ex. 네이처, 치어 네이처, …)')
-        .setRequired(true);
-    }),
+        .setRequired(true),
+    ),
   async prepare() {
     try {
-      const uniqueSkillList: Skill[] = await fetchData(
+      const uniqueSkillList: UniqueSkill[] = await fetchData(
         'database/umamusume/unique-skill.json',
       );
       skills.addAll(uniqueSkillList, 'umamusume');
@@ -128,7 +128,7 @@ function formatEffect(effect: SkillEffect) {
  * @param skill found skill
  * @returns created message embed
  */
-function createResultEmbed(skill: Skill) {
+function createResultEmbed(skill: UniqueSkill) {
   const { umamusume, description, effect, precondition, condition } = skill;
 
   const embed = new MessageEmbed()

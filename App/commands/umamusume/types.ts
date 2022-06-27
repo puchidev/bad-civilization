@@ -30,6 +30,11 @@ export interface RaceCourse {
 }
 
 export interface Skill {
+  ja: string;
+  ko: string;
+}
+
+export interface UniqueSkill {
   umamusume: string;
   description: string[];
   effect: SkillEffect;
