@@ -4,7 +4,7 @@ import { MessageEmbed } from 'discord.js';
 import type { EmbedFieldData } from 'discord.js';
 import chunk from 'lodash/chunk';
 
-import { Database } from '#App/classes';
+import { RuntimeDatabase } from '#App/classes';
 import { logger } from '#App/devtools';
 import type { CommandConfig } from '#App/models';
 import { fetchAllData } from '#App/utils';
@@ -14,7 +14,7 @@ import type { GachaGame, GachaGameConfig, GachaPull } from './Gacha/types';
 
 const MAX_PULL_SIZE = 60;
 
-const database = new Database<GachaGame>();
+const database = new RuntimeDatabase<GachaGame>();
 
 const command: CommandConfig = {
   data: new SlashCommandBuilder()

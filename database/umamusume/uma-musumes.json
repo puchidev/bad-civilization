@@ -1,83 +1,348 @@
 [
-  { "name": "스페셜 위크" },
-  { "name": "사일런스 스즈카" },
-  { "name": "토카이 테이오" },
-  { "name": "마루젠스키" },
-  { "name": "후지 키세키" },
-  { "name": "오구리 캡" },
-  { "name": "골드 쉽" },
-  { "name": "보드카" },
-  { "name": "다이와 스칼렛" },
-  { "name": "타이키 셔틀" },
-  { "name": "그래스 원더" },
-  { "name": "히시 아마존" },
-  { "name": "메지로 맥퀸" },
-  { "name": "엘 콘도르 파사" },
-  { "name": "티엠 오페라 오" },
-  { "name": "나리타 브라이언" },
-  { "name": "심볼리 루돌프" },
-  { "name": "에어 그루브" },
-  { "name": "아그네스 디지털" },
-  { "name": "타마모 크로스" },
-  { "name": "세이운 스카이" },
-  { "name": "파인 모션" },
-  { "name": "비와 하야히데" },
-  { "name": "마야노 탑건" },
-  { "name": "맨하탄 카페" },
-  { "name": "미호노 부르봉" },
-  { "name": "메지로 라이언" },
-  { "name": "히시 아케보노" },
-  { "name": "유키노 비진" },
-  { "name": "라이스 샤워" },
-  { "name": "아이네스 후우진" },
-  { "name": "아그네스 타키온" },
-  { "name": "어드마이어 베가 " },
-  { "name": "이나리 원" },
-  { "name": "위닝 티켓" },
-  { "name": "에어 샤칼" },
-  { "name": "에이신 플래시" },
-  { "name": "카렌쨩" },
-  { "name": "카와카미 프린세스" },
-  { "name": "골드 시티" },
-  { "name": "시킹 더 펄" },
-  { "name": "사쿠라 바쿠신 오" },
-  { "name": "신코 윈디" },
-  { "name": "스윕 토쇼" },
-  { "name": "슈퍼 크릭" },
-  { "name": "스마트 팔콘" },
-  { "name": "젠노 롭 로이" },
-  { "name": "토센 조던" },
-  { "name": "나카야마 페스타" },
-  { "name": "나리타 타이신" },
-  { "name": "니시노 플라워" },
-  { "name": "하루우라라" },
-  { "name": "뱀부 메모리" },
-  { "name": "마벨러스 선데이" },
-  { "name": "비코 페가수스" },
-  { "name": "마치카네 후쿠키타루" },
-  { "name": "미스터 십" },
-  { "name": "메이쇼 도토" },
-  { "name": "메지로 도베르" },
-  { "name": "나이스 네이처" },
-  { "name": "킹 헤일로" },
-  { "name": "마치카네 탄호이저" },
-  { "name": "이쿠노 딕터스" },
-  { "name": "메지로 파머" },
-  { "name": "다이타쿠 헬리오스" },
-  { "name": "트윈 터보" },
-  { "name": "사토노 다이아몬드" },
-  { "name": "키타산 블랙" },
-  { "name": "사쿠라 치요노 오" },
-  { "name": "메지로 아르당" },
-  { "name": "시리우스 심볼리" },
-  { "name": "야에노 무테키" },
-  { "name": "츠루마루 츠요시" },
-  { "name": "메지로 브라이트" },
-  { "name": "사쿠라 로렐" },
-  { "name": "나리타 톱 로드" },
-  { "name": "야마닌 제퍼" },
-  { "name": "심볼리 크리스 에스" },
-  { "name": "타니노 김렛" },
-  { "name": "애스턴 마쨩" },
-  { "name": "코파노 릿키" }
+  {
+    "name": "스페셜 위크",
+    "aptitude": ["A", "G", "F", "C", "A", "A", "G", "A", "A", "C"]
+  },
+  {
+    "name": "사일런스 스즈카",
+    "aptitude": ["A", "G", "D", "A", "A", "E", "A", "C", "E", "G"]
+  },
+  {
+    "name": "토카이 테이오",
+    "aptitude": ["A", "G", "F", "E", "A", "B", "D", "A", "C", "E"]
+  },
+  {
+    "name": "마루젠스키",
+    "aptitude": ["A", "D", "B", "A", "B", "C", "A", "E", "G", "G"]
+  },
+  {
+    "name": "후지 키세키",
+    "aptitude": ["A", "F", "B", "A", "B", "E", "C", "A", "C", "G"]
+  },
+  {
+    "name": "오구리 캡",
+    "aptitude": ["A", "B", "E", "A", "A", "B", "F", "A", "A", "D"]
+  },
+  {
+    "name": "골드 쉽",
+    "aptitude": ["A", "G", "G", "C", "A", "A", "G", "B", "B", "A"]
+  },
+  {
+    "name": "보드카",
+    "aptitude": ["A", "G", "F", "A", "A", "F", "C", "B", "A", "F"]
+  },
+  {
+    "name": "다이와 스칼렛",
+    "aptitude": ["A", "G", "F", "A", "A", "B", "A", "A", "E", "G"]
+  },
+  {
+    "name": "타이키 셔틀",
+    "aptitude": ["A", "B", "A", "A", "E", "G", "C", "A", "E", "G"]
+  },
+  {
+    "name": "그래스 원더",
+    "aptitude": ["A", "G", "G", "A", "B", "A", "F", "A", "A", "F"]
+  },
+  {
+    "name": "히시 아마존",
+    "aptitude": ["A", "E", "D", "A", "A", "B", "G", "B", "C", "A"]
+  },
+  {
+    "name": "메지로 맥퀸",
+    "aptitude": ["A", "E", "G", "F", "A", "A", "B", "A", "D", "F"]
+  },
+  {
+    "name": "엘 콘도르 파사",
+    "aptitude": ["A", "B", "F", "A", "A", "B", "E", "A", "A", "C"]
+  },
+  {
+    "name": "티엠 오페라 오",
+    "aptitude": ["A", "E", "G", "E", "A", "A", "C", "A", "A", "G"]
+  },
+  {
+    "name": "나리타 브라이언",
+    "aptitude": ["A", "G", "F", "B", "A", "A", "G", "A", "A", "D"]
+  },
+  {
+    "name": "심볼리 루돌프",
+    "aptitude": ["A", "G", "E", "C", "A", "A", "B", "A", "A", "C"]
+  },
+  {
+    "name": "에어 그루브",
+    "aptitude": ["A", "G", "C", "B", "A", "E", "D", "A", "A", "G"]
+  },
+  {
+    "name": "아그네스 디지털",
+    "aptitude": ["A", "A", "F", "A", "A", "G", "G", "A", "A", "B"]
+  },
+  {
+    "name": "타마모 크로스",
+    "aptitude": ["A", "F", "G", "E", "A", "A", "G", "A", "A", "A"]
+  },
+  {
+    "name": "세이운 스카이",
+    "aptitude": ["A", "G", "G", "C", "A", "A", "A", "B", "D", "E"]
+  },
+  {
+    "name": "파인 모션",
+    "aptitude": ["A", "G", "F", "A", "A", "C", "D", "A", "E", "C"]
+  },
+  {
+    "name": "비와 하야히데",
+    "aptitude": ["A", "F", "F", "C", "A", "A", "E", "A", "B", "E"]
+  },
+  {
+    "name": "마야노 탑건",
+    "aptitude": ["A", "E", "D", "D", "A", "A", "A", "A", "B", "B"]
+  },
+  {
+    "name": "맨하탄 카페",
+    "aptitude": ["A", "G", "G", "F", "B", "A", "G", "C", "A", "C"]
+  },
+  {
+    "name": "미호노 부르봉",
+    "aptitude": ["A", "G", "C", "B", "A", "B", "A", "E", "G", "G"]
+  },
+  {
+    "name": "메지로 라이언",
+    "aptitude": ["A", "G", "E", "C", "A", "B", "F", "A", "A", "F"]
+  },
+  {
+    "name": "히시 아케보노",
+    "aptitude": ["A", "F", "A", "B", "F", "G", "B", "A", "C", "G"]
+  },
+  {
+    "name": "유키노 비진",
+    "aptitude": [],
+    "implemented": false
+  },
+  {
+    "name": "라이스 샤워",
+    "aptitude": ["A", "G", "E", "C", "A", "A", "B", "A", "C", "G"]
+  },
+  {
+    "name": "아이네스 후우진",
+    "aptitude": ["A", "G", "G", "A", "A", "C", "A", "C", "G", "G"]
+  },
+  {
+    "name": "아그네스 타키온",
+    "aptitude": ["A", "G", "G", "D", "A", "B", "E", "A", "B", "F"]
+  },
+  {
+    "name": "어드마이어 베가",
+    "aptitude": ["A", "G", "F", "C", "A", "C", "G", "G", "B", "A"]
+  },
+  {
+    "name": "이나리 원",
+    "aptitude": ["A", "A", "F", "B", "A", "A", "G", "B", "B", "A"]
+  },
+  {
+    "name": "위닝 티켓",
+    "aptitude": ["A", "G", "G", "F", "A", "B", "G", "B", "A", "G"]
+  },
+  {
+    "name": "에어 샤칼",
+    "aptitude": [],
+    "implemented": false
+  },
+  {
+    "name": "에이신 플래시",
+    "aptitude": ["A", "G", "G", "F", "A", "A", "G", "B", "A", "C"]
+  },
+  {
+    "name": "카렌쨩",
+    "aptitude": ["A", "F", "A", "D", "G", "G", "B", "A", "E", "G"]
+  },
+  {
+    "name": "카와카미 프린세스",
+    "aptitude": ["A", "G", "D", "B", "A", "F", "G", "C", "A", "D"]
+  },
+  {
+    "name": "골드 시티",
+    "aptitude": ["A", "D", "F", "A", "B", "B", "F", "A", "A", "F"]
+  },
+  {
+    "name": "시킹 더 펄",
+    "aptitude": [],
+    "implemented": false
+  },
+  {
+    "name": "사쿠라 바쿠신 오",
+    "aptitude": ["A", "G", "A", "B", "G", "G", "A", "A", "F", "G"]
+  },
+  {
+    "name": "신코 윈디",
+    "aptitude": [],
+    "implemented": false
+  },
+  {
+    "name": "스윕 토쇼",
+    "aptitude": ["A", "G", "E", "A", "A", "D", "G", "G", "A", "A"]
+  },
+  {
+    "name": "슈퍼 크릭",
+    "aptitude": ["A", "G", "G", "G", "A", "A", "D", "A", "B", "G"]
+  },
+  {
+    "name": "스마트 팔콘",
+    "aptitude": ["E", "A", "B", "A", "A", "E", "A", "D", "G", "G"]
+  },
+  {
+    "name": "젠노 롭 로이",
+    "aptitude": [],
+    "implemented": false
+  },
+  {
+    "name": "토센 조던",
+    "aptitude": ["A", "G", "G", "F", "A", "B", "C", "A", "B", "G"]
+  },
+  {
+    "name": "나카야마 페스타",
+    "aptitude": [],
+    "implemented": false
+  },
+  {
+    "name": "나리타 타이신",
+    "aptitude": ["A", "G", "F", "D", "A", "A", "G", "F", "B", "A"]
+  },
+  {
+    "name": "니시노 플라워",
+    "aptitude": ["A", "F", "A", "A", "E", "G", "F", "A", "A", "G"]
+  },
+  {
+    "name": "하루우라라",
+    "aptitude": ["G", "A", "A", "B", "G", "G", "G", "G", "A", "B"]
+  },
+  {
+    "name": "뱀부 메모리",
+    "aptitude": [],
+    "implemented": false
+  },
+  {
+    "name": "마벨러스 선데이",
+    "aptitude": [],
+    "implemented": false
+  },
+  {
+    "name": "비코 페가수스",
+    "aptitude": [],
+    "implemented": false
+  },
+  {
+    "name": "마치카네 후쿠키타루",
+    "aptitude": ["A", "F", "F", "C", "A", "A", "G", "B", "A", "F"]
+  },
+  {
+    "name": "미스터 시비",
+    "aptitude": [],
+    "implemented": false
+  },
+  {
+    "name": "메이쇼 도토",
+    "aptitude": ["A", "E", "G", "F", "A", "A", "F", "A", "B", "E"]
+  },
+  {
+    "name": "메지로 도베르",
+    "aptitude": ["A", "G", "E", "A", "A", "F", "C", "B", "A", "G"]
+  },
+  {
+    "name": "나이스 네이처",
+    "aptitude": ["A", "G", "G", "C", "A", "A", "F", "B", "A", "D"]
+  },
+  {
+    "name": "킹 헤일로",
+    "aptitude": ["A", "G", "A", "B", "B", "C", "G", "B", "A", "D"]
+  },
+  {
+    "name": "마치카네 탄호이저",
+    "aptitude": ["A", "G", "G", "D", "A", "A", "F", "A", "A", "E"]
+  },
+  {
+    "name": "이쿠노 딕터스",
+    "aptitude": [],
+    "implemented": false
+  },
+  {
+    "name": "메지로 파머",
+    "aptitude": ["A", "G", "G", "F", "A", "A", "A", "E", "F", "G"]
+  },
+  {
+    "name": "다이타쿠 헬리오스",
+    "aptitude": [],
+    "implemented": false
+  },
+  {
+    "name": "트윈 터보",
+    "aptitude": [],
+    "implemented": false
+  },
+  {
+    "name": "사토노 다이아몬드",
+    "aptitude": ["A", "G", "G", "C", "A", "A", "G", "B", "A", "D"]
+  },
+  {
+    "name": "키타산 블랙",
+    "aptitude": ["A", "G", "E", "C", "A", "A", "A", "B", "C", "G"]
+  },
+  {
+    "name": "사쿠라 치요노 오",
+    "aptitude": ["A", "G", "E", "A", "A", "E", "B", "A", "F", "G"]
+  },
+  {
+    "name": "메지로 아르당",
+    "aptitude": ["A", "F", "E", "B", "A", "D", "C", "A", "D", "G"]
+  },
+  {
+    "name": "시리우스 심볼리",
+    "aptitude": [],
+    "implemented": false
+  },
+  {
+    "name": "야에노 무테키",
+    "aptitude": ["A", "E", "G", "B", "A", "E", "F", "A", "A", "G"]
+  },
+  {
+    "name": "츠루마루 츠요시",
+    "aptitude": [],
+    "implemented": false
+  },
+  {
+    "name": "메지로 브라이트",
+    "aptitude": ["A", "G", "F", "C", "A", "A", "G", "D", "A", "A"]
+  },
+  {
+    "name": "사쿠라 로렐",
+    "aptitude": [],
+    "implemented": false
+  },
+  {
+    "name": "나리타 톱 로드",
+    "aptitude": [],
+    "implemented": false
+  },
+  {
+    "name": "야마닌 제퍼",
+    "aptitude": [],
+    "implemented": false
+  },
+  {
+    "name": "심볼리 크리스 에스",
+    "aptitude": [],
+    "implemented": false
+  },
+  {
+    "name": "타니노 김렛",
+    "aptitude": [],
+    "implemented": false
+  },
+  {
+    "name": "애스턴 마쨩",
+    "aptitude": [],
+    "implemented": false
+  },
+  {
+    "name": "코파노 릿키",
+    "aptitude": [],
+    "implemented": false
+  }
 ]

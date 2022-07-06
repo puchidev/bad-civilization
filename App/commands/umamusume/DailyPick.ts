@@ -1,27 +1,13 @@
 import { bold, SlashCommandBuilder } from '@discordjs/builders';
 
-import { Database } from '#App/classes';
 import type { CommandConfig } from '#App/models';
-import { endsWithJongSeong, fetchData, getLocalDate } from '#App/utils';
-import type { Umamusume } from './types';
-
-const umamusume = new Database<Umamusume>();
+import { endsWithJongSeong, getLocalDate } from '#App/utils';
+import { umamusume } from './database';
 
 const command: CommandConfig = {
   data: new SlashCommandBuilder()
     .setName('애마')
     .setDescription('오늘의 오레노 아이바는? (매일 바뀜)'),
-  async prepare() {
-    try {
-      const umamusumeList: Umamusume[] = await fetchData(
-        'database/umamusume/uma-musumes.json',
-      );
-      umamusume.addAll(umamusumeList, 'name');
-    } catch (e) {
-      console.debug(e);
-      console.error('Failed to establish umamusume list.');
-    }
-  },
   async interact(interaction) {
     const username = interaction.user.username;
     const myUmamusume = getDailyUmamusumeFor(username);
@@ -57,7 +43,7 @@ function getDailyUmamusumeFor(username: string) {
     today.getDate(),
     username,
   ].join('-');
-  const selected = umamusume.randomWith(seed);
+  const selected = umamusume.pseudoRandom(seed);
 
   return selected;
 }

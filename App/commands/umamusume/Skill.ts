@@ -1,12 +1,9 @@
 import { bold, SlashCommandBuilder } from '@discordjs/builders';
 import dedent from 'dedent';
 
-import { Database } from '#App/classes';
 import type { CommandConfig } from '#App/models';
-import { endsWithJongSeong, fetchData } from '#App/utils';
-import type { Skill } from './types';
-
-const skills = new Database<Skill>();
+import { endsWithJongSeong } from '#App/utils';
+import { skills } from './database';
 
 const command: CommandConfig = {
   data: new SlashCommandBuilder()
@@ -18,17 +15,6 @@ const command: CommandConfig = {
         .setDescription('찾으려는 스킬명을 "일본어로" 적어 주세요.')
         .setRequired(true),
     ),
-  async prepare() {
-    try {
-      const uniqueSkillList: Skill[] = await fetchData(
-        'database/umamusume/skills.json',
-      );
-      skills.addAll(uniqueSkillList, 'ja');
-    } catch (e) {
-      console.debug(e);
-      console.error(`Failed to establish umamusume's skill list.`);
-    }
-  },
   async interact(interaction) {
     const uma = interaction.options.getString('스킬명', true);
 
@@ -46,7 +32,7 @@ const command: CommandConfig = {
     if (suggestions) {
       await interaction.followUp(dedent`
         찾는 건 ${bold(match.ja)}일까?
-        이런 키워드는 어때? ${suggestions.join(', ')}
+        다른 검색결과: ||${suggestions.join(', ')}||
       `);
     }
 
@@ -70,7 +56,7 @@ const command: CommandConfig = {
     if (suggestions) {
       await message.reply(dedent`
         찾는 건 ${bold(match.ja)}일까?
-        이런 키워드는 어때? ${suggestions.join(', ')}
+        다른 검색결과: ||${suggestions.join(', ')}||
       `);
     }
 

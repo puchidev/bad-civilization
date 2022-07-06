@@ -7,7 +7,10 @@ import { random } from '#App/utils';
  * @description Stores & controls serializable data in a `Collection` instance.
  * @see https://discord.js.org/#/docs/collection/main/class/Collection (parent class `Collection`)
  */
-class Database<V extends Record<string, any>> extends Collection<string, V> {
+class RuntimeDatabase<V extends Record<string, any>> extends Collection<
+  string,
+  V
+> {
   /**
    * Adds a record in data.
    * @param record database record
@@ -32,7 +35,10 @@ class Database<V extends Record<string, any>> extends Collection<string, V> {
     records.forEach((record) => this.add(record, idKey));
   }
 
-  public search(keyword: string): { match: V | null; suggestions?: string[] };
+  public search(keyword: string): {
+    match: V | null;
+    suggestions?: string[] | null;
+  };
   public search(
     keyword: string,
     options: { all: boolean },
@@ -50,7 +56,9 @@ class Database<V extends Record<string, any>> extends Collection<string, V> {
   public search(
     keyword: string,
     options: { all?: boolean } = {},
-  ): { match: V | null; suggestions?: string[] } | { match: NonNullable<V>[] } {
+  ):
+    | { match: V | null; suggestions?: string[] | null }
+    | { match: NonNullable<V>[] } {
     const allKeys = [...this.keys()];
     const _keyword = keyword.trim();
     const isMultiple = _keyword.includes(' ');
@@ -86,17 +94,20 @@ class Database<V extends Record<string, any>> extends Collection<string, V> {
     const { bestMatchIndex } = findBestMatch(_keyword, matchingKeys);
     const bestMatchKey = matchingKeys[bestMatchIndex];
     const bestMatchValue = this.get(bestMatchKey)!;
-    const suggestions = matchingKeys.filter((key) => key !== bestMatchKey);
+    const suggestions =
+      matchingKeys.length > 1
+        ? matchingKeys.filter((key) => key !== bestMatchKey)
+        : null;
 
     return { match: bestMatchValue, suggestions };
   }
 
   /**
-   * Returns a record in the database matching the given `seed`.
+   * Returns a record matching the given `seed`.
    * @param seed string used to trigger pseudo-random number generation
-   * @returns the selected item
+   * @returns selected record
    */
-  public randomWith(seed: string) {
+  public pseudoRandom(seed: string) {
     const keys = [...this.keys()];
     const matchingKey = random(keys, seed);
     const matchingItem = this.get(matchingKey);
@@ -109,4 +120,4 @@ class Database<V extends Record<string, any>> extends Collection<string, V> {
   }
 }
 
-export default Database;
+export default RuntimeDatabase;

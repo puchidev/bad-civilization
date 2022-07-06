@@ -1,5 +1,18 @@
 export interface Umamusume {
   name: string;
+  aptitude: [
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+  ];
+  implemented?: boolean;
 }
 
 export interface Race {
@@ -53,3 +66,19 @@ export interface SkillEffect {
 }
 
 export type SkillCondition = string | string[];
+
+interface PickupPeriod {
+  since: string;
+  until: string;
+  sinceKR?: string;
+  untilKR?: string;
+}
+
+export interface PickupRawData extends PickupPeriod {
+  umamusume: string[];
+  support: string[];
+}
+
+export interface Pickup extends PickupPeriod {
+  members: string[];
+}

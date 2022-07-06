@@ -2,12 +2,10 @@ import { bold, SlashCommandBuilder } from '@discordjs/builders';
 import dedent from 'dedent';
 import { MessageEmbed } from 'discord.js';
 
-import { Database } from '#App/classes';
 import type { CommandConfig } from '#App/models';
-import { endsWithJongSeong, fetchData } from '#App/utils';
+import { endsWithJongSeong } from '#App/utils';
+import { uniqueSkills } from './database';
 import type { UniqueSkill, SkillEffect } from './types';
-
-const skills = new Database<UniqueSkill>();
 
 const command: CommandConfig = {
   data: new SlashCommandBuilder()
@@ -19,17 +17,6 @@ const command: CommandConfig = {
         .setDescription('말딸의 이름 일부 (ex. 네이처, 치어 네이처, …)')
         .setRequired(true),
     ),
-  async prepare() {
-    try {
-      const uniqueSkillList: UniqueSkill[] = await fetchData(
-        'database/umamusume/unique-skills.json',
-      );
-      skills.addAll(uniqueSkillList, 'umamusume');
-    } catch (e) {
-      console.debug(e);
-      console.error(`Failed to establish umamusume's unique skill list.`);
-    }
-  },
   async interact(interaction) {
     const uma = interaction.options.getString('말딸', true);
 
@@ -37,7 +24,7 @@ const command: CommandConfig = {
       `'${uma}'${endsWithJongSeong(uma) ? '으' : ''}로 고유 스킬을 검색할게.`,
     );
 
-    const { match, suggestions } = skills.search(uma);
+    const { match, suggestions } = uniqueSkills.search(uma);
 
     if (!match) {
       interaction.followUp('아무 것도 찾지 못했어…');
@@ -47,7 +34,7 @@ const command: CommandConfig = {
     if (suggestions) {
       await interaction.followUp(dedent`
         찾는 건 ${bold(match.umamusume)}일까?
-        이런 키워드는 어때? ${suggestions.join(', ')}
+        다른 검색결과: ||${suggestions.join(', ')}||
       `);
     }
 
@@ -62,7 +49,7 @@ const command: CommandConfig = {
       return;
     }
 
-    const { match, suggestions } = skills.search(keywords.join(' '));
+    const { match, suggestions } = uniqueSkills.search(keywords.join(' '));
 
     if (!match) {
       message.reply('아무 것도 찾지 못했어…');
@@ -72,7 +59,7 @@ const command: CommandConfig = {
     if (suggestions) {
       await message.reply(dedent`
         찾는 건 ${bold(match.umamusume)}일까?
-        이런 키워드는 어때? ${suggestions.join(', ')}
+        다른 검색결과: ||${suggestions.join(', ')}||
       `);
     }
 

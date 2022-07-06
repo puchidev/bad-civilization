@@ -2,13 +2,10 @@ import { bold, SlashCommandBuilder } from '@discordjs/builders';
 import dedent from 'dedent';
 import { MessageEmbed } from 'discord.js';
 
-import { Database } from '#App/classes';
 import type { CommandConfig } from '#App/models';
-import { endsWithJongSeong, fetchData } from '#App/utils';
+import { endsWithJongSeong } from '#App/utils';
+import { races, raceTracks } from './database';
 import type { Race, RaceTrack } from './types';
-
-const races = new Database<Race>();
-const tracks = new Database<RaceTrack>();
 
 const command: CommandConfig = {
   data: new SlashCommandBuilder()
@@ -20,22 +17,6 @@ const command: CommandConfig = {
         .setDescription('레이스 이름의 일부 (ex. 아리마, 야스, …)')
         .setRequired(true),
     ),
-  async prepare() {
-    try {
-      const promises = [
-        'database/umamusume/races.json',
-        'database/umamusume/racetracks.json',
-      ].map((path) => fetchData(path));
-
-      const [raceList, raceTrackList] = await Promise.all(promises);
-
-      races.addAll(raceList as Race[], 'name');
-      tracks.addAll(raceTrackList as RaceTrack[], 'id');
-    } catch (e) {
-      console.debug(e);
-      console.error('Failed to establish race list.');
-    }
-  },
   async interact(interaction) {
     const name = interaction.options.getString('이름', true);
 
@@ -53,11 +34,11 @@ const command: CommandConfig = {
     if (suggestions) {
       await interaction.followUp(dedent`
         찾는 건 ${bold(matchingRace.name)}일까?
-        이런 키워드는 어때? ${suggestions.join(', ')}
+        다른 검색결과: ||${suggestions.join(', ')}||
       `);
     }
 
-    const matchingTrack = tracks.get(matchingRace.trackId);
+    const matchingTrack = raceTracks.get(matchingRace.trackId);
 
     if (!matchingTrack) {
       throw new Error(`No matching race track of id: ${matchingRace.trackId}`);
@@ -82,11 +63,11 @@ const command: CommandConfig = {
     if (suggestions) {
       await message.reply(dedent`
         찾는 건 ${bold(matchingRace.name)}일까?
-        이런 키워드는 어때? ${suggestions.join(', ')}
+        다른 검색결과: ||${suggestions.join(', ')}||
       `);
     }
 
-    const matchingTrack = tracks.get(matchingRace.trackId);
+    const matchingTrack = raceTracks.get(matchingRace.trackId);
 
     if (!matchingTrack) {
       throw new Error(`No matching race track of id: ${matchingRace.trackId}`);

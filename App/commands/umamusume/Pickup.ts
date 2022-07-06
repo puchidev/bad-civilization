@@ -4,34 +4,16 @@ import dayjs from 'dayjs';
 import dedent from 'dedent';
 import { MessageEmbed } from 'discord.js';
 
-import { Database } from '#App/classes';
 import type { CommandConfig } from '#App/models';
-import { endsWithJongSeong, fetchData } from '#App/utils';
-
-interface PickupPeriod {
-  since: string;
-  until: string;
-  sinceKR?: string;
-  untilKR?: string;
-}
-
-interface PickupRawData extends PickupPeriod {
-  umamusume: string[];
-  support: string[];
-}
-
-interface Pickup extends PickupPeriod {
-  members: string[];
-}
+import { endsWithJongSeong } from '#App/utils';
+import { supportPickups, umamusumePickups } from './database';
+import type { Pickup } from './types';
 
 const SERVICE_START_JAPAN = '2021-02-24';
 const SERVICE_START_KOREA = '2022-06-20';
 const PICKUP_OFFSET_DAYS =
   dayjs(SERVICE_START_KOREA).diff(SERVICE_START_JAPAN, 'day') + 1; // 1 (초기 미래시 오차)
 const DATE_OUTPUT_FORMAT = 'YYYY년 MM월 DD일 (ddd) A h:mm';
-
-const umaPickups = new Database<Pickup>();
-const supportPickups = new Database<Pickup>();
 
 const command: CommandConfig = {
   data: new SlashCommandBuilder()
@@ -61,39 +43,6 @@ const command: CommandConfig = {
             .setRequired(true),
         ),
     ),
-  async prepare() {
-    try {
-      const pickupList: PickupRawData[] = await fetchData(
-        'database/umamusume/pickups.json',
-      );
-
-      pickupList.forEach(
-        ({ since, until, sinceKR, untilKR, umamusume, support }) => {
-          const umamusumeKey = umamusume.slice().join(' ');
-          const supportKey = support.slice().join(' ');
-
-          umaPickups.set(umamusumeKey, {
-            since,
-            until,
-            sinceKR,
-            untilKR,
-            members: umamusume,
-          });
-
-          supportPickups.set(supportKey, {
-            since,
-            until,
-            sinceKR,
-            untilKR,
-            members: support,
-          });
-        },
-      );
-    } catch (e) {
-      console.debug(e);
-      console.error('Failed to establish umamusume pickup list.');
-    }
-  },
   async interact(interaction) {
     const subcommand = interaction.options.getSubcommand();
     const name = interaction.options.getString('이름', true);
@@ -104,7 +53,7 @@ const command: CommandConfig = {
 
     const { match } =
       subcommand === '말'
-        ? umaPickups.search(name, { all: true })
+        ? umamusumePickups.search(name, { all: true })
         : supportPickups.search(name, { all: true });
 
     if (!match) {
@@ -129,7 +78,7 @@ const command: CommandConfig = {
     const keyword = keywords.join(' ');
     const { match } =
       subcommand === '말'
-        ? umaPickups.search(keyword, { all: true })
+        ? umamusumePickups.search(keyword, { all: true })
         : supportPickups.search(keyword, { all: true });
 
     if (!match) {
