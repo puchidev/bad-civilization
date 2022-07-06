@@ -92,12 +92,16 @@ class Bot extends Client {
     const appId = process.env.APP_ID!;
     const appToken = process.env.APP_TOKEN!;
 
-    if (commands.size === 0) {
+    const guildCommands = commands.filter((command) =>
+      command.guilds ? command.guilds.includes(guild.id) : true,
+    );
+
+    if (guildCommands.size === 0) {
       throw new Error('No command found.');
     }
 
     const rest = new REST({ version: '10' }).setToken(appToken);
-    const schema = commands.map((command) => command.data.toJSON());
+    const schema = guildCommands.map((command) => command.data.toJSON());
 
     rest.put(Routes.applicationGuildCommands(appId, guild.id), {
       body: schema,

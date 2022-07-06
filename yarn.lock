@@ -851,6 +851,7 @@ __metadata:
     "@yarnpkg/sdks": ^3.0.0-rc.9
     bignumber.js: ^9.0.2
     cross-env: ^7.0.3
+    dayjs: ^1.11.3
     dedent: ^0.7.0
     discord-api-types: ^0.33.0
     discord.js: ^13.7.0
@@ -1266,6 +1267,13 @@ __metadata:
     shebang-command: ^2.0.0
     which: ^2.0.1
   checksum: 671cc7c7288c3a8406f3c69a3ae2fc85555c04169e9d611def9a675635472614f1c0ed0ef80955d5b6d4e724f6ced67f0ad1bb006c2ea643488fcfef994d7f52
+  languageName: node
+  linkType: hard
+
+"dayjs@npm:^1.11.3":
+  version: 1.11.3
+  resolution: "dayjs@npm:1.11.3"
+  checksum: c87e06b562a51ae6568cc5b840c7579d82a0f8af7163128c858fe512d3d71d07bd8e8e464b8cc41b8698a9e26b80ab2c082d14a1cd4c33df5692d77ccdfc5a43
   languageName: node
   linkType: hard
 

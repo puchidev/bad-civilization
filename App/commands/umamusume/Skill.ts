@@ -21,7 +21,7 @@ const command: CommandConfig = {
   async prepare() {
     try {
       const uniqueSkillList: Skill[] = await fetchData(
-        'database/umamusume/skill.json',
+        'database/umamusume/skills.json',
       );
       skills.addAll(uniqueSkillList, 'ja');
     } catch (e) {

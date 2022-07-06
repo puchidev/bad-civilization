@@ -43,6 +43,7 @@ export interface UniqueSkill {
 }
 
 export interface SkillEffect {
+  currentSpeed: number;
   duration: number;
   speed?: number;
   acceleration?: number;

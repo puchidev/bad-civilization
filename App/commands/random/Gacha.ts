@@ -89,7 +89,7 @@ const command: CommandConfig = {
     if (!gameName) {
       message.reply(
         `돌릴 가챠를 입력해 줘. 지금은 이런 것들이 가능해. ${bold(
-          database.keys().join(', '),
+          [...database.keys()].join(', '),
         )}.`,
       );
       return;

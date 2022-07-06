@@ -22,7 +22,7 @@ const command: CommandConfig = {
   async prepare() {
     try {
       const uniqueSkillList: UniqueSkill[] = await fetchData(
-        'database/umamusume/unique-skill.json',
+        'database/umamusume/unique-skills.json',
       );
       skills.addAll(uniqueSkillList, 'umamusume');
     } catch (e) {
@@ -100,6 +100,7 @@ function formatEffect(effect: SkillEffect) {
     { key: 'duration', label: '지속시간', unit: 's' },
     { key: 'speed', label: '속도' },
     { key: 'acceleration', label: '가속도' },
+    { key: 'currentSpeed', label: '현재속도' },
     { key: 'movement', label: '레인이동' },
     { key: 'heal', label: '체력회복' },
     { key: 'drain', label: '체력감소' },

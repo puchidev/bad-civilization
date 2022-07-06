@@ -9,7 +9,7 @@
     "condition": "distance_rate>=50&order_rate>=40&order_rate<=70&is_overtake==1"
   },
   {
-    "umamusume": "골드 시티 [축제]",
+    "umamusume": "골드 시티 (축제)",
     "description": ["최종 코너", "30~70% (3~6위)", "몸싸움 2초 이상"],
     "effect": {
       "duration": 5,
@@ -37,7 +37,7 @@
     "condition": "is_finalcorner==1&corner==0&change_order_onetime<0&order>=3"
   },
   {
-    "umamusume": "그래스 원더 [힐러]",
+    "umamusume": "그래스 원더 (힐러)",
     "description": ["중반", "추월당했을 때 40%보다 뒤 (4~9위)"],
     "effect": {
       "duration": 0,
@@ -51,8 +51,8 @@
       "최종 코너 이후",
       "추월했을 때 75% 이내 (2~7위)",
       "자신의 배후 내곽에 말딸이 있음",
-      "중반에 몸싸움 2초 이상 → 스피드 0.45",
-      "중반에 몸싸움 2초 미만 → 스피드 0.35"
+      "중반에 몸싸움 2초 이상 → 속도 0.45",
+      "중반에 몸싸움 2초 미만 → 속도 0.35"
     ],
     "effect": {
       "duration": 5,
@@ -80,7 +80,7 @@
     "condition": "phase>=2&order==3&bashin_diff_behind<=1"
   },
   {
-    "umamusume": "나이스 네이처 [치어리더]",
+    "umamusume": "나이스 네이처 (치어리더)",
     "description": [
       "최종 코너 이후에 1명 추월",
       "최종 직선",
@@ -137,7 +137,7 @@
     "condition": "is_finalcorner==1&corner==0"
   },
   {
-    "umamusume": "라이스 샤워 [할로윈]",
+    "umamusume": "라이스 샤워 (할로윈)",
     "description": [
       "중반",
       "2위~50% (2~5위)",
@@ -161,7 +161,7 @@
     "condition": "is_finalcorner==1&order<=5&order_rate<=50"
   },
   {
-    "umamusume": "마루젠스키 [수영복]",
+    "umamusume": "마루젠스키 (수영복)",
     "description": ["주행거리 50% 이상", "1~3위", "회복 스킬 1회 이상 발동"],
     "effect": {
       "duration": 5,
@@ -180,7 +180,7 @@
     "condition": "is_finalcorner==1&blocked_side_continuetime>=2&order<=3"
   },
   {
-    "umamusume": "마야노 탑건 [웨딩]",
+    "umamusume": "마야노 탑건 (웨딩)",
     "description": [
       "최종 코너",
       "추월했을 때 40% 이내 (1~4위) → 지속 5s, 속도 0.35",
@@ -215,7 +215,7 @@
     "condition": "phase>=2&order>=3&blocked_front==1"
   },
   {
-    "umamusume": "마치카네 후쿠키타루 [풀아머]",
+    "umamusume": "마치카네 후쿠키타루 (풀아머)",
     "description": [
       "주행거리 50% 이상",
       "40%보다 뒤 (4~9위)",
@@ -262,6 +262,19 @@
     "condition": "phase>=2&corner!=0&is_finalcorner==0&temptation_count==0&order_rate>=50&order_rate<=70@phase==1&corner!=0&is_finalcorner==1&temptation_count==0&order_rate>=50&order_rate<=70"
   },
   {
+    "umamusume": "메지로 도베르 (여름)",
+    "description": [
+      "중반, 주행거리 60% 이상 ~ 잔여 500m 이하, 내리막길 주행중",
+      "40~80% 사이 (4~7위)",
+      "잔여 500m"
+    ],
+    "effect": {
+      "duration": 0.5,
+      "speed": 0.35
+    },
+    "condition": "distance_rate>=60&slope==2&phase==1&order_rate>=40&order_rate<=80&remain_distance>=500"
+  },
+  {
     "umamusume": "메지로 라이언",
     "description": ["종반 코너", "65~70% (6위)"],
     "effect": {
@@ -280,11 +293,12 @@
     "condition": "is_finalcorner==1&corner!=0&distance_diff_rate<=30"
   },
   {
-    "umamusume": "메지로 맥퀸 [빙닭]",
+    "umamusume": "메지로 맥퀸 (빙닭)",
     "description": [
       "최종 코너",
       "체력 45% 이하",
-      "3위 이내이거나 50% 이내 (1~5위)",
+      "3위 이내면서 50% 이내 (1~5위)",
+      "뒤와 1마신 이하 차이",
       "1초 이상 추월 대상이 됨"
     ],
     "effect": {
@@ -344,7 +358,7 @@
     "condition": "is_badstart==0&temptation_count==0&order<=3&is_finalcorner==1&corner==0"
   },
   {
-    "umamusume": "미호노 부르봉 [발렌타인]",
+    "umamusume": "미호노 부르봉 (발렌타인)",
     "description": ["중반 코너", "4위 이내 (1~4위)", "뒤와 3마신 이하 차이"],
     "effect": {
       "duration": 5,
@@ -376,7 +390,7 @@
     "condition": "order_rate_in40_continue==1&phase==1&distance_rate>=50&order>=2&order_rate<=40"
   },
   {
-    "umamusume": "비와 하야히데 [크리스마스]",
+    "umamusume": "비와 하야히데 (크리스마스)",
     "description": [
       "주행거리 50% 이상",
       "출발 5초 후부터 40% 이내 (1~4위) 유지",
@@ -446,7 +460,7 @@
     "condition": "phase>=2&corner!=0&order==1"
   },
   {
-    "umamusume": "세이운 스카이 [무도회]",
+    "umamusume": "세이운 스카이 (무도회)",
     "description": [
       "종반 직선",
       "2위 이내 (1~2위)",
@@ -471,7 +485,7 @@
     "condition": "phase_random==1&order>=2&order_rate<=40"
   },
   {
-    "umamusume": "슈퍼 크릭 [할로윈]",
+    "umamusume": "슈퍼 크릭 (할로윈)",
     "description": ["최종 직선", "4위 이내 (2~4위)", "앞과 1마신 이하 차이"],
     "effect": {
       "duration": 5,
@@ -514,7 +528,7 @@
     "condition": "phase>=2&order>=1&order_rate<=50&change_order_onetime<0"
   },
   {
-    "umamusume": "스페셜 위크 [수영복]",
+    "umamusume": "스페셜 위크 (수영복)",
     "description": [
       "중반",
       "2위 이하 또는 70% 이내 (2~6위)",
@@ -536,7 +550,7 @@
     "condition": "is_finalcorner==1&change_order_up_end_after>=3&corner==0"
   },
   {
-    "umamusume": "심볼리 루돌프 [축제]",
+    "umamusume": "심볼리 루돌프 (축제)",
     "description": ["최종 코너", "40% 이내 (1~4위)", "2초 이상 추월 대상이 됨"],
     "effect": {
       "duration": 5,
@@ -622,7 +636,7 @@
     "condition": "is_finalcorner==1&corner!=0&order>=3&change_order_onetime<0"
   },
   {
-    "umamusume": "에어 그루브 [웨딩]",
+    "umamusume": "에어 그루브 (웨딩)",
     "description": ["중반", "3위~50% (3~5위)", "추월 대상이 있음"],
     "effect": {
       "duration": 5,
@@ -640,7 +654,7 @@
     "condition": "is_badstart==0&temptation_count==0&order>=3&is_finalcorner==1&corner==0"
   },
   {
-    "umamusume": "에이신 플래시 [발렌타인]",
+    "umamusume": "에이신 플래시 (발렌타인)",
     "description": ["최종 직선", "최종 코너 이후 3회 이상 추월"],
     "effect": {
       "duration": 5,
@@ -659,7 +673,7 @@
     "condition": "is_finalcorner==1&corner==0&hp_per>=30&order<=2"
   },
   {
-    "umamusume": "엘 콘도르 파사 [몽크]",
+    "umamusume": "엘 콘도르 파사 (몽크)",
     "description": ["최종 코너", "4위~75% (4~7위)", "추월 대상이 있음"],
     "effect": {
       "duration": 4,
@@ -680,7 +694,7 @@
     "condition": "order>=2&order<=5&order_rate<=50&remain_distance<=201&remain_distance>=199"
   },
   {
-    "umamusume": "오구리 캡 [크리스마스]",
+    "umamusume": "오구리 캡 (크리스마스)",
     "description": ["주행거리 50% 이상", "회복 스킬 3회 이상 발동"],
     "effect": {
       "duration": 5,
@@ -774,7 +788,7 @@
     "condition": "temptation_count==0&remain_distance<=201&remain_distance>=199&order>=4&order_rate<=70"
   },
   {
-    "umamusume": "킹 헤일로 [치어리더]",
+    "umamusume": "킹 헤일로 (치어리더)",
     "description": [
       "주행거리 50% 지점까지 70% 이하(6~9위) 유지, 흥분 X",
       "최종 직선"
@@ -810,6 +824,24 @@
     "condition": "is_finalcorner_laterhalf==1&corner!=0&order>=3&order_rate<=40"
   },
   {
+    "umamusume": "타이키 셔틀 (여름)",
+    "description": [
+      "잔여거리 199~201m",
+      "2위~40% (2~4위)",
+      "선두와 5m 이하 차이 → 현재속도 0.15 상승",
+      "선두와 5m 초과 차이 → 현재속도 상승 없음"
+    ],
+    "effect": {
+      "duration": 5,
+      "speed": 0.35,
+      "currentSpeed": 0.15
+    },
+    "condition": [
+      "distance_diff_top<=5&order>=2&order_rate<=40&remain_distance<=201&remain_distance>=199",
+      "order>=2&order_rate<=40&remain_distance<=201&remain_distance>=199"
+    ]
+  },
+  {
     "umamusume": "토센 조던",
     "description": [
       "최종 직선",
@@ -837,7 +869,7 @@
     "condition": "is_finalcorner==1&corner==0&order<=3&bashin_diff_infront<=1&is_overtake==1"
   },
   {
-    "umamusume": "토카이 테이오 [불닭]",
+    "umamusume": "토카이 테이오 (불닭)",
     "description": [
       "최종 직선",
       "최종 코너 이후에 추월 대상이 있음",
@@ -865,7 +897,7 @@
     "condition": "is_finalcorner==1,&bashin_diff_behind<=1&order<=4@is_finalcorner==1&bashin_diff_infront<=1&order<=4"
   },
   {
-    "umamusume": "티엠 오페라 오 [신년]",
+    "umamusume": "티엠 오페라 오 (신년)",
     "description": [
       "잔여거리 399~401m",
       "40% 이내 (1~4위)",
@@ -921,7 +953,7 @@
     "condition": "is_finalcorner==1&corner!=0&order_rate>50&near_count>=1"
   },
   {
-    "umamusume": "하루우라라 [신년]",
+    "umamusume": "하루우라라 (신년)",
     "description": [
       "최종 코너",
       "선두와 7m 이상 차이",
@@ -948,7 +980,7 @@
     "condition": "is_finalcorner==1&corner==0&order_rate<=30&behind_near_lane_time_set1>=1"
   },
   {
-    "umamusume": "후지 키세키 [무도회]",
+    "umamusume": "후지 키세키 (무도회)",
     "description": ["최종 코너", "추월했을 때 40% 이내 (1~4위)"],
     "effect": {
       "duration": 4,

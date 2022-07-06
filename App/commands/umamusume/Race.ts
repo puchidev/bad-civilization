@@ -23,8 +23,8 @@ const command: CommandConfig = {
   async prepare() {
     try {
       const promises = [
-        'database/umamusume/race.json',
-        'database/umamusume/racetrack.json',
+        'database/umamusume/races.json',
+        'database/umamusume/racetracks.json',
       ].map((path) => fetchData(path));
 
       const [raceList, raceTrackList] = await Promise.all(promises);

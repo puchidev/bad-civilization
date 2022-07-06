@@ -14,7 +14,7 @@ const command: CommandConfig = {
   async prepare() {
     try {
       const umamusumeList: Umamusume[] = await fetchData(
-        'database/umamusume/umamusume.json',
+        'database/umamusume/uma-musumes.json',
       );
       umamusume.addAll(umamusumeList, 'name');
     } catch (e) {

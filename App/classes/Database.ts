@@ -15,6 +15,11 @@ class Database<V extends Record<string, any>> extends Collection<string, V> {
    */
   public add(record: V, idKey: keyof V) {
     const key = record[idKey];
+
+    if (this.has(key)) {
+      throw new Error(`Duplicate database key: ${key}`);
+    }
+
     this.set(key, record);
   }
 
@@ -27,21 +32,31 @@ class Database<V extends Record<string, any>> extends Collection<string, V> {
     records.forEach((record) => this.add(record, idKey));
   }
 
+  public search(keyword: string): { match: V | null; suggestions?: string[] };
+  public search(
+    keyword: string,
+    options: { all: boolean },
+  ): { match: NonNullable<V>[] };
   /**
    * Finds all records in database that match the given keyword(s).
    * @example
    *  key `foo` matches `foo`, `fooo`, `foox`, `afoo`, etc.
    *  key `foo bar` matches `foo bar` `bar foo` ` afoo bbar ` ` xbar yfoo`
-   * @param keywordOrKeywords a single search keyword, or multiple keywords seperated by spaces
+   * @param keyword a single search keyword, or multiple keywords seperated by spaces
+   * @param options operation configuration
+   * @param options.all return all matches instead of the best matchf
    * @returns found records
    */
-  public search(keywordOrKeywords: string) {
+  public search(
+    keyword: string,
+    options: { all?: boolean } = {},
+  ): { match: V | null; suggestions?: string[] } | { match: NonNullable<V>[] } {
     const allKeys = [...this.keys()];
-    const _keywordOrKeywords = keywordOrKeywords.trim();
-    const isMultiple = _keywordOrKeywords.includes(' ');
+    const _keyword = keyword.trim();
+    const isMultiple = _keyword.includes(' ');
 
-    if (!isMultiple && this.has(_keywordOrKeywords)) {
-      const exactMatch = this.get(_keywordOrKeywords)!;
+    if (!isMultiple && this.has(_keyword)) {
+      const exactMatch = this.get(_keyword)!;
       return { match: exactMatch };
     }
 
@@ -50,11 +65,11 @@ class Database<V extends Record<string, any>> extends Collection<string, V> {
     // `foo bar baz` -> /^(?=.*foo)(?=.*bar)(?=.*baz).*$/i
     const pattern = new RegExp(
       isMultiple
-        ? `^${_keywordOrKeywords
+        ? `^${_keyword
             .split(/ /g)
             .map((word) => `(?=.*${word})`)
             .join('')}.*$`
-        : _keywordOrKeywords,
+        : _keyword,
       'i',
     );
     const matchingKeys = allKeys.filter((key) => pattern.test(key));
@@ -63,13 +78,12 @@ class Database<V extends Record<string, any>> extends Collection<string, V> {
       return { match: null };
     }
 
-    if (matchingKeys.length === 1) {
-      const key = matchingKeys[0];
-      const match = this.get(key) ?? null;
-      return { match };
+    if (options.all) {
+      const matchingValues = matchingKeys.map((key) => this.get(key)!);
+      return { match: matchingValues };
     }
 
-    const { bestMatchIndex } = findBestMatch(_keywordOrKeywords, matchingKeys);
+    const { bestMatchIndex } = findBestMatch(_keyword, matchingKeys);
     const bestMatchKey = matchingKeys[bestMatchIndex];
     const bestMatchValue = this.get(bestMatchKey)!;
     const suggestions = matchingKeys.filter((key) => key !== bestMatchKey);

@@ -8,6 +8,7 @@ import type {
   Collection,
   CommandInteraction,
   Message,
+  Snowflake,
 } from 'discord.js';
 
 import type { MaybePromise, PartialBy } from './utils';
@@ -23,6 +24,7 @@ export interface AutocompleteOption {
 
 export interface CommandConfig {
   readonly data: SlashCommandData;
+  readonly guilds?: Snowflake[];
   readonly autocomplete?: (
     interaction: AutocompleteInteraction,
   ) => MaybePromise<ApplicationCommandOptionChoiceData[]>;

@@ -1,3 +1,5 @@
+import 'dayjs/locale/ko';
+import dayjs from 'dayjs';
 import dotenv from 'dotenv';
 import { Bot } from './classes';
 import { logger } from './devtools';
@@ -21,6 +23,8 @@ async function main() {
   process.on('unhandledRejection', (reason) => {
     logger.warn(`Node unhandled rejection: ${reason}`);
   });
+
+  dayjs.locale('ko');
 
   try {
     new Bot().init();
