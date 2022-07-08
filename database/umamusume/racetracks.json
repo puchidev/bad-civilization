@@ -4,19 +4,28 @@
     "racetrack": "츄쿄",
     "terrain": "더트",
     "length": 1800,
+    "direction": "좌",
     "map": "https://i.imgur.com/KKVZhR1.png",
-    "course": {
-      "straight": "0-300,670-1070",
-      "corner": "300-670,1070-1210",
-      "finalCorner": "1210-1390",
-      "finalStraight": "1390-1800",
-      "uphill": "0-170,1410-1580",
-      "downhill": "830-1400",
-      "openingLeg": "0-300",
-      "middleLeg": "300-1200",
-      "finalLeg": "1200-1800"
-    },
-    "statusRef": null
+    "legs": [
+      { "type": "opening", "from": 0, "to": 300 },
+      { "type": "middle", "from": 300, "to": 1200 },
+      { "type": "final", "from": 1200, "to": 1800 }
+    ],
+    "slopes": [
+      { "type": "uphill", "from": 0, "to": 50 },
+      { "type": "downhill", "from": 825, "to": 1425 },
+      { "type": "uphill", "from": 1425, "to": 1575 }
+    ],
+    "segments": [
+      { "type": "straight", "from": 0, "to": 270 },
+      { "type": "corner", "from": 270, "to": 435 },
+      { "type": "corner", "from": 435, "to": 600 },
+      { "type": "straight", "from": 600, "to": 1000 },
+      { "type": "corner", "from": 1000, "to": 1200 },
+      { "type": "corner", "from": 1200, "to": 1400 },
+      { "type": "straight", "from": 1400, "to": 1800 }
+    ],
+    "statusRef": ["스태미너"]
   },
   {
     "id": "chukyo-turf-1200",

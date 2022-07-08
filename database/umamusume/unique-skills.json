@@ -302,7 +302,7 @@
       "1초 이상 추월 대상이 됨"
     ],
     "effect": {
-      "duration": 5,
+      "duration": 6,
       "speed": 0.35
     },
     "condition": "is_finalcorner==1&hp_per<=45&order<=3&order_rate<=50&bashin_diff_behind<=1&overtake_target_time>=1"

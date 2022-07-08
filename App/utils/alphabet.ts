@@ -10,7 +10,7 @@ function getAlphabetOffset(letter: string) {
     throw new Error('Requires an alphabetical letter.');
   }
 
-  return code - 64;
+  return code - 65;
 }
 
 export { getAlphabetOffset };
