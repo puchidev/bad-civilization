@@ -16,7 +16,7 @@ const command: CommandConfig = {
       .random();
 
     if (!character) {
-      interaction.reply(`우마무스메 데이터를 찾지 못했어…`);
+      interaction.reply('우마무스메 데이터를 찾지 못했어…');
       return;
     }
 
@@ -35,7 +35,7 @@ const command: CommandConfig = {
       .random();
 
     if (!character) {
-      message.reply(`우마무스메 데이터를 찾지 못했어…`);
+      message.reply('우마무스메 데이터를 찾지 못했어…');
       return;
     }
 

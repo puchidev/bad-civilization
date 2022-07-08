@@ -158,6 +158,14 @@ class Bot extends Client {
         return;
       }
 
+      if (
+        command.guilds &&
+        message.guildId &&
+        !command.guilds.includes(message.guildId)
+      ) {
+        return;
+      }
+
       if (!command.respond) {
         logger.error(`No respond handler found for: ${commandName}`);
         message.reply(`${commandName} 명령을 수행하지 못했어…`);
@@ -179,6 +187,14 @@ class Bot extends Client {
       const command = this.commands.get(commandName);
 
       if (!command) {
+        return;
+      }
+
+      if (
+        command.guilds &&
+        interaction.guildId &&
+        !command.guilds.includes(interaction.guildId)
+      ) {
         return;
       }
 
