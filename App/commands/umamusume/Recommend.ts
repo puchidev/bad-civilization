@@ -3,8 +3,8 @@ import { MessageEmbed } from 'discord.js';
 
 import type { CommandConfig } from '#App/models';
 import { endsWithJongSeong, getAlphabetOffset, random } from '#App/utils';
-import type { Umamusume } from './types';
-import { umamusume } from './database';
+import type { Umamusume } from './partials/types';
+import { umamusume } from './partials/database';
 
 const command: CommandConfig = {
   data: new SlashCommandBuilder()

@@ -2,7 +2,7 @@ import { RuntimeDatabase } from '#App/classes';
 import { fetchData } from '#App/utils';
 import type {
   Pickup,
-  PickupRawData,
+  PickupRef,
   Race,
   RaceTrack,
   Skill,
@@ -15,8 +15,9 @@ export const races = new RuntimeDatabase<Race>();
 export const raceTracks = new RuntimeDatabase<RaceTrack>();
 export const skills = new RuntimeDatabase<Skill>();
 export const uniqueSkills = new RuntimeDatabase<UniqueSkill>();
-export const umamusumePickups = new RuntimeDatabase<Pickup>();
-export const supportPickups = new RuntimeDatabase<Pickup>();
+
+export const pickups = new RuntimeDatabase<Pickup>();
+export const pickupRefs = new RuntimeDatabase<PickupRef>();
 
 /** Load umamusume data */
 async function loadUmamusumes() {
@@ -78,32 +79,33 @@ async function loadUniqueSkills() {
 /** Load skill data */
 async function loadPickups() {
   try {
-    const pickupList: PickupRawData[] = await fetchData(
+    const pickupList: Pickup[] = await fetchData(
       'database/umamusume/pickups.json',
     );
 
-    pickupList.forEach(
-      ({ since, until, sinceKR, untilKR, umamusume, support }) => {
-        const umamusumeKey = umamusume.slice().join(' ');
-        const supportKey = support.slice().join(' ');
+    pickupList.forEach((pickup) => {
+      const { since, umamusume: umamusumeList, support: supportList } = pickup;
 
-        umamusumePickups.set(umamusumeKey, {
-          since,
-          until,
-          sinceKR,
-          untilKR,
-          members: umamusume,
-        });
+      pickups.set(since, pickup);
 
-        supportPickups.set(supportKey, {
-          since,
-          until,
-          sinceKR,
-          untilKR,
-          members: support,
-        });
-      },
-    );
+      umamusumeList.forEach((umamusume) => {
+        const ref = pickupRefs.get(umamusume) ?? {
+          type: '말',
+          pickupIds: new Set(),
+        };
+        ref.pickupIds.add(since);
+        pickupRefs.set(umamusume, ref);
+      });
+
+      supportList.forEach((support) => {
+        const ref = pickupRefs.get(support) ?? {
+          type: '서폿',
+          pickupIds: new Set(),
+        };
+        ref.pickupIds.add(since);
+        pickupRefs.set(support, ref);
+      });
+    });
   } catch (e) {
     console.debug(e);
     console.error('Failed to establish umamusume pickup list.');

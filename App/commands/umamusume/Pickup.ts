@@ -5,9 +5,8 @@ import dedent from 'dedent';
 import { MessageEmbed } from 'discord.js';
 
 import type { CommandConfig } from '#App/models';
-import { endsWithJongSeong } from '#App/utils';
-import { supportPickups, umamusumePickups } from './database';
-import type { Pickup } from './types';
+import { pickupRefs, pickups } from './partials/database';
+import type { Pickup } from './partials/types';
 
 const SERVICE_START_JAPAN = '2021-02-24';
 const SERVICE_START_KOREA = '2022-06-20';
@@ -45,24 +44,32 @@ const command: CommandConfig = {
     ),
   async interact(interaction) {
     const subcommand = interaction.options.getSubcommand();
-    const name = interaction.options.getString('이름', true);
+    const keyword = interaction.options.getString('이름', true);
 
-    await interaction.reply(
-      `'${name}'${endsWithJongSeong(name) ? '으' : ''}로 픽업을 검색할게.`,
-    );
+    const { match: matchingRef, suggestions } = pickupRefs.search(keyword, {
+      test: (record) => record.type === subcommand,
+    });
 
-    const { match } =
-      subcommand === '말'
-        ? umamusumePickups.search(name, { all: true })
-        : supportPickups.search(name, { all: true });
-
-    if (!match) {
+    if (!matchingRef) {
       interaction.followUp('아무 것도 찾지 못했어…');
       return;
     }
 
-    const embed = createResultEmbed(match, subcommand);
-    interaction.channel?.send({ embeds: [embed] });
+    const match = [
+      ...pickups
+        .filter((_pickup, key) => matchingRef.pickupIds.has(key))
+        .values(),
+    ];
+
+    interaction.followUp({
+      embeds: [
+        createResultEmbed({
+          pickups: match,
+          category: subcommand,
+          suggestions,
+        }),
+      ],
+    });
   },
   async respond(message, [subcommand, ...keywords]) {
     if (!/^(?:말|서폿)$/.test(subcommand)) {
@@ -76,30 +83,51 @@ const command: CommandConfig = {
     }
 
     const keyword = keywords.join(' ');
-    const { match } =
-      subcommand === '말'
-        ? umamusumePickups.search(keyword, { all: true })
-        : supportPickups.search(keyword, { all: true });
 
-    if (!match) {
+    const { match: matchingRef, suggestions } = pickupRefs.search(keyword, {
+      test: (record) => record.type === subcommand,
+    });
+
+    if (!matchingRef) {
       message.reply('아무 것도 찾지 못했어…');
       return;
     }
 
-    const embed = createResultEmbed(match, subcommand);
-    message.reply({ embeds: [embed] });
+    const match = [
+      ...pickups
+        .filter((_pickup, key) => matchingRef.pickupIds.has(key))
+        .values(),
+    ];
+
+    message.reply({
+      embeds: [
+        createResultEmbed({
+          pickups: match,
+          category: subcommand,
+          suggestions,
+        }),
+      ],
+    });
   },
 };
 
 /**
  * Generate a human friendly text describing the pickup gacha passed.
- * @param pickups list of pickup gacha
- * @param category pickup category
+ * @param options option object
+ * @param options.pickups list of pickup gacha
+ * @param options.category pickup category
+ * @param options.suggestions other search result that the user might want
  * @returns formatted gacha pickup
  */
-function createResultEmbed(pickups: Pickup[], category: string) {
+function createResultEmbed(options: {
+  pickups: Pickup[];
+  category: string;
+  suggestions?: string[];
+}) {
+  const { pickups, category, suggestions } = options;
+
   const fields = pickups.map((pickup) => {
-    const { since, until, sinceKR, untilKR, members } = pickup;
+    const { since, until, sinceKR, untilKR, umamusume, support } = pickup;
 
     const sinceDate = dayjs(since);
     const untilDate = dayjs(until);
@@ -119,7 +147,7 @@ function createResultEmbed(pickups: Pickup[], category: string) {
       untilDateKR.format(DATE_OUTPUT_FORMAT),
     ].join(' ~ ');
 
-    const name = members.join('\n');
+    const name = (category === '말' ? umamusume : support).join('\n');
     const value = dedent`
       🇯🇵 ${period}
       🇰🇷 ${periodKR}
@@ -131,6 +159,10 @@ function createResultEmbed(pickups: Pickup[], category: string) {
   const embed = new MessageEmbed()
     .setTitle(`${category} 픽업 정보`)
     .addFields(fields);
+
+  if (suggestions) {
+    embed.setFooter({ text: `유사한 검색어: ${suggestions.join(', ')}` });
+  }
 
   return embed;
 }

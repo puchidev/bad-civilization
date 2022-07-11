@@ -1,9 +1,7 @@
 import { bold, SlashCommandBuilder } from '@discordjs/builders';
-import dedent from 'dedent';
 
 import type { CommandConfig } from '#App/models';
-import { endsWithJongSeong } from '#App/utils';
-import { skills } from './database';
+import { skills } from './partials/database';
 
 const command: CommandConfig = {
   data: new SlashCommandBuilder()
@@ -17,28 +15,20 @@ const command: CommandConfig = {
     ),
   async interact(interaction) {
     const uma = interaction.options.getString('스킬명', true);
-
-    await interaction.reply(
-      `'${uma}'${endsWithJongSeong(uma) ? '으' : ''}로 스킬을 검색할게.`,
-    );
-
     const { match, suggestions } = skills.search(uma);
 
     if (!match) {
-      interaction.followUp('아무 것도 찾지 못했어…');
+      interaction.reply('아무 것도 찾지 못했어…');
       return;
     }
 
+    let result = `일본어: ${bold(match.ja)} | 한국어: ${bold(match.ko)}`;
+
     if (suggestions) {
-      await interaction.followUp(dedent`
-        찾는 건 ${bold(match.ja)}일까?
-        다른 검색결과: ||${suggestions.join(', ')}||
-      `);
+      result += `\n유사한 검색어: ${suggestions.join(', ')}`;
     }
 
-    interaction.followUp(
-      `일본어: ${bold(match.ja)} | 한국어: ${bold(match.ko)}`,
-    );
+    interaction.reply(result);
   },
   async respond(message, keywords) {
     if (keywords.length === 0) {
@@ -53,14 +43,13 @@ const command: CommandConfig = {
       return;
     }
 
+    let result = `일본어: ${bold(match.ja)} | 한국어: ${bold(match.ko)}`;
+
     if (suggestions) {
-      await message.reply(dedent`
-        찾는 건 ${bold(match.ja)}일까?
-        다른 검색결과: ||${suggestions.join(', ')}||
-      `);
+      result += `\n유사한 검색어: ${suggestions.join(', ')}`;
     }
 
-    message.reply(`일본어: ${bold(match.ja)} | 한국어: ${bold(match.ko)}`);
+    message.reply(result);
   },
 };
 

@@ -74,11 +74,14 @@ interface PickupPeriod {
   untilKR?: string;
 }
 
-export interface PickupRawData extends PickupPeriod {
-  umamusume: string[];
-  support: string[];
+export type PickupType = '말' | '서폿';
+
+export interface PickupRef {
+  type: PickupType;
+  pickupIds: Set<string>;
 }
 
 export interface Pickup extends PickupPeriod {
-  members: string[];
+  umamusume: string[];
+  support: string[];
 }

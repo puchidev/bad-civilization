@@ -2,7 +2,7 @@ import { bold, SlashCommandBuilder } from '@discordjs/builders';
 
 import type { CommandConfig } from '#App/models';
 import { endsWithJongSeong, getLocalDate } from '#App/utils';
-import { umamusume } from './database';
+import { umamusume } from './partials/database';
 
 const command: CommandConfig = {
   data: new SlashCommandBuilder()

@@ -3,9 +3,8 @@ import dedent from 'dedent';
 import { MessageEmbed } from 'discord.js';
 
 import type { CommandConfig } from '#App/models';
-import { endsWithJongSeong } from '#App/utils';
-import { races, raceTracks } from './database';
-import type { Race, RaceTrack } from './types';
+import { races, raceTracks } from './partials/database';
+import type { Race, RaceTrack } from './partials/types';
 
 const command: CommandConfig = {
   data: new SlashCommandBuilder()
@@ -19,23 +18,11 @@ const command: CommandConfig = {
     ),
   async interact(interaction) {
     const name = interaction.options.getString('이름', true);
-
-    await interaction.reply(
-      `'${name}'${endsWithJongSeong(name) ? '으' : ''}로 레이스를 검색할게.`,
-    );
-
     const { match: matchingRace, suggestions } = races.search(name);
 
     if (!matchingRace) {
       interaction.followUp('아무 것도 찾지 못했어…');
       return;
-    }
-
-    if (suggestions) {
-      await interaction.followUp(dedent`
-        찾는 건 ${bold(matchingRace.name)}일까?
-        다른 검색결과: ||${suggestions.join(', ')}||
-      `);
     }
 
     const matchingTrack = raceTracks.get(matchingRace.trackId);
@@ -44,11 +31,15 @@ const command: CommandConfig = {
       throw new Error(`No matching race track of id: ${matchingRace.trackId}`);
     }
 
-    const embed = createResultEmbed({
-      race: matchingRace,
-      track: matchingTrack,
+    interaction.followUp({
+      embeds: [
+        createResultEmbed({
+          race: matchingRace,
+          track: matchingTrack,
+          suggestions,
+        }),
+      ],
     });
-    interaction.channel?.send({ embeds: [embed] });
   },
   async respond(message, keywords) {
     const { match: matchingRace, suggestions } = races.search(
@@ -73,13 +64,46 @@ const command: CommandConfig = {
       throw new Error(`No matching race track of id: ${matchingRace.trackId}`);
     }
 
-    const embed = createResultEmbed({
-      race: matchingRace,
-      track: matchingTrack,
+    message.reply({
+      embeds: [
+        createResultEmbed({
+          race: matchingRace,
+          track: matchingTrack,
+        }),
+      ],
     });
-    message.reply({ embeds: [embed] });
   },
 };
+
+/**
+ * Creates a message embed containing information about the found race.
+ * @param options option object
+ * @param options.race race
+ * @param options.track race track
+ * @param options.suggestions other search result that the user might want
+ * @returns created message embed
+ */
+function createResultEmbed(options: {
+  race: Race;
+  track: RaceTrack;
+  suggestions?: string[] | null;
+}) {
+  const { race, track, suggestions } = options;
+
+  const embed = new MessageEmbed()
+    .setTitle(`${race.name} 경기장 정보`)
+    .addFields(
+      { name: '기본정보', value: formatBasicInfo(track) },
+      { name: '코스', value: formatCourseInfo(track) },
+    )
+    .setImage(track.map);
+
+  if (suggestions) {
+    embed.setFooter({ text: `유사한 검색어: ${suggestions.join(', ')}` });
+  }
+
+  return embed;
+}
 
 /**
  * Transforms a race track length to human-readable text.
@@ -165,25 +189,6 @@ function formatCourseRange(ranges: string | null) {
     .split(',')
     .map((range) => `${range}m`)
     .join(', ');
-}
-
-/**
- * Creates a message embed containing information about the found race.
- * @param option option object
- * @param option.race race
- * @param option.track race track
- * @returns created message embed
- */
-function createResultEmbed({ race, track }: { race: Race; track: RaceTrack }) {
-  const embed = new MessageEmbed()
-    .setTitle(`${race.name} 경기장 정보`)
-    .addFields(
-      { name: '기본정보', value: formatBasicInfo(track) },
-      { name: '코스', value: formatCourseInfo(track) },
-    )
-    .setImage(track.map);
-
-  return embed;
 }
 
 export default command;

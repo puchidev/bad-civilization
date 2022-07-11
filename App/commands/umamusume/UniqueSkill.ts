@@ -1,11 +1,9 @@
-import { bold, SlashCommandBuilder } from '@discordjs/builders';
-import dedent from 'dedent';
+import { SlashCommandBuilder } from '@discordjs/builders';
 import { MessageEmbed } from 'discord.js';
 
 import type { CommandConfig } from '#App/models';
-import { endsWithJongSeong } from '#App/utils';
-import { uniqueSkills } from './database';
-import type { UniqueSkill, SkillEffect } from './types';
+import { uniqueSkills } from './partials/database';
+import type { UniqueSkill, SkillEffect } from './partials/types';
 
 const command: CommandConfig = {
   data: new SlashCommandBuilder()
@@ -20,26 +18,16 @@ const command: CommandConfig = {
   async interact(interaction) {
     const uma = interaction.options.getString('말딸', true);
 
-    await interaction.reply(
-      `'${uma}'${endsWithJongSeong(uma) ? '으' : ''}로 고유 스킬을 검색할게.`,
-    );
-
     const { match, suggestions } = uniqueSkills.search(uma);
 
     if (!match) {
-      interaction.followUp('아무 것도 찾지 못했어…');
+      interaction.reply({ content: '아무 것도 찾지 못했어…' });
       return;
     }
 
-    if (suggestions) {
-      await interaction.followUp(dedent`
-        찾는 건 ${bold(match.umamusume)}일까?
-        다른 검색결과: ||${suggestions.join(', ')}||
-      `);
-    }
-
-    const embed = createResultEmbed(match);
-    interaction.channel?.send({ embeds: [embed] });
+    interaction.reply({
+      embeds: [createResultEmbed(match, suggestions)],
+    });
   },
   async respond(message, keywords) {
     if (keywords.length === 0) {
@@ -56,15 +44,9 @@ const command: CommandConfig = {
       return;
     }
 
-    if (suggestions) {
-      await message.reply(dedent`
-        찾는 건 ${bold(match.umamusume)}일까?
-        다른 검색결과: ||${suggestions.join(', ')}||
-      `);
-    }
-
-    const embed = createResultEmbed(match);
-    message.reply({ embeds: [embed] });
+    message.reply({
+      embeds: [createResultEmbed(match, suggestions)],
+    });
   },
 };
 
@@ -114,25 +96,32 @@ function formatEffect(effect: SkillEffect) {
 /**
  * Creates a message embed containing information about the found race.
  * @param skill found skill
+ * @param suggestions other search result that the user might want
  * @returns created message embed
  */
-function createResultEmbed(skill: UniqueSkill) {
+function createResultEmbed(skill: UniqueSkill, suggestions?: string[] | null) {
   const { umamusume, description, effect, precondition, condition } = skill;
 
-  const embed = new MessageEmbed()
-    .setTitle(`${umamusume}의 고유 스킬`)
-    .setDescription(description.join('\n'))
+  const embed = new MessageEmbed().setTitle(`${umamusume}의 고유 스킬`);
+
+  if (suggestions) {
+    embed.setFooter({ text: `유사한 검색어: ${suggestions.join(', ')}` });
+  }
+
+  embed
+    .addField('발동조건', description.join('\n'))
     .addField('효과', formatEffect(effect));
 
   if (precondition) {
     embed.addField('전제조건식', beautifyCondition(precondition));
   }
 
-  if (Array.isArray(condition)) {
-    embed.addField('조건식', condition.map(beautifyCondition).join('\nOR\n'));
-  } else {
-    embed.addField('조건식', beautifyCondition(condition));
-  }
+  embed.addField(
+    '조건식',
+    Array.isArray(condition)
+      ? condition.map(beautifyCondition).join('\nOR\n')
+      : beautifyCondition(condition),
+  );
 
   return embed;
 }
