@@ -1,10 +1,9 @@
 import { SlashCommandBuilder } from '@discordjs/builders';
-import dedent from 'dedent';
 import { MessageEmbed } from 'discord.js';
 
 import type { CommandConfig } from '#App/models';
 import { races, raceTracks } from './partials/database';
-import type { RaceTrack } from './partials/types';
+import type { RaceTrackRange } from './partials/types';
 
 const command: CommandConfig = {
   data: new SlashCommandBuilder()
@@ -34,11 +33,25 @@ const command: CommandConfig = {
       throw new Error(`No matching race track of id: ${race.trackId}`);
     }
 
+    const trackInfo = [
+      track.racetrack,
+      track.terrain,
+      `${track.length}m (${getLengthType(track.length)})`,
+      `${[track.direction, track.course].join(', ')}`,
+      `${track.statusRef ? track.statusRef.join(', ') + ' 보정' : '무보정'}`,
+    ].join(' | ');
+
+    const legs = track.legs.map(formatRange).join('\n');
+    const slopes = track.slopes.map(formatRange).join('\n');
+    const segments = track.segments.map(formatRange).join('\n');
+
     const embed = new MessageEmbed()
       .setTitle(`${race.name} 경기장 정보`)
+      .setDescription(trackInfo)
       .addFields(
-        { name: '기본정보', value: formatBasicInfo(track) },
-        { name: '코스', value: formatCourseInfo(track) },
+        { name: '구분', value: legs },
+        { name: '언덕', value: slopes },
+        { name: '시퀀스', value: segments },
       )
       .setImage(track.map);
 
@@ -79,71 +92,12 @@ function getLengthType(length: number) {
 }
 
 /**
- * Creates basic info text of a race track.
- * @param track information about the track
- * @returns basic information text
+ * Transforms a track range to human-readable text.
+ * @param range course range object
+ * @returns human-readable range string
  */
-function formatBasicInfo(track: RaceTrack) {
-  const { racetrack, statusRef, terrain, length } = track;
-  const lengthType = getLengthType(length);
-  let output = `${racetrack} | ${terrain} | ${length}m (${lengthType})`;
-
-  if (statusRef) {
-    output += ` | ${statusRef.join(', ')} 보정`;
-  }
-
-  return output;
-}
-
-/**
- * Creates detailed course info text of a race track.
- * @param track information about the track
- * @returns course information text
- */
-function formatCourseInfo(track: RaceTrack) {
-  const {
-    course: {
-      straight,
-      corner,
-      finalCorner,
-      finalStraight,
-      uphill,
-      downhill,
-      openingLeg,
-      middleLeg,
-      finalLeg,
-    },
-  } = track;
-
-  const output = dedent`
-    직선 — ${formatCourseRange(straight)}
-    코너 — ${formatCourseRange(corner)}
-    최종 코너 — ${formatCourseRange(finalCorner)}
-    최종 직선 — ${formatCourseRange(finalStraight)}
-    오르막 — ${formatCourseRange(uphill)}
-    내리막 — ${formatCourseRange(downhill)}
-    초반 — ${formatCourseRange(openingLeg)}
-    중반 — ${formatCourseRange(middleLeg)}
-    종반 — ${formatCourseRange(finalLeg)}
-  `.trim();
-
-  return output;
-}
-
-/**
- * Reformats a string representing course range(s) to be more readable.
- * @param ranges a course range or multiple ranges (or nothing if non-existant)
- * @returns formatted range
- */
-function formatCourseRange(ranges: string | null) {
-  if (!ranges) {
-    return '없음';
-  }
-
-  return ranges
-    .split(',')
-    .map((range) => `${range}m`)
-    .join(', ');
+function formatRange(range: RaceTrackRange) {
+  return `${range.type} ― ${range.from}~${range.to}m`;
 }
 
 export default command;
