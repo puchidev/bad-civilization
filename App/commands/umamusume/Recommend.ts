@@ -10,43 +10,35 @@ const command: CommandConfig = {
   data: new SlashCommandBuilder()
     .setName('뭐키우지')
     .setDescription('키울 만한 말딸을 추천해줘'),
-  async interact(interaction) {
+  async execute() {
     const character = umamusume
       .filter((uma) => uma.implemented !== false)
       .random();
 
     if (!character) {
-      interaction.reply('우마무스메 데이터를 찾지 못했어…');
-      return;
+      return '말딸 데이터를 찾지 못했어…';
     }
 
     const aptitude = generateAptitude(character.aptitude);
     const sample = `${aptitude} ${bold(character.name)}`;
-    const embed = createAptitudeEmbed(character);
 
-    interaction.reply(
-      `${sample}${endsWithJongSeong(character.name) ? '은' : '는'} 어때?`,
-    );
-    interaction.channel?.send({ embeds: [embed] });
-  },
-  async respond(message) {
-    const character = umamusume
-      .filter((uma) => uma.implemented !== false)
-      .random();
+    const [a, b, c, d, e, f, g, h, i, j] = character.aptitude;
 
-    if (!character) {
-      message.reply('우마무스메 데이터를 찾지 못했어…');
-      return;
-    }
+    const aptitudeTemplate = `
+    잔디 ${a} 더트 ${b}
+    단거리 ${c} 마일 ${d} 중거리 ${e} 장거리 ${f}
+    도주 ${g} 선행 ${h} 선입 ${i} 추입 ${j}
+  `;
 
-    const aptitude = generateAptitude(character.aptitude);
-    const sample = `${aptitude} ${bold(character.name)}`;
-    const embed = createAptitudeEmbed(character);
+    const embed = new MessageEmbed()
+      .setTitle(`${character.name}의 적성`)
+      .setDescription(aptitudeTemplate);
 
-    message.reply(
-      `${sample}${endsWithJongSeong(character.name) ? '은' : '는'} 어때?`,
-    );
-    message.channel.send({ embeds: [embed] });
+    const message = `${sample}${
+      endsWithJongSeong(character.name) ? '은' : '는'
+    } 어때?`;
+
+    return { content: message, embeds: [embed] };
   },
 };
 
@@ -111,27 +103,6 @@ function getRequiredFactors(rank: string) {
   const offset = getAlphabetOffset(rank);
   const factors = offset === 0 ? 0 : (offset - 1) * 3 + 1;
   return factors;
-}
-
-/**
- * Generate visually accessible aptitude map of given umamusume.
- * @param umamusume the uma musume
- * @returns umamusume's aptitude map
- */
-function createAptitudeEmbed(umamusume: Umamusume) {
-  const [a, b, c, d, e, f, g, h, i, j] = umamusume.aptitude;
-
-  const aptitudeTemplate = `
-    잔디 ${a} 더트 ${b}
-    단거리 ${c} 마일 ${d} 중거리 ${e} 장거리 ${f}
-    도주 ${g} 선행 ${h} 선입 ${i} 추입 ${j}
-  `;
-
-  const embed = new MessageEmbed()
-    .setTitle(`${umamusume.name}의 적성`)
-    .setDescription(aptitudeTemplate);
-
-  return embed;
 }
 
 export default command;

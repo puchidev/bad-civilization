@@ -7,45 +7,33 @@ import { umamusume } from './partials/database';
 const command: CommandConfig = {
   data: new SlashCommandBuilder()
     .setName('애마')
-    .setDescription('오늘의 오레노 아이바는? (매일 바뀜)'),
-  async interact(interaction) {
-    const username = interaction.user.username;
-    const myUmamusume = getDailyUmamusumeFor(username);
+    .setDescription('오늘의 오레노 아이바는? (매일 자정에 바뀜)'),
+  async execute({ requestor }) {
+    if (!requestor) {
+      throw new Error(`Unable to find requestor information.`);
+    }
 
-    await interaction.reply(
-      `오늘 ${bold(username)} 트레이너님의 애마는 ${bold(myUmamusume.name)}${
-        endsWithJongSeong(myUmamusume.name) ? '이에' : '예'
-      }요.`,
-    );
+    const today = getLocalDate('Asia/Seoul');
+    const seed = [
+      today.getFullYear(),
+      today.getMonth() + 1,
+      today.getDate(),
+      requestor,
+    ].join('-');
+    const myUmamusume = umamusume.pseudoRandom(seed);
+
+    return `오늘 ${bold(requestor)} 트레이너님의 애마는 ${bold(
+      myUmamusume.name,
+    )}${endsWithJongSeong(myUmamusume.name) ? '이에' : '예'}요.`;
   },
-  async respond(message) {
-    const username = message.author.username;
-    const myUmamusume = getDailyUmamusumeFor(username);
-
-    await message.reply(
-      `오늘 ${bold(username)} 트레이너님의 애마는 ${bold(myUmamusume.name)}${
-        endsWithJongSeong(myUmamusume.name) ? '이에' : '예'
-      }요.`,
-    );
+  parseInteraction(interaction) {
+    const requestor = interaction.user.username;
+    return { requestor };
+  },
+  parseMessage(message) {
+    const requestor = message.author.username;
+    return { requestor };
   },
 };
-
-/**
- * Picks an arbitrary umamusume matching the given username.
- * @param username requestor's name.
- * @returns picked umamusume object.
- */
-function getDailyUmamusumeFor(username: string) {
-  const today = getLocalDate('Asia/Seoul');
-  const seed = [
-    today.getFullYear(),
-    today.getMonth() + 1,
-    today.getDate(),
-    username,
-  ].join('-');
-  const selected = umamusume.pseudoRandom(seed);
-
-  return selected;
-}
 
 export default command;

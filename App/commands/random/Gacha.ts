@@ -4,22 +4,17 @@ import { MessageEmbed } from 'discord.js';
 import type { EmbedFieldData } from 'discord.js';
 import chunk from 'lodash/chunk';
 
-import { RuntimeDatabase } from '#App/classes';
-import { logger } from '#App/devtools';
 import type { CommandConfig } from '#App/models';
-import { fetchAllData } from '#App/utils';
-import { createGame } from './Gacha/game';
+import { games } from './Gacha/database';
 import { roll } from './Gacha/roll';
-import type { GachaGame, GachaGameConfig, GachaPull } from './Gacha/types';
+import type { GachaGame, GachaPull } from './Gacha/types';
 
 const MAX_PULL_SIZE = 60;
-
-const database = new RuntimeDatabase<GachaGame>();
 
 const command: CommandConfig = {
   data: new SlashCommandBuilder()
     .setName('가챠')
-    .setDescription('가챠아ㅏ 가챠다아아ㅏ앗 돌리고 또 돌리는거야아아')
+    .setDescription('가챠아ㅏ가챠다아아ㅏ앗 돌리고 또 돌린다아아')
     .addStringOption((option) =>
       option
         .setName('종류')
@@ -44,72 +39,31 @@ const command: CommandConfig = {
           { name: '60연챠', value: 60 },
         ),
     ),
-  async prepare() {
-    try {
-      const configs = await fetchAllData<GachaGameConfig>(
-        'database/gacha/*.json',
-      );
-
-      configs.forEach((config) => {
-        const game = createGame(config);
-        database.add(game, 'name');
-      });
-    } catch (e) {
-      logger.debug(e);
-      console.error(`Failed to establish gacha game list.`);
-    }
-  },
-  async interact(interaction) {
-    const gameName = interaction.options.getString('종류', true);
-    const times = interaction.options.getInteger('횟수', true);
-    const game = database.get(gameName);
-
-    if (!game) {
-      interaction.reply('처음 듣는 가챠인데?');
-      return;
+  async execute({ params, requestor }) {
+    if (!params || !requestor) {
+      throw new Error('Params expected');
     }
 
-    const { pulls, topPullCount, topPullRates } = roll({ game, times });
-
-    const title = createResultTitle({
-      game,
-      times,
-      topPullCount,
-      topPullRates,
-      username: interaction.member?.user.username ?? '트레이너',
-    });
-    const embed = createResultEmbed({ game, pulls });
-
-    await interaction.reply(title);
-    interaction.channel?.send({ embeds: [embed] });
-  },
-  async respond(message, [gameName, timesString]) {
-    const times = parseInt(timesString, 10);
+    const [gameName, times] = params;
 
     if (!gameName) {
-      message.reply(
-        `돌릴 가챠를 입력해 줘. 지금은 이런 것들이 가능해. ${bold(
-          [...database.keys()].join(', '),
-        )}.`,
-      );
-      return;
+      return `돌릴 가챠를 입력해 줘. 지금은 이런 것들이 가능해. ${bold(
+        [...games.keys()].join(', '),
+      )}.`;
     }
 
     if (isNaN(times)) {
-      message.reply(`돌릴 가챠 횟수를 입력해 줘. 최대 60까지 가능해.`);
-      return;
+      return `돌릴 가챠 횟수를 입력해 줘. 최대 60까지 가능해.`;
     }
 
     if (times > MAX_PULL_SIZE) {
-      message.reply(`가챠는 ${MAX_PULL_SIZE}연챠까지만 가능해.`);
-      return;
+      return `가챠는 ${MAX_PULL_SIZE}연챠까지만 가능해.`;
     }
 
-    const game = database.get(gameName);
+    const game = games.get(gameName);
 
     if (!game) {
-      message.reply('처음 듣는 가챠인데?');
-      return;
+      return '처음 듣는 가챠인데?';
     }
 
     const { pulls, topPullCount, topPullRates } = roll({ game, times });
@@ -119,12 +73,25 @@ const command: CommandConfig = {
       times,
       topPullCount,
       topPullRates,
-      username: message.author.username,
+      username: requestor,
     });
     const embed = createResultEmbed({ game, pulls });
 
-    await message.reply(title);
-    message.reply({ embeds: [embed] });
+    return { content: title, embeds: [embed] };
+  },
+  parseInteraction(interaction) {
+    const gameName = interaction.options.getString('종류', true);
+    const times = interaction.options.getInteger('횟수', true);
+    const requestor = interaction.user.username;
+
+    return { params: [gameName, times], requestor };
+  },
+  parseMessage(message) {
+    const [, name, times] = message.content.trim().split(/ +/g);
+    const timesAsNumber = parseInt(times, 10);
+    const requestor = message.author.username;
+
+    return { params: [name, timesAsNumber], requestor };
   },
 };
 

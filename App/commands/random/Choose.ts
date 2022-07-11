@@ -3,43 +3,44 @@ import { bold, SlashCommandBuilder } from '@discordjs/builders';
 import type { CommandConfig } from '#App/models';
 import { random } from '#App/utils';
 
-/**
- * Removes duplicate items from the array passed.
- * @param optionString user typed option
- * @returns array of unique options.
- */
-function parseOptions(optionString: string) {
-  const options = optionString.split(/ +/g);
-  const uniqueOptions = [...new Set(options)];
-
-  return uniqueOptions;
-}
-
 const command: CommandConfig = {
   data: new SlashCommandBuilder()
     .setName('선택')
-    .setDescription('주어진 선택지 중 하나를 골라줄게.')
+    .setDescription('선택지 중 하나를 골라줘')
     .addStringOption((option) =>
       option
         .setName('선택지')
         .setDescription('선택지 (띄어쓰기로 구분)')
         .setRequired(true),
     ),
-  async interact(interaction) {
-    const options = interaction.options.getString('선택지', true);
-    const optionArray = parseOptions(options);
-
-    if (optionArray.length < 2) {
-      interaction.reply('두 개 이상의 선택지를 띄어쓰기로 구분해서 적어줄래?');
-      return;
+  async execute({ params }) {
+    if (!params) {
+      throw new Error('Params expected');
     }
 
-    const chosen = random(optionArray);
-    interaction.reply(
-      `${bold(optionArray.join(', '))} 중 마스터가 원하는 것은 ${bold(
-        chosen,
-      )}일까?`,
-    );
+    const options = params;
+
+    if (options.length < 2) {
+      return '두 개 이상의 선택지를 띄어쓰기로 구분해서 적어줄래?';
+    }
+
+    const selected = random(options);
+
+    return `${bold(options.join(', '))} 중 마스터가 원하는 것은 ${bold(
+      selected,
+    )}일까?`;
+  },
+  parseInteraction(interaction) {
+    const options = interaction.options.getString('선택지', true).split(/ +/g);
+    const uniqueOptions = [...new Set(options)];
+
+    return { params: uniqueOptions };
+  },
+  parseMessage(message) {
+    const [, ...options] = message.content.trim().split(/ +/g);
+    const uniqueOptions = [...new Set(options)];
+
+    return { params: uniqueOptions };
   },
 };
 

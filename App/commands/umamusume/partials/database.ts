@@ -1,4 +1,5 @@
 import { RuntimeDatabase } from '#App/classes';
+import { logger } from '#App/devtools';
 import { fetchData } from '#App/utils';
 import type {
   Pickup,
@@ -27,8 +28,8 @@ async function loadUmamusumes() {
     );
     umamusume.addAll(umamusumeList, 'name');
   } catch (e) {
-    console.debug(e);
-    console.error('Failed to establish umamusume list.');
+    logger.debug(e);
+    logger.error('Failed to establish umamusume list.');
   }
 }
 
@@ -45,8 +46,8 @@ async function loadRaces() {
     races.addAll(raceList as Race[], 'name');
     raceTracks.addAll(raceTrackList as RaceTrack[], 'id');
   } catch (e) {
-    console.debug(e);
-    console.error('Failed to establish race list.');
+    logger.debug(e);
+    logger.error('Failed to establish race list.');
   }
 }
 
@@ -58,8 +59,8 @@ async function loadSkills() {
     );
     skills.addAll(uniqueSkillList, 'ja');
   } catch (e) {
-    console.debug(e);
-    console.error(`Failed to establish umamusume's skill list.`);
+    logger.debug(e);
+    logger.error(`Failed to establish umamusume's skill list.`);
   }
 }
 
@@ -71,8 +72,8 @@ async function loadUniqueSkills() {
     );
     uniqueSkills.addAll(uniqueSkillList, 'umamusume');
   } catch (e) {
-    console.debug(e);
-    console.error(`Failed to establish umamusume's unique skill list.`);
+    logger.debug(e);
+    logger.error(`Failed to establish umamusume's unique skill list.`);
   }
 }
 
@@ -107,8 +108,8 @@ async function loadPickups() {
       });
     });
   } catch (e) {
-    console.debug(e);
-    console.error('Failed to establish umamusume pickup list.');
+    logger.debug(e);
+    logger.error('Failed to establish umamusume pickup list.');
   }
 }
 

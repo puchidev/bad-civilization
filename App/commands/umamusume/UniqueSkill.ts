@@ -3,50 +3,61 @@ import { MessageEmbed } from 'discord.js';
 
 import type { CommandConfig } from '#App/models';
 import { uniqueSkills } from './partials/database';
-import type { UniqueSkill, SkillEffect } from './partials/types';
+import type { SkillEffect } from './partials/types';
 
 const command: CommandConfig = {
   data: new SlashCommandBuilder()
     .setName('고유')
-    .setDescription('말딸의 고유스킬을 확인해 보자')
+    .setDescription('말딸의 고유스킬을 보여줘')
     .addStringOption((option) =>
       option
         .setName('말딸')
         .setDescription('말딸의 이름 일부 (ex. 네이처, 치어 네이처, …)')
         .setRequired(true),
     ),
-  async interact(interaction) {
-    const uma = interaction.options.getString('말딸', true);
-
-    const { match, suggestions } = uniqueSkills.search(uma);
-
-    if (!match) {
-      interaction.reply({ content: '아무 것도 찾지 못했어…' });
-      return;
+  async execute({ params }) {
+    if (!params) {
+      return '찾는 말딸의 이름 일부를 입력해줘';
     }
 
-    interaction.reply({
-      embeds: [createResultEmbed(match, suggestions)],
-    });
+    const umamusumeName = params[0];
+    const { match: skill, suggestions } = uniqueSkills.search(umamusumeName);
+
+    if (!skill) {
+      return '아무 것도 찾지 못했어…';
+    }
+
+    const { umamusume, description, effect, precondition, condition } = skill;
+    const embed = new MessageEmbed().setTitle(`${umamusume}의 고유 스킬`);
+
+    if (suggestions) {
+      embed.setFooter({ text: `유사한 검색어: ${suggestions.join(', ')}` });
+    }
+
+    embed
+      .addField('발동조건', description.join('\n'))
+      .addField('효과', formatEffect(effect));
+
+    if (precondition) {
+      embed.addField('전제조건식', beautifyCondition(precondition));
+    }
+
+    embed.addField(
+      '조건식',
+      Array.isArray(condition)
+        ? condition.map(beautifyCondition).join('\nOR\n')
+        : beautifyCondition(condition),
+    );
+
+    return { embeds: [embed] };
   },
-  async respond(message, keywords) {
-    if (keywords.length === 0) {
-      message.reply(
-        '찾는 말딸의 이름 일부를 입력해줘. 가령 `!고유 테이오` 처럼?',
-      );
-      return;
-    }
-
-    const { match, suggestions } = uniqueSkills.search(keywords.join(' '));
-
-    if (!match) {
-      message.reply('아무 것도 찾지 못했어…');
-      return;
-    }
-
-    message.reply({
-      embeds: [createResultEmbed(match, suggestions)],
-    });
+  parseInteraction(interaction) {
+    const umaName = interaction.options.getString('말딸', true);
+    return { params: [umaName] };
+  },
+  parseMessage(message) {
+    const [, ...keywords] = message.content.trim().split(/ +/g);
+    return { params: keywords };
   },
 };
 
@@ -91,39 +102,6 @@ function formatEffect(effect: SkillEffect) {
     .join('\n');
 
   return text;
-}
-
-/**
- * Creates a message embed containing information about the found race.
- * @param skill found skill
- * @param suggestions other search result that the user might want
- * @returns created message embed
- */
-function createResultEmbed(skill: UniqueSkill, suggestions?: string[] | null) {
-  const { umamusume, description, effect, precondition, condition } = skill;
-
-  const embed = new MessageEmbed().setTitle(`${umamusume}의 고유 스킬`);
-
-  if (suggestions) {
-    embed.setFooter({ text: `유사한 검색어: ${suggestions.join(', ')}` });
-  }
-
-  embed
-    .addField('발동조건', description.join('\n'))
-    .addField('효과', formatEffect(effect));
-
-  if (precondition) {
-    embed.addField('전제조건식', beautifyCondition(precondition));
-  }
-
-  embed.addField(
-    '조건식',
-    Array.isArray(condition)
-      ? condition.map(beautifyCondition).join('\nOR\n')
-      : beautifyCondition(condition),
-  );
-
-  return embed;
 }
 
 export default command;
