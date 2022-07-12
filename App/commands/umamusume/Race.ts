@@ -42,7 +42,7 @@ const command: CommandConfig = {
     ].join(' | ');
 
     const legs = track.legs.map(formatRange).join('\n');
-    const slopes = track.slopes.map(formatRange).join('\n');
+    const slopes = track.slopes.map(formatRange).join('\n') || '없음';
     const segments = track.segments.map(formatRange).join('\n');
 
     const embed = new MessageEmbed()
