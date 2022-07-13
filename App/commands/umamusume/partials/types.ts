@@ -12,7 +12,8 @@ export interface Umamusume {
     string,
     string,
   ];
-  implemented?: boolean;
+  japan: boolean;
+  korea: boolean;
 }
 
 export interface Race {

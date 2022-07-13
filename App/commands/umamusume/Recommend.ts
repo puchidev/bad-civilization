@@ -26,14 +26,23 @@ const command: CommandConfig = {
       option
         .setName('조건')
         .setDescription('마장, 거리, 각질 조건 (띄어쓰기로 구분)'),
+    )
+    .addStringOption((option) =>
+      option
+        .setName('서버')
+        .setDescription('플레이하는 말딸 서버의 종류')
+        .addChoices(
+          { name: '일본', value: 'japan' },
+          { name: '한국', value: 'korea' },
+        ),
     ),
   async execute({ params }) {
-    const conditions = parseConditions(params);
+    const conditions = parseConditions(params.conditions);
+    const server = params.server;
 
     const character = umamusume
-      .filter((uma) => {
-        return uma.implemented !== false && meetsConditions(uma, conditions);
-      })
+      .filter((uma) => (server === 'korea' ? !!uma.korea : !!uma.japan))
+      .filter((uma) => meetsConditions(uma, conditions))
       .random();
 
     if (!character) {
@@ -63,11 +72,19 @@ const command: CommandConfig = {
   },
   parseInteraction(interaction) {
     const conditions = interaction.options.getString('조건')?.split(/ +/g);
-    return { params: conditions };
+    const server = interaction.options.getString('서버') ?? 'japan';
+
+    return { params: { conditions, server } };
   },
   parseMessage(message) {
-    const [, ...conditions] = message.content.trim().split(/ +/g);
-    return { params: conditions };
+    const [, ...params] = message.content.trim().split(/ +/g);
+
+    const conditions = params.filter(
+      (param) => !/^(?:japan|korea)$/.test(param),
+    );
+    const server = params.includes('한국') ? 'korea' : 'japan';
+
+    return { params: { conditions, server } };
   },
 };
 

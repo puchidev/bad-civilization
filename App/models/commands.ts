@@ -26,7 +26,7 @@ export interface AutocompleteOption {
 
 export interface CommandPayload {
   subcommand?: string;
-  params?: any[];
+  params?: any;
   requestor?: string;
 }
 
