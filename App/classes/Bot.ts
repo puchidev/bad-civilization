@@ -135,9 +135,13 @@ class Bot extends Client {
         return;
       }
 
-      // purge commands when someone mentions our bot
-      if (!message.mentions.everyone && message.mentions.has(this.user.id)) {
-        await message.reply('갱신한다 명령어. 조금 기다리면 반영될 거야.');
+      // purge commands when I the owner mention the bot
+      if (
+        !message.mentions.everyone &&
+        message.mentions.has(this.user.id) &&
+        message.author.id === '499244060318367745'
+      ) {
+        await message.reply('명령어를 갱신합니다, 마스터.');
         this.deployCommands(message.guild);
         return;
       }
