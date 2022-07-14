@@ -18,20 +18,20 @@ const command: CommandConfig = {
       today.getFullYear(),
       today.getMonth() + 1,
       today.getDate(),
-      requestor,
+      requestor.username,
     ].join('-');
     const myUmamusume = umamusume.pseudoRandom(seed);
 
-    return `오늘 ${bold(requestor)} 트레이너님의 애마는 ${bold(
+    return `오늘 ${bold(requestor.username)} 트레이너님의 애마는 ${bold(
       myUmamusume.name,
     )}${endsWithJongSeong(myUmamusume.name) ? '이에' : '예'}요.`;
   },
   parseInteraction(interaction) {
-    const requestor = interaction.user.username;
+    const requestor = interaction.user;
     return { requestor };
   },
   parseMessage(message) {
-    const requestor = message.author.username;
+    const requestor = message.author;
     return { requestor };
   },
 };

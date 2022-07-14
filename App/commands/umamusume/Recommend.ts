@@ -1,6 +1,6 @@
 import { bold, SlashCommandBuilder } from '@discordjs/builders';
 import dedent from 'dedent';
-import { MessageEmbed } from 'discord.js';
+import { MessageEmbed, User } from 'discord.js';
 
 import type { CommandConfig } from '#App/models';
 import {
@@ -18,7 +18,38 @@ interface Conditions {
   strategy?: string;
 }
 
-const command: CommandConfig = {
+interface Props {
+  params: {
+    conditions?: string[];
+    factors: number;
+    server: string;
+  };
+  requestor: User;
+}
+
+const DEFAULT_FACTORS = 10;
+const DEFAULT_SERVER = 'japan';
+
+const preset: Record<string, string[]> = {
+  '270871717654691850': [
+    '토카이 테이오',
+    '오구리 캡',
+    '골드 쉽',
+    '보드카',
+    '다이와 스칼렛',
+    '그래스 원더',
+    '에어 그루브',
+    '마야노 탑건',
+    '메지로 라이언',
+    '위닝 티켓',
+    '사쿠라 바쿠신 오',
+    '하루우라라',
+    '나이스 네이처',
+    '킹 헤일로',
+  ],
+};
+
+const command: CommandConfig<Props> = {
   data: new SlashCommandBuilder()
     .setName('뭐키우지')
     .setDescription('키울 만한 말딸을 추천해줘')
@@ -35,21 +66,33 @@ const command: CommandConfig = {
           { name: '일본', value: 'japan' },
           { name: '한국', value: 'korea' },
         ),
+    )
+    .addIntegerOption((option) =>
+      option.setName('인자').setDescription('개조에 사용할 인자 갯수 (0~10)'),
     ),
-  async execute({ params }) {
+  async execute({ params, requestor }) {
+    const { factors, server } = params;
     const conditions = parseConditions(params.conditions);
-    const server = params.server;
 
-    const character = umamusume
-      .filter((uma) => (server === 'korea' ? !!uma.korea : !!uma.japan))
-      .filter((uma) => meetsConditions(uma, conditions))
+    const characters =
+      requestor.id in preset
+        ? umamusume.filter((uma) => preset[requestor.id].includes(uma.name))
+        : umamusume.filter((uma) =>
+            server === 'korea' ? !!uma.korea : !!uma.japan,
+          );
+    const character = characters
+      .filter((uma) => meetsConditions({ umamusume: uma, conditions, factors }))
       .random();
 
     if (!character) {
       return '말딸 데이터를 찾지 못했어…';
     }
 
-    const aptitude = generateAptitude(character, conditions);
+    const aptitude = generateAptitude({
+      umamusume: character,
+      conditions,
+      factors,
+    });
     const sample = `${aptitude} ${bold(character.name)}`;
 
     const [a, b, c, d, e, f, g, h, i, j] = character.aptitude;
@@ -71,20 +114,27 @@ const command: CommandConfig = {
     return { content: message, embeds: [embed] };
   },
   parseInteraction(interaction) {
+    const requestor = interaction.user;
     const conditions = interaction.options.getString('조건')?.split(/ +/g);
-    const server = interaction.options.getString('서버') ?? 'japan';
+    const server = interaction.options.getString('서버') ?? DEFAULT_SERVER;
+    const factors = interaction.options.getInteger('인자') ?? DEFAULT_FACTORS;
 
-    return { params: { conditions, server } };
+    return { params: { conditions, factors, server }, requestor };
   },
   parseMessage(message) {
+    const requestor = message.author;
     const [, ...params] = message.content.trim().split(/ +/g);
 
-    const conditions = params.filter(
-      (param) => !/^(?:japan|korea)$/.test(param),
+    const conditions = params.filter((param) =>
+      /^(?!japan|korea)(.+)$/.test(param),
     );
-    const server = params.includes('한국') ? 'korea' : 'japan';
+    const numericParam = params.find((param) =>
+      Number.isInteger(parseInt(param, 10)),
+    );
+    const factors = numericParam ? parseInt(numericParam, 10) : DEFAULT_FACTORS;
+    const server = params.includes('한국') ? 'korea' : DEFAULT_SERVER;
 
-    return { params: { conditions, server } };
+    return { params: { conditions, factors, server }, requestor };
   },
 };
 
@@ -128,14 +178,18 @@ function parseConditions(userConditions?: string[]): Conditions {
 /**
  * Returns whether the umamusume satisfies passed aptitude restrictions
  * on initial inheritance event.
- * @param umamusume the umamusume
- * @param conditions aptitude restrictions
+ * @param options operation options
+ * @param options.umamusume the umamusume
+ * @param options.conditions aptitude restrictions
+ * @param options.factors available number of factors
  * @returns if the umamusume can meet the aptitude conditions
  */
-function meetsConditions(umamusume: Umamusume, conditions: Conditions) {
-  if (!conditions) {
-    return true;
-  }
+function meetsConditions(options: {
+  conditions: Conditions;
+  factors: number;
+  umamusume: Umamusume;
+}) {
+  const { conditions, factors, umamusume } = options;
 
   const names = [
     '잔디',
@@ -161,18 +215,26 @@ function meetsConditions(umamusume: Umamusume, conditions: Conditions) {
   const totalRequiredFactors = Object.values(conditions)
     .map((name) => map.get(name))
     .filter(nonNullable)
-    .reduce((sum, factors) => sum + factors, 0);
+    .reduce((sum, requiredFactors) => sum + requiredFactors, 0);
 
-  return totalRequiredFactors <= 10;
+  return totalRequiredFactors <= factors;
 }
 
 /**
  * Picks an arbitrary umamusume matching the given username.
- * @param umamusume the umamusume
- * @param conditions aptitude restrictions
+ * @param options operation options
+ * @param options.umamusume the umamusume
+ * @param options.conditions aptitude restrictions
+ * @param options.factors available number of factors
  * @returns picked umamusume object
  */
-function generateAptitude(umamusume: Umamusume, conditions: Conditions) {
+function generateAptitude(options: {
+  conditions: Conditions;
+  factors: number;
+  umamusume: Umamusume;
+}) {
+  const { conditions, factors, umamusume } = options;
+
   const names = [
     '잔디',
     '더트',
@@ -186,32 +248,32 @@ function generateAptitude(umamusume: Umamusume, conditions: Conditions) {
     '추입',
   ];
 
-  const factors = umamusume.aptitude.map((rank, index) => ({
+  const requiredFactors = umamusume.aptitude.map((rank, index) => ({
     name: names[index],
     factors: getRequiredFactors(rank),
   }));
 
   const trackSurface = conditions.trackSurface
-    ? factors.filter(({ name }) => name === conditions.trackSurface)
-    : factors.slice(0, 2);
+    ? requiredFactors.filter(({ name }) => name === conditions.trackSurface)
+    : requiredFactors.slice(0, 2);
 
   const trackLength = conditions.trackLength
-    ? factors.filter(({ name }) => name === conditions.trackLength)
-    : factors.slice(2, 6);
+    ? requiredFactors.filter(({ name }) => name === conditions.trackLength)
+    : requiredFactors.slice(2, 6);
 
   const strategy = conditions.strategy
-    ? factors.filter(({ name }) => name === conditions.strategy)
-    : factors.slice(6, 10);
+    ? requiredFactors.filter(({ name }) => name === conditions.strategy)
+    : requiredFactors.slice(6, 10);
 
   const combinations = [];
 
   for (const x of trackSurface) {
     for (const y of trackLength) {
-      if (x.factors + y.factors > 10) {
+      if (x.factors + y.factors > factors) {
         continue;
       }
       for (const z of strategy) {
-        if (x.factors + y.factors + z.factors > 10) {
+        if (x.factors + y.factors + z.factors > factors) {
           continue;
         }
         combinations.push([x, y, z]);

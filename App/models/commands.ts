@@ -11,6 +11,7 @@ import type {
   MessagePayload,
   MessageOptions,
   Snowflake,
+  User,
 } from 'discord.js';
 
 import type { MaybePromise, PartialBy } from './utils';
@@ -27,7 +28,7 @@ export interface AutocompleteOption {
 export interface CommandPayload {
   subcommand?: string;
   params?: any;
-  requestor?: string;
+  requestor?: User;
 }
 
 export type CommandResponse =
@@ -35,17 +36,15 @@ export type CommandResponse =
   | MessagePayload
   | Omit<MessageOptions, 'avatarURL' | 'flags' | 'username'>;
 
-export interface CommandConfig {
+export interface CommandConfig<T = CommandPayload> {
   readonly data: SlashCommandData;
   readonly guilds?: Snowflake[];
   readonly autocomplete?: (
     interaction: AutocompleteInteraction,
   ) => MaybePromise<ApplicationCommandOptionChoiceData[]>;
-  readonly execute: (params: CommandPayload) => Promise<CommandResponse>;
-  readonly parseInteraction?: (
-    interaction: CommandInteraction,
-  ) => CommandPayload;
-  readonly parseMessage?: (message: Message) => CommandPayload;
+  readonly execute: (params: T) => Promise<CommandResponse>;
+  readonly parseInteraction?: (interaction: CommandInteraction) => T;
+  readonly parseMessage?: (message: Message) => T;
   readonly prepare?: () => MaybePromise<void>;
 }
 
