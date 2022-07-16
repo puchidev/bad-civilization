@@ -18,7 +18,7 @@ const command: CommandConfig = {
       throw new Error('Params expected');
     }
 
-    const options = params;
+    const options: string[] = params;
 
     if (options.length < 2) {
       return '두 개 이상의 선택지를 띄어쓰기로 구분해서 적어줄래?';

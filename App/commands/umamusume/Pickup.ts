@@ -5,6 +5,7 @@ import dedent from 'dedent';
 import { MessageEmbed } from 'discord.js';
 
 import type { CommandConfig } from '#App/models';
+import { convertAliases } from './partials/aliases';
 import { pickupRefs, pickups } from './partials/database';
 
 const SERVICE_START_JAPAN = '2021-02-24';
@@ -50,18 +51,19 @@ const command: CommandConfig = {
       return `검색어를 입력해줘. \`픽업 ${subcommand}\ 키타산\``;
     }
 
-    const keyword: string = params[0];
-    const { match: matchingRef, suggestions } = pickupRefs.search(keyword, {
-      test: (record) => record.type === subcommand,
+    const keyword: string = convertAliases(params.join(' '));
+
+    const { match: pickupRef, suggestions } = pickupRefs.search(keyword, {
+      test: (ref) => ref.type === subcommand,
     });
 
-    if (!matchingRef) {
+    if (!pickupRef) {
       return '아무 것도 찾지 못했어…';
     }
 
     const matches = [
       ...pickups
-        .filter((_pickup, key) => matchingRef.pickupIds.has(key))
+        .filter((_pickup, key) => pickupRef.pickupIds.has(key))
         .values(),
     ];
 

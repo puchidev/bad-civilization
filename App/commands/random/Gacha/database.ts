@@ -16,7 +16,7 @@ async function loadGames() {
 
     configs.forEach((config) => {
       const game = createGame(config);
-      games.add(game, 'name');
+      games.insert(game.name, game);
     });
   } catch (e) {
     logger.debug(e);

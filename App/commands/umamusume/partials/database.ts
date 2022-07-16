@@ -8,15 +8,12 @@ import type {
   RaceTrack,
   Skill,
   Umamusume,
-  UniqueSkill,
 } from './types';
 
-export const umamusume = new RuntimeDatabase<Umamusume>();
+export const umamusumes = new RuntimeDatabase<Umamusume>();
 export const races = new RuntimeDatabase<Race>();
 export const raceTracks = new RuntimeDatabase<RaceTrack>();
 export const skills = new RuntimeDatabase<Skill>();
-export const uniqueSkills = new RuntimeDatabase<UniqueSkill>();
-
 export const pickups = new RuntimeDatabase<Pickup>();
 export const pickupRefs = new RuntimeDatabase<PickupRef>();
 
@@ -26,7 +23,9 @@ async function loadUmamusumes() {
     const umamusumeList: Umamusume[] = await fetchData(
       'database/umamusume/uma-musumes.json',
     );
-    umamusume.addAll(umamusumeList, 'name');
+    umamusumeList.forEach((umamusume) => {
+      umamusumes.insert(umamusume.name, umamusume);
+    });
   } catch (e) {
     logger.debug(e);
     logger.error('Failed to establish umamusume list.');
@@ -41,10 +40,17 @@ async function loadRaces() {
       'database/umamusume/racetracks.json',
     ].map((path) => fetchData(path));
 
-    const [raceList, raceTrackList] = await Promise.all(promises);
+    const [raceList, raceTrackList] = (await Promise.all(promises)) as [
+      Race[],
+      RaceTrack[],
+    ];
 
-    races.addAll(raceList as Race[], 'name');
-    raceTracks.addAll(raceTrackList as RaceTrack[], 'id');
+    raceList.forEach((race) => {
+      races.insert(race.name, race);
+    });
+    raceTrackList.forEach((raceTrack) => {
+      raceTracks.insert(raceTrack.id, raceTrack);
+    });
   } catch (e) {
     logger.debug(e);
     logger.error('Failed to establish race list.');
@@ -54,26 +60,15 @@ async function loadRaces() {
 /** Load umamusume skill data */
 async function loadSkills() {
   try {
-    const uniqueSkillList: Skill[] = await fetchData(
+    const skillList: Skill[] = await fetchData(
       'database/umamusume/skills.json',
     );
-    skills.addAll(uniqueSkillList, 'ja');
+    skillList.forEach((skill) => {
+      skills.insert(skill.ja, skill);
+    });
   } catch (e) {
     logger.debug(e);
     logger.error(`Failed to establish umamusume's skill list.`);
-  }
-}
-
-/** Load umamusume skill data */
-async function loadUniqueSkills() {
-  try {
-    const uniqueSkillList: UniqueSkill[] = await fetchData(
-      'database/umamusume/unique-skills.json',
-    );
-    uniqueSkills.addAll(uniqueSkillList, 'umamusume');
-  } catch (e) {
-    logger.debug(e);
-    logger.error(`Failed to establish umamusume's unique skill list.`);
   }
 }
 
@@ -87,7 +82,7 @@ async function loadPickups() {
     pickupList.forEach((pickup) => {
       const { since, umamusume: umamusumeList, support: supportList } = pickup;
 
-      pickups.set(since, pickup);
+      pickups.insert(since, pickup);
 
       umamusumeList.forEach((umamusume) => {
         const ref = pickupRefs.get(umamusume) ?? {
@@ -116,5 +111,4 @@ async function loadPickups() {
 loadUmamusumes();
 loadRaces();
 loadSkills();
-loadUniqueSkills();
 loadPickups();

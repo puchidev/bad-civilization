@@ -2,7 +2,7 @@ import { bold, SlashCommandBuilder } from '@discordjs/builders';
 
 import type { CommandConfig } from '#App/models';
 import { endsWithJongSeong, getLocalDate } from '#App/utils';
-import { umamusume } from './partials/database';
+import { umamusumes } from './partials/database';
 
 const command: CommandConfig = {
   data: new SlashCommandBuilder()
@@ -20,7 +20,7 @@ const command: CommandConfig = {
       today.getDate(),
       requestor.username,
     ].join('-');
-    const myUmamusume = umamusume.pseudoRandom(seed);
+    const myUmamusume = umamusumes.pseudoRandom(seed);
 
     return `오늘 ${bold(requestor.username)} 트레이너님의 애마는 ${bold(
       myUmamusume.name,

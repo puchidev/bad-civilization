@@ -1,487 +1,1357 @@
 [
   {
-    "name": "스페셜 위크",
-    "aptitude": ["A", "G", "F", "C", "A", "A", "G", "A", "A", "C"],
-    "japan": true,
-    "korea": true
+    "name": "골드 시티",
+    "aptitude": ["A", "D", "F", "A", "B", "B", "F", "A", "A", "F"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "주행거리 50% 이상",
+      "40~70% (4~6위)",
+      "추월 대상이 있음"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 6,
+      "speed": 0.3
+    },
+    "uniqueSkillCondition": "distance_rate>=50&order_rate>=40&order_rate<=70&is_overtake==1"
   },
   {
-    "name": "사일런스 스즈카",
-    "aptitude": ["A", "G", "D", "A", "A", "E", "A", "C", "E", "G"],
-    "japan": true,
-    "korea": true
-  },
-  {
-    "name": "토카이 테이오",
-    "aptitude": ["A", "G", "F", "E", "A", "B", "D", "A", "C", "E"],
-    "japan": true,
-    "korea": true
-  },
-  {
-    "name": "마루젠스키",
-    "aptitude": ["A", "D", "B", "A", "B", "C", "A", "E", "G", "G"],
-    "japan": true,
-    "korea": true
-  },
-  {
-    "name": "후지 키세키",
-    "aptitude": ["A", "F", "B", "A", "B", "E", "C", "A", "C", "G"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "오구리 캡",
-    "aptitude": ["A", "B", "E", "A", "A", "B", "F", "A", "A", "D"],
-    "japan": true,
-    "korea": true
+    "name": "골드 시티 (축제)",
+    "aptitude": ["A", "D", "F", "A", "B", "B", "F", "A", "A", "F"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "최종 코너",
+      "30~70% (3~6위)",
+      "몸싸움 2초 이상"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.25,
+      "acceleration": 0.3
+    },
+    "uniqueSkillCondition": "is_finalcorner==1&corner!=0&order_rate>=30&order_rate<=70&blocked_side_continuetime>=2"
   },
   {
     "name": "골드 쉽",
     "aptitude": ["A", "G", "G", "C", "A", "A", "G", "B", "B", "A"],
-    "japan": true,
-    "korea": true
-  },
-  {
-    "name": "보드카",
-    "aptitude": ["A", "G", "F", "A", "A", "F", "C", "B", "A", "F"],
-    "japan": true,
-    "korea": true
-  },
-  {
-    "name": "다이와 스칼렛",
-    "aptitude": ["A", "G", "F", "A", "A", "B", "A", "A", "E", "G"],
-    "japan": true,
-    "korea": true
-  },
-  {
-    "name": "타이키 셔틀",
-    "aptitude": ["A", "B", "A", "A", "E", "G", "C", "A", "E", "G"],
-    "japan": true,
-    "korea": true
+    "presence": "jk",
+    "uniqueSkillDescription": ["주행거리 50~60%", "50%보다 뒤 (6~9위)"],
+    "uniqueSkillEffect": {
+      "duration": 6,
+      "speed": 0.25
+    },
+    "uniqueSkillCondition": "distance_rate>=50&distance_rate<=60&order_rate>50"
   },
   {
     "name": "그래스 원더",
     "aptitude": ["A", "G", "G", "A", "B", "A", "F", "A", "A", "F"],
-    "japan": true,
-    "korea": true
+    "presence": "jk",
+    "uniqueSkillDescription": ["최종 직선", "추월했을 때 3위 이하 (3~9위)"],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": "is_finalcorner==1&corner==0&change_order_onetime<0&order>=3"
   },
   {
-    "name": "히시 아마존",
-    "aptitude": ["A", "E", "D", "A", "A", "B", "G", "B", "C", "A"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "메지로 맥퀸",
-    "aptitude": ["A", "E", "G", "F", "A", "A", "B", "A", "D", "F"],
-    "japan": true,
-    "korea": true
-  },
-  {
-    "name": "엘 콘도르 파사",
-    "aptitude": ["A", "B", "F", "A", "A", "B", "E", "A", "A", "C"],
-    "japan": true,
-    "korea": true
-  },
-  {
-    "name": "티엠 오페라 오",
-    "aptitude": ["A", "E", "G", "E", "A", "A", "C", "A", "A", "G"],
-    "japan": true,
-    "korea": true
+    "name": "그래스 원더 (힐러)",
+    "aptitude": ["A", "G", "G", "A", "B", "A", "F", "A", "A", "F"],
+    "presence": "j",
+    "uniqueSkillDescription": ["중반", "추월당했을 때 40%보다 뒤 (4~9위)"],
+    "uniqueSkillEffect": {
+      "duration": 0,
+      "heal": 0.75
+    },
+    "uniqueSkillCondition": "phase==1&change_order_onetime>0&order_rate>=40"
   },
   {
     "name": "나리타 브라이언",
     "aptitude": ["A", "G", "F", "B", "A", "A", "G", "A", "A", "D"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "심볼리 루돌프",
-    "aptitude": ["A", "G", "E", "C", "A", "A", "B", "A", "A", "C"],
-    "japan": true,
-    "korea": true
-  },
-  {
-    "name": "에어 그루브",
-    "aptitude": ["A", "G", "C", "B", "A", "E", "D", "A", "A", "G"],
-    "japan": true,
-    "korea": true
-  },
-  {
-    "name": "아그네스 디지털",
-    "aptitude": ["A", "A", "F", "A", "A", "G", "G", "A", "A", "B"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "타마모 크로스",
-    "aptitude": ["A", "F", "G", "E", "A", "A", "G", "A", "A", "A"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "세이운 스카이",
-    "aptitude": ["A", "G", "G", "C", "A", "A", "A", "B", "D", "E"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "파인 모션",
-    "aptitude": ["A", "G", "F", "A", "A", "C", "D", "A", "E", "C"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "비와 하야히데",
-    "aptitude": ["A", "F", "F", "C", "A", "A", "E", "A", "B", "E"],
-    "japan": true,
-    "korea": true
-  },
-  {
-    "name": "마야노 탑건",
-    "aptitude": ["A", "E", "D", "D", "A", "A", "A", "A", "B", "B"],
-    "japan": true,
-    "korea": true
-  },
-  {
-    "name": "맨하탄 카페",
-    "aptitude": ["A", "G", "G", "F", "B", "A", "G", "C", "A", "C"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "미호노 부르봉",
-    "aptitude": ["A", "G", "C", "B", "A", "B", "A", "E", "G", "G"],
-    "japan": true,
-    "korea": true
-  },
-  {
-    "name": "메지로 라이언",
-    "aptitude": ["A", "G", "E", "C", "A", "B", "F", "A", "A", "F"],
-    "japan": true,
-    "korea": true
-  },
-  {
-    "name": "히시 아케보노",
-    "aptitude": ["A", "F", "A", "B", "F", "G", "B", "A", "C", "G"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "유키노 비진",
-    "aptitude": [],
-    "japan": false,
-    "korea": false
-  },
-  {
-    "name": "라이스 샤워",
-    "aptitude": ["A", "G", "E", "C", "A", "A", "B", "A", "C", "G"],
-    "japan": true,
-    "korea": true
-  },
-  {
-    "name": "아이네스 후우진",
-    "aptitude": ["A", "G", "G", "A", "A", "C", "A", "C", "G", "G"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "아그네스 타키온",
-    "aptitude": ["A", "G", "G", "D", "A", "B", "E", "A", "B", "F"],
-    "japan": true,
-    "korea": true
-  },
-  {
-    "name": "어드마이어 베가",
-    "aptitude": ["A", "G", "F", "C", "A", "C", "G", "G", "B", "A"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "이나리 원",
-    "aptitude": ["A", "A", "F", "B", "A", "A", "G", "B", "B", "A"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "위닝 티켓",
-    "aptitude": ["A", "G", "G", "F", "A", "B", "G", "B", "A", "G"],
-    "japan": true,
-    "korea": true
-  },
-  {
-    "name": "에어 샤칼",
-    "aptitude": [],
-    "japan": false,
-    "korea": false
-  },
-  {
-    "name": "에이신 플래시",
-    "aptitude": ["A", "G", "G", "F", "A", "A", "G", "B", "A", "C"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "카렌쨩",
-    "aptitude": ["A", "F", "A", "D", "G", "G", "B", "A", "E", "G"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "카와카미 프린세스",
-    "aptitude": ["A", "G", "D", "B", "A", "F", "G", "C", "A", "D"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "골드 시티",
-    "aptitude": ["A", "D", "F", "A", "B", "B", "F", "A", "A", "F"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "시킹 더 펄",
-    "aptitude": [],
-    "japan": false,
-    "korea": false
-  },
-  {
-    "name": "사쿠라 바쿠신 오",
-    "aptitude": ["A", "G", "A", "B", "G", "G", "A", "A", "F", "G"],
-    "japan": true,
-    "korea": true
-  },
-  {
-    "name": "신코 윈디",
-    "aptitude": [],
-    "japan": false,
-    "korea": false
-  },
-  {
-    "name": "스윕 토쇼",
-    "aptitude": ["A", "G", "E", "A", "A", "D", "G", "G", "A", "A"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "슈퍼 크릭",
-    "aptitude": ["A", "G", "G", "G", "A", "A", "D", "A", "B", "G"],
-    "japan": true,
-    "korea": true
-  },
-  {
-    "name": "스마트 팔콘",
-    "aptitude": ["E", "A", "B", "A", "A", "E", "A", "D", "G", "G"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "젠노 롭 로이",
-    "aptitude": [],
-    "japan": false,
-    "korea": false
-  },
-  {
-    "name": "토센 조던",
-    "aptitude": ["A", "G", "G", "F", "A", "B", "C", "A", "B", "G"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "나카야마 페스타",
-    "aptitude": [],
-    "japan": false,
-    "korea": false
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "최종 코너 이후",
+      "추월했을 때 75% 이내 (2~7위)",
+      "자신의 배후 내곽에 말딸이 있음",
+      "중반에 몸싸움 2초 이상 → 속도 0.45",
+      "중반에 몸싸움 2초 미만 → 속도 0.35"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.45
+    },
+    "uniqueSkillPrecondition": "phase==1&blocked_side_continuetime>=2",
+    "uniqueSkillCondition": "is_finalcorner==1&order>=2&order_rate<=75&is_behind_in==1&change_order_onetime<0"
   },
   {
     "name": "나리타 타이신",
     "aptitude": ["A", "G", "F", "D", "A", "A", "G", "F", "B", "A"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "니시노 플라워",
-    "aptitude": ["A", "F", "A", "A", "E", "G", "F", "A", "A", "G"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "하루우라라",
-    "aptitude": ["G", "A", "A", "B", "G", "G", "G", "G", "A", "B"],
-    "japan": true,
-    "korea": true
-  },
-  {
-    "name": "뱀부 메모리",
-    "aptitude": [],
-    "japan": false,
-    "korea": false
-  },
-  {
-    "name": "마벨러스 선데이",
-    "aptitude": [],
-    "japan": false,
-    "korea": false
-  },
-  {
-    "name": "비코 페가수스",
-    "aptitude": [],
-    "japan": false,
-    "korea": false
-  },
-  {
-    "name": "마치카네 후쿠키타루",
-    "aptitude": ["A", "F", "F", "C", "A", "A", "G", "B", "A", "F"],
-    "japan": true,
-    "korea": true
-  },
-  {
-    "name": "미스터 시비",
-    "aptitude": [],
-    "japan": false,
-    "korea": false
-  },
-  {
-    "name": "메이쇼 도토",
-    "aptitude": ["A", "E", "G", "F", "A", "A", "F", "A", "B", "E"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "메지로 도베르",
-    "aptitude": ["A", "G", "E", "A", "A", "F", "C", "B", "A", "G"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "나이스 네이처",
-    "aptitude": ["A", "G", "G", "C", "A", "A", "F", "B", "A", "D"],
-    "japan": true,
-    "korea": true
-  },
-  {
-    "name": "킹 헤일로",
-    "aptitude": ["A", "G", "A", "B", "B", "C", "G", "B", "A", "D"],
-    "japan": true,
-    "korea": true
-  },
-  {
-    "name": "마치카네 탄호이저",
-    "aptitude": ["A", "G", "G", "D", "A", "A", "F", "A", "A", "E"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "이쿠노 딕터스",
-    "aptitude": [],
-    "japan": false,
-    "korea": false
-  },
-  {
-    "name": "메지로 파머",
-    "aptitude": ["A", "G", "G", "F", "A", "A", "A", "E", "F", "G"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "다이타쿠 헬리오스",
-    "aptitude": [],
-    "japan": false,
-    "korea": false
-  },
-  {
-    "name": "트윈 터보",
-    "aptitude": [],
-    "japan": false,
-    "korea": false
-  },
-  {
-    "name": "사토노 다이아몬드",
-    "aptitude": ["A", "G", "G", "C", "A", "A", "G", "B", "A", "D"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "키타산 블랙",
-    "aptitude": ["A", "G", "E", "C", "A", "A", "A", "B", "C", "G"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "사쿠라 치요노 오",
-    "aptitude": ["A", "G", "E", "A", "A", "E", "B", "A", "F", "G"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "메지로 아르당",
-    "aptitude": ["A", "F", "E", "B", "A", "D", "C", "A", "D", "G"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "시리우스 심볼리",
-    "aptitude": [],
-    "japan": false,
-    "korea": false
-  },
-  {
-    "name": "야에노 무테키",
-    "aptitude": ["A", "E", "G", "B", "A", "E", "F", "A", "A", "G"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "츠루마루 츠요시",
-    "aptitude": [],
-    "japan": false,
-    "korea": false
-  },
-  {
-    "name": "메지로 브라이트",
-    "aptitude": ["A", "G", "F", "C", "A", "A", "G", "D", "A", "A"],
-    "japan": true,
-    "korea": false
-  },
-  {
-    "name": "사쿠라 로렐",
-    "aptitude": [],
-    "japan": false,
-    "korea": false
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "최종 코너 이후",
+      "40~75% (4~7위)",
+      "추월 대상이 있음"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": "is_finalcorner==1&order_rate>=40&order_rate<=75&is_overtake==1"
   },
   {
     "name": "나리타 톱 로드",
     "aptitude": [],
-    "japan": false,
-    "korea": false
+    "presence": null
   },
   {
-    "name": "야마닌 제퍼",
+    "name": "나이스 네이처",
+    "aptitude": ["A", "G", "G", "C", "A", "A", "F", "B", "A", "D"],
+    "presence": "jk",
+    "uniqueSkillDescription": ["종반", "3위", "뒤와 1마신 이하 차이"],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": "phase>=2&order==3&bashin_diff_behind<=1"
+  },
+  {
+    "name": "나이스 네이처 (치어리더)",
+    "aptitude": ["A", "G", "G", "C", "A", "A", "F", "B", "A", "D"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "최종 코너 이후에 1명 추월",
+      "최종 직선",
+      "40~70% (4~6위)",
+      "인기순위 4위 이하 → 지속시간 6s",
+      "인기순위 1~3위 → 지속시간 5s"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 6,
+      "speed": 0.35
+    },
+    "uniqueSkillPrecondition": "is_finalcorner==1&change_order_onetime<0",
+    "uniqueSkillCondition": [
+      "is_finalcorner==1&corner==0&order_rate>=40&order_rate<=70&popularity>=4",
+      "is_finalcorner==1&corner==0&order_rate>=40&order_rate<=70&popularity<4"
+    ]
+  },
+  {
+    "name": "나카야마 페스타",
     "aptitude": [],
-    "japan": false,
-    "korea": false
+    "presence": null
+  },
+  {
+    "name": "니시노 플라워",
+    "aptitude": ["A", "F", "A", "A", "E", "G", "F", "A", "A", "G"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "중반 코너에서 2초 몸싸움",
+      "종반의 최종 코너 후반 이후",
+      "3위~40% (3~4위)"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 4,
+      "acceleration": 0.4
+    },
+    "uniqueSkillPrecondition": "phase==1&blocked_side_continuetime>=2&corner!=0",
+    "uniqueSkillCondition": "phase>=2&is_finalcorner_laterhalf==1&order>=3&order_rate<=40@phase>=2&is_finalcorner==1&corner==0&order>=3&order_rate<=40"
+  },
+  {
+    "name": "다이와 스칼렛",
+    "aptitude": ["A", "G", "F", "A", "A", "B", "A", "A", "E", "G"],
+    "presence": "jk",
+    "uniqueSkillDescription": [
+      "주행거리 50% 이상",
+      "1위에서 뒤와 1마신 이하 차이",
+      "OR 2위에서 추월 대상이 있음"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.25,
+      "acceleration": 0.3
+    },
+    "uniqueSkillCondition": "distance_rate>=50&order==1&bashin_diff_behind<=1@distance_rate>=50&order==2&is_overtake==1"
+  },
+  {
+    "name": "다이타쿠 헬리오스",
+    "aptitude": [],
+    "presence": null
+  },
+  {
+    "name": "라이스 샤워",
+    "aptitude": ["A", "G", "E", "C", "A", "A", "B", "A", "C", "G"],
+    "presence": "jk",
+    "uniqueSkillDescription": [
+      "최종 코너 이후",
+      "추월했을 때 4위 이내 (1~4위)"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillPrecondition": "is_finalcorner==1&order<=4&change_order_onetime<0",
+    "uniqueSkillCondition": "is_finalcorner==1&corner==0"
+  },
+  {
+    "name": "라이스 샤워 (할로윈)",
+    "aptitude": ["A", "G", "E", "C", "A", "A", "B", "A", "C", "G"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "중반",
+      "2위~50% (2~5위)",
+      "1초 이상 추월 대상이 됨",
+      "앞의 모든 말딸 체력 아주 약간 감소"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 0,
+      "heal": 0.55,
+      "drain": -0.005
+    },
+    "uniqueSkillCondition": "phase==1&order>=2&order_rate<=50&overtake_target_time>=1"
+  },
+  {
+    "name": "마루젠스키",
+    "aptitude": ["A", "D", "B", "A", "B", "C", "A", "E", "G", "G"],
+    "presence": "jk",
+    "uniqueSkillDescription": ["최종 코너", "5위 이내이며 50% 이내 (1~5위)"],
+    "uniqueSkillEffect": {
+      "duration": 4,
+      "acceleration": 0.4
+    },
+    "uniqueSkillCondition": "is_finalcorner==1&order<=5&order_rate<=50"
+  },
+  {
+    "name": "마루젠스키 (수영복)",
+    "aptitude": ["A", "D", "B", "A", "B", "C", "A", "E", "G", "G"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "주행거리 50% 이상",
+      "1~3위",
+      "회복 스킬 1회 이상 발동"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": "distance_rate>=50&activate_count_heal>=1&order<=3"
+  },
+  {
+    "name": "마벨러스 선데이",
+    "aptitude": [],
+    "presence": null
+  },
+  {
+    "name": "마야노 탑건",
+    "aptitude": ["A", "E", "D", "D", "A", "A", "A", "A", "B", "B"],
+    "presence": "jk",
+    "uniqueSkillDescription": ["최종 코너", "몸싸움 2초 이상", "1~3위 사이"],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.25,
+      "acceleration": 0.3
+    },
+    "uniqueSkillCondition": "is_finalcorner==1&blocked_side_continuetime>=2&order<=3"
+  },
+  {
+    "name": "마야노 탑건 (웨딩)",
+    "aptitude": ["A", "E", "D", "D", "A", "A", "A", "A", "B", "B"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "최종 코너",
+      "추월했을 때 40% 이내 (1~4위) → 지속 5s, 속도 0.35",
+      "추월했을 때 50~80% (5~7위) → 지속 4s, 가속도 0.4"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": [
+      "is_finalcorner==1&corner!=0&order_rate<=40&change_order_onetime<0",
+      "is_finalcorner==1&corner!=0&order_rate>=50&order_rate<=80&change_order_onetime<0"
+    ]
+  },
+  {
+    "name": "마치카네 탄호이저",
+    "aptitude": ["A", "G", "G", "D", "A", "A", "F", "A", "A", "E"],
+    "presence": "j",
+    "uniqueSkillDescription": ["중반", "주행거리 50% 이상", "3위~70% (3~6위)"],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.25,
+      "heal": 0.55
+    },
+    "uniqueSkillCondition": "distance_rate>=50&phase==1&order>=3&order_rate<=70"
+  },
+  {
+    "name": "마치카네 후쿠키타루",
+    "aptitude": ["A", "F", "F", "C", "A", "A", "G", "B", "A", "F"],
+    "presence": "jk",
+    "uniqueSkillDescription": ["종반", "3위보다 뒤", "앞에서 블럭"],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": "phase>=2&order>=3&blocked_front==1"
+  },
+  {
+    "name": "마치카네 후쿠키타루 (풀아머)",
+    "aptitude": ["A", "F", "F", "C", "A", "A", "G", "B", "A", "F"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "주행거리 50% 이상",
+      "40%보다 뒤 (4~9위)",
+      "추월 대상이 됨"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35,
+      "acceleration": 0.1
+    },
+    "uniqueSkillCondition": "distance_rate>=50&order_rate>=40&overtake_target_time>=2"
+  },
+  {
+    "name": "맨하탄 카페",
+    "aptitude": ["A", "G", "G", "F", "B", "A", "G", "C", "A", "C"],
+    "presence": "j",
+    "uniqueSkillDescription": ["주행거리 50% 이상", "40~70% (4~6위)"],
+    "uniqueSkillEffect": {
+      "duration": 6,
+      "speed": 0.25
+    },
+    "uniqueSkillCondition": "distance_rate>=50&order_rate>=40&order_rate<=70"
+  },
+  {
+    "name": "메이쇼 도토",
+    "aptitude": ["A", "E", "G", "F", "A", "A", "F", "A", "B", "E"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "종반 이후 코너",
+      "추월했을 때 3위보다 뒤 (3~9위)"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.25,
+      "acceleration": 0.3
+    },
+    "uniqueSkillCondition": "phase>=2&corner!=0&order>=3&change_order_onetime<0"
+  },
+  {
+    "name": "메지로 도베르",
+    "aptitude": ["A", "G", "E", "A", "A", "F", "C", "B", "A", "G"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "종반의 최종이 아닌 코너",
+      "OR 중반 최종 코너",
+      "흥분 X",
+      "50~70% (5~6위)"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 4,
+      "acceleration": 0.4
+    },
+    "uniqueSkillCondition": "phase>=2&corner!=0&is_finalcorner==0&temptation_count==0&order_rate>=50&order_rate<=70@phase==1&corner!=0&is_finalcorner==1&temptation_count==0&order_rate>=50&order_rate<=70"
+  },
+  {
+    "name": "메지로 도베르 (캠핑)",
+    "aptitude": ["A", "G", "E", "A", "A", "F", "C", "B", "A", "G"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "중반, 주행거리 60% 이상 ~ 잔여 500m 이하, 내리막길 주행중",
+      "40~80% 사이 (4~7위)",
+      "잔여 500m"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 0.5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": "distance_rate>=60&slope==2&phase==1&order_rate>=40&order_rate<=80&remain_distance>=500"
+  },
+  {
+    "name": "메지로 라이언",
+    "aptitude": ["A", "G", "E", "C", "A", "B", "F", "A", "A", "F"],
+    "presence": "jk",
+    "uniqueSkillDescription": ["종반 코너", "65~70% (6위)"],
+    "uniqueSkillEffect": {
+      "duration": 4,
+      "acceleration": 0.4
+    },
+    "uniqueSkillCondition": "phase>=2&corner!=0&order_rate>=65&order_rate<=70"
+  },
+  {
+    "name": "메지로 맥퀸",
+    "aptitude": ["A", "E", "G", "F", "A", "A", "B", "A", "D", "F"],
+    "presence": "jk",
+    "uniqueSkillDescription": [
+      "최종 코너",
+      "모든 말딸 사이 거리상 상위 30% 이내 포지션"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": "is_finalcorner==1&corner!=0&distance_diff_rate<=30"
+  },
+  {
+    "name": "메지로 맥퀸 (애니메이션)",
+    "uniqueSkillDescription": [
+      "최종 코너",
+      "체력 45% 이하",
+      "3위 이내면서 50% 이내 (1~5위)",
+      "뒤와 1마신 이하 차이",
+      "1초 이상 추월 대상이 됨"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 6,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": "is_finalcorner==1&hp_per<=45&order<=3&order_rate<=50&bashin_diff_behind<=1&overtake_target_time>=1"
+  },
+  {
+    "name": "메지로 브라이트",
+    "aptitude": ["A", "G", "F", "C", "A", "A", "G", "D", "A", "A"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "주행거리 50% 이상",
+      "40~80% (4~7위)",
+      "남은 체력에 따라 지속시간 상승",
+      "HP < 2000 | 1.0x | 5s",
+      "2000 <= HP < 2400 | 1.5x | 7.5s",
+      "2400 <= HP < 2600 | 2.0x | 10s",
+      "2600 <= HP < 2800 | 2.2x | 11s",
+      "2800 <= HP < 3000 | 2.5x | 12.5s",
+      "3000 <= HP < 3200 | 3.0x | 15s",
+      "3200 <= HP < 3500 | 3.5x | 17.5s",
+      "3500 <= HP | 4.0x | 20s"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.15
+    },
+    "uniqueSkillCondition": "distance_rate>=50&order_rate>=40order_rate<=80"
+  },
+  {
+    "name": "메지로 아르당",
+    "aptitude": ["A", "F", "E", "B", "A", "D", "C", "A", "D", "G"],
+    "presence": "j",
+    "uniqueSkillDescription": ["최종 직선", "뒤와 1마신 이하 차이"],
+    "uniqueSkillEffect": {
+      "duration": 4,
+      "speed": 0.45,
+      "drain": -0.01
+    },
+    "uniqueSkillCondition": "is_finalcorner==1&corner==0&bashin_diff_behind<=1"
+  },
+  {
+    "name": "메지로 파머",
+    "aptitude": ["A", "G", "G", "F", "A", "A", "A", "E", "F", "G"],
+    "presence": "j",
+    "uniqueSkillDescription": ["주행거리 50% 이상", "순위율 20% 유지"],
+    "uniqueSkillEffect": {
+      "duration": 6,
+      "speed": 0.25,
+      "heal": 0.55
+    },
+    "uniqueSkillCondition": "distance_rate>=50&order_rate_in20_continue==1"
+  },
+  {
+    "name": "미스터 시비",
+    "aptitude": [],
+    "presence": null
+  },
+  {
+    "name": "미호노 부르봉",
+    "aptitude": ["A", "G", "C", "B", "A", "B", "A", "E", "G", "G"],
+    "presence": "jk",
+    "uniqueSkillDescription": [
+      "최종 직선",
+      "지연출발X 흥분X",
+      "3위 이내 (1~3위)"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": "is_badstart==0&temptation_count==0&order<=3&is_finalcorner==1&corner==0"
+  },
+  {
+    "name": "미호노 부르봉 (발렌타인)",
+    "aptitude": ["A", "G", "C", "B", "A", "B", "A", "E", "G", "G"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "중반 코너",
+      "4위 이내 (1~4위)",
+      "뒤와 3마신 이하 차이"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35,
+      "heal": 0.015
+    },
+    "uniqueSkillCondition": "order<=4&phase==1&corner!=0&bashin_diff_behind<=3"
+  },
+  {
+    "name": "뱀부 메모리",
+    "aptitude": [],
+    "presence": null
+  },
+  {
+    "name": "보드카",
+    "aptitude": ["A", "G", "F", "A", "A", "F", "C", "B", "A", "F"],
+    "presence": "jk",
+    "uniqueSkillDescription": [
+      "잔여거리 200m 이하",
+      "3위 이내면서 50% 이내 (2~5위)",
+      "앞뒤와 1마신 이하 차이"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": "order>=3&order_rate<=50&remain_distance<=200&bashin_diff_infront<=1@order>=3&order_rate<=50&remain_distance<=200&bashin_diff_behind<=1"
+  },
+  {
+    "name": "비와 하야히데",
+    "aptitude": ["A", "F", "F", "C", "A", "A", "E", "A", "B", "E"],
+    "presence": "jk",
+    "uniqueSkillDescription": ["최종 코너 이후", "추월했을 때 4위 이내"],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": "order_rate_in40_continue==1&phase==1&distance_rate>=50&order>=2&order_rate<=40"
+  },
+  {
+    "name": "비와 하야히데 (크리스마스)",
+    "aptitude": ["A", "F", "F", "C", "A", "A", "E", "A", "B", "E"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "주행거리 50% 이상",
+      "출발 5초 후부터 40% 이내 (1~4위) 유지",
+      "2위~40% (2~4위)에서 발동"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": "is_finalcorner==1&change_order_onetime<0&order<=4"
+  },
+  {
+    "name": "비코 페가수스",
+    "aptitude": [],
+    "presence": null
+  },
+  {
+    "name": "사일런스 스즈카",
+    "aptitude": ["A", "G", "D", "A", "A", "E", "A", "C", "E", "G"],
+    "presence": "jk",
+    "uniqueSkillDescription": [
+      "주행거리 50% 이상",
+      "1위",
+      "뒤와 1마신 이상 차이"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": "distance_rate>=50&order==1&bashin_diff_behind>=1"
+  },
+  {
+    "name": "사쿠라 바쿠신 오",
+    "aptitude": ["A", "G", "A", "B", "G", "G", "A", "A", "F", "G"],
+    "presence": "jk",
+    "uniqueSkillDescription": [
+      "주행거리 50% 이상",
+      "3위 이내",
+      "몸싸움 2초 이상"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": "distance_rate>=50&order<=3&blocked_side_continuetime>=2"
+  },
+  {
+    "name": "사쿠라 로렐",
+    "aptitude": [],
+    "presence": null
+  },
+  {
+    "name": "사쿠라 치요노 오",
+    "aptitude": ["A", "G", "E", "A", "A", "E", "B", "A", "F", "G"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "잔여거리 300m 이하",
+      "40% 이내 (2~4위)",
+      "앞과 1마신 이하 차이"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": "remain_distance<=300&order_rate<=40&bashin_diff_infront<=1"
+  },
+  {
+    "name": "사토노 다이아몬드",
+    "aptitude": ["A", "G", "G", "C", "A", "A", "G", "B", "A", "D"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "최종 직선",
+      "2~5위",
+      "선두와 5m(2마신) 이하 차이 → 속도 0.45",
+      "선두와 5m(2마신) 초과 차이 → 속도 0.35"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": [
+      "is_last_straight_onetime==1&order>=2&order<=5&distance_diff_top<=5",
+      "is_last_straight_onetime==1&order>=2&order<=5&distance_diff_top>5"
+    ]
+  },
+  {
+    "name": "세이운 스카이",
+    "aptitude": ["A", "G", "G", "C", "A", "A", "A", "B", "D", "E"],
+    "presence": "j",
+    "uniqueSkillDescription": ["종반 코너", "1위"],
+    "uniqueSkillEffect": {
+      "duration": 4,
+      "acceleration": 0.4
+    },
+    "uniqueSkillCondition": "phase>=2&corner!=0&order==1"
+  },
+  {
+    "name": "세이운 스카이 (무도회)",
+    "aptitude": ["A", "G", "G", "C", "A", "A", "A", "B", "D", "E"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "종반 직선",
+      "2위 이내 (1~2위)",
+      "안쪽 코스면 추가로 가속도 1.0"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": [
+      "phase>=2&corner==0&order<=2&straight_front_type==2",
+      "phase>=2&corner==0&order<=2"
+    ]
+  },
+  {
+    "name": "슈퍼 크릭",
+    "aptitude": ["A", "G", "G", "G", "A", "A", "D", "A", "B", "G"],
+    "presence": "jk",
+    "uniqueSkillDescription": ["중반 랜덤", "2위~40% (2~4위)"],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "heal": 0.75
+    },
+    "uniqueSkillCondition": "phase_random==1&order>=2&order_rate<=40"
+  },
+  {
+    "name": "슈퍼 크릭 (할로윈)",
+    "aptitude": ["A", "G", "G", "G", "A", "A", "D", "A", "B", "G"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "최종 직선",
+      "4위 이내 (2~4위)",
+      "앞과 1마신 이하 차이"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.25,
+      "acceleration": 0.3
+    },
+    "uniqueSkillCondition": "is_finalcorner==1&corner==0&order<=4&bashin_diff_infront<=1"
+  },
+  {
+    "name": "스마트 팔콘",
+    "aptitude": ["E", "A", "B", "A", "A", "E", "A", "D", "G", "G"],
+    "presence": "j",
+    "uniqueSkillDescription": ["중반 직선", "2위 이내", "뒤와 1마신 이하 차이"],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": "phase==1&corner==0&order<=2&bashin_diff_behind<=1"
+  },
+  {
+    "name": "스윕 토쇼",
+    "aptitude": ["A", "G", "E", "A", "A", "D", "G", "G", "A", "A"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "잔여거리 300m",
+      "최종 코너 돌입시까지 50%보다 뒤 순위 유지(6~9위)",
+      "흥분하지 않음"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 6,
+      "speed": 0.35
+    },
+    "uniqueSkillPrecondition": "order_rate_out50_continue==1&temptation_count==0&is_finalcorner==1",
+    "uniqueSkillCondition": "remain_distance<=300"
+  },
+  {
+    "name": "스페셜 위크",
+    "aptitude": ["A", "G", "F", "C", "A", "A", "G", "A", "A", "C"],
+    "presence": "jk",
+    "uniqueSkillDescription": ["종반", "추월했을 때 1위~50% 사이 (1~5위)"],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35,
+      "acceleration": 0.1
+    },
+    "uniqueSkillCondition": "phase>=2&order>=1&order_rate<=50&change_order_onetime<0"
+  },
+  {
+    "name": "스페셜 위크 (수영복)",
+    "aptitude": ["A", "G", "F", "C", "A", "A", "G", "A", "A", "C"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "중반",
+      "2위 이하 또는 70% 이내 (2~6위)",
+      "중반에 스킬 2개 이상 발동"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "heal": 0.55
+    },
+    "uniqueSkillCondition": "phase==1&order>=2&order_rate<=70&activate_count_middle>=2"
+  },
+  {
+    "name": "시리우스 심볼리",
+    "aptitude": [],
+    "presence": null
+  },
+  {
+    "name": "시킹 더 펄",
+    "aptitude": [],
+    "presence": null
+  },
+  {
+    "name": "신코 윈디",
+    "aptitude": [],
+    "presence": null
+  },
+  {
+    "name": "심볼리 루돌프",
+    "aptitude": ["A", "G", "E", "C", "A", "A", "B", "A", "A", "C"],
+    "presence": "jk",
+    "uniqueSkillDescription": ["최종 직선", "종반에 3회 이상 추월"],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.45
+    },
+    "uniqueSkillCondition": "is_finalcorner==1&change_order_up_end_after>=3&corner==0"
+  },
+  {
+    "name": "심볼리 루돌프 (축제)",
+    "aptitude": ["A", "G", "E", "C", "A", "A", "B", "A", "A", "C"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "최종 코너",
+      "40% 이내 (1~4위)",
+      "2초 이상 추월 대상이 됨"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": "is_finalcorner==1&order_rate<=40&overtake_target_time>=2"
   },
   {
     "name": "심볼리 크리스 에스",
     "aptitude": [],
-    "japan": false,
-    "korea": false
+    "presence": null
   },
   {
-    "name": "타니노 김렛",
-    "aptitude": [],
-    "japan": false,
-    "korea": false
+    "name": "아그네스 디지털",
+    "aptitude": ["A", "A", "F", "A", "A", "G", "G", "A", "A", "B"],
+    "presence": "j",
+    "uniqueSkillDescription": ["종반", "종반에 2회 이상 추월"],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": "change_order_up_end_after>=2"
+  },
+  {
+    "name": "아그네스 타키온",
+    "aptitude": ["A", "G", "G", "D", "A", "B", "E", "A", "B", "F"],
+    "presence": "jk",
+    "uniqueSkillDescription": ["주행거리 50% 이상 코너", "3위~40% (3~4위)"],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.25,
+      "heal": 0.55
+    },
+    "uniqueSkillCondition": "distance_rate>=50&corner!=0&order>=3&order_rate<=40"
+  },
+  {
+    "name": "아이네스 후우진",
+    "aptitude": ["A", "G", "G", "A", "A", "C", "A", "C", "G", "G"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "잔여거리 299~295m",
+      "잔여 305~300m 지점에서 오르막 주행",
+      "잔여 299~295m 지점에서 평지나 내리막을 2위 이내(1~2위)로 주행",
+      "오르막, 내리막 조건이 안 맞다면 → 속도 0.25"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.45
+    },
+    "uniqueSkillPrecondition": "remain_distance<=305&remain_distance>=300&slope==1",
+    "uniqueSkillCondition": [
+      "remain_distance<=299&remain_distance>=295&order<=2&slope==0@remain_distance<=299&remain_distance>=295&order<=2&slope==2",
+      "remain_distance<=299&remain_distance>=295&order<=2"
+    ]
   },
   {
     "name": "애스턴 마쨩",
     "aptitude": [],
-    "japan": false,
-    "korea": false
+    "presence": null
+  },
+  {
+    "name": "야마닌 제퍼",
+    "aptitude": [],
+    "presence": null
+  },
+  {
+    "name": "야에노 무테키",
+    "aptitude": ["A", "E", "G", "B", "A", "E", "F", "A", "A", "G"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "잔여거리 300m",
+      "최종 코너 이후에 1회 이상 추월",
+      "40% 이내 (1~4위)"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillPrecondition": "is_finalcorner==1&change_order_onetime<0",
+    "uniqueSkillCondition": "remain_distance<=300&order_rate<=40"
+  },
+  {
+    "name": "어드마이어 베가",
+    "aptitude": ["A", "G", "F", "C", "A", "C", "G", "G", "B", "A"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "최종 직선",
+      "선두와 5m(2마신) 이상 차이",
+      "80% 이하 (8~9위) → 속도 0.45",
+      "80% 이내 (2~7위) → 속도 0.35"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": [
+      "is_finalcorner==1&corner==0&distance_diff_top>=5&order_rate<80",
+      "is_finalcorner==1&corner==0&distance_diff_top>=5&order_rate>=80"
+    ]
+  },
+  {
+    "name": "에어 그루브",
+    "aptitude": ["A", "G", "C", "B", "A", "E", "D", "A", "A", "G"],
+    "presence": "jk",
+    "uniqueSkillDescription": ["최종 코너", "추월했을 때 3위보다 뒤 (3~9위)"],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": "is_finalcorner==1&corner!=0&order>=3&change_order_onetime<0"
+  },
+  {
+    "name": "에어 그루브 (웨딩)",
+    "aptitude": ["A", "G", "C", "B", "A", "E", "D", "A", "A", "G"],
+    "presence": "j",
+    "uniqueSkillDescription": ["중반", "3위~50% (3~5위)", "추월 대상이 있음"],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": "phase==1&order>=3&order_rate<=50&is_overtake==1"
+  },
+  {
+    "name": "에어 샤칼",
+    "aptitude": [],
+    "presence": null
+  },
+  {
+    "name": "에이신 플래시",
+    "aptitude": ["A", "G", "G", "F", "A", "A", "G", "B", "A", "C"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "최종 직선",
+      "지연출발 X 흥분X",
+      "3위보다 뒤 (3~9위)"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": "is_badstart==0&temptation_count==0&order>=3&is_finalcorner==1&corner==0"
+  },
+  {
+    "name": "에이신 플래시 (발렌타인)",
+    "aptitude": ["A", "G", "G", "F", "A", "A", "G", "B", "A", "C"],
+    "presence": "j",
+    "uniqueSkillDescription": ["최종 직선", "최종 코너 이후 3회 이상 추월"],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": "change_order_up_finalcorner_after>=3&is_finalcorner==1&corner==0"
+  },
+  {
+    "name": "엘 콘도르 파사",
+    "aptitude": ["A", "B", "F", "A", "A", "B", "E", "A", "A", "C"],
+    "presence": "jk",
+    "uniqueSkillDescription": ["최종 직선", "체력 30% 이상이고 1~2위"],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.25,
+      "acceleration": 0.3
+    },
+    "uniqueSkillCondition": "is_finalcorner==1&corner==0&hp_per>=30&order<=2"
+  },
+  {
+    "name": "엘 콘도르 파사 (몽크)",
+    "uniqueSkillDescription": [
+      "최종 코너",
+      "4위~75% (4~7위)",
+      "추월 대상이 있음"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 4,
+      "acceleration": 0.4
+    },
+    "uniqueSkillCondition": "is_finalcorner==1&corner!=0&is_overtake==1&order>=4&order_rate<=75"
+  },
+  {
+    "name": "오구리 캡",
+    "aptitude": ["A", "B", "E", "A", "A", "B", "F", "A", "A", "D"],
+    "presence": "jk",
+    "uniqueSkillDescription": [
+      "잔여거리 199~201m",
+      "2위 이하이며, 5위 이내 또는 50% 이내 (2~5위)"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.45
+    },
+    "uniqueSkillCondition": "order>=2&order<=5&order_rate<=50&remain_distance<=201&remain_distance>=199"
+  },
+  {
+    "name": "오구리 캡 (크리스마스)",
+    "aptitude": ["A", "B", "E", "A", "A", "B", "F", "A", "A", "D"],
+    "presence": "j",
+    "uniqueSkillDescription": ["주행거리 50% 이상", "회복 스킬 3회 이상 발동"],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.25,
+      "acceleration": 0.3,
+      "heal": 0.035
+    },
+    "uniqueSkillCondition": "activate_count_heal>=3&distance_rate>=50"
+  },
+  {
+    "name": "위닝 티켓",
+    "aptitude": ["A", "G", "G", "F", "A", "B", "G", "B", "A", "G"],
+    "presence": "jk",
+    "uniqueSkillDescription": [
+      "최종 직선",
+      "최종 코너 이후에 몸싸움 2초 이상",
+      "최종 직선에서 5위 이내 (1~5위)"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillPrecondition": "is_finalcorner==1&blocked_side_continuetime>=2",
+    "uniqueSkillCondition": "is_finalcorner==1&corner==0&order<=5"
+  },
+  {
+    "name": "유키노 비진",
+    "aptitude": [],
+    "presence": null
+  },
+  {
+    "name": "이나리 원",
+    "aptitude": ["A", "A", "F", "B", "A", "A", "G", "B", "B", "A"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "주행거리 50% 이상",
+      "근성속업(追い比べ) 발동한 적 있음",
+      "레이스 내내 40%보다 뒤 순위 유지 (5~9위)"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.45
+    },
+    "uniqueSkillPrecondition": "distance_rate>=50&order_rate_out40_continue==1",
+    "uniqueSkillCondition": "compete_fight_count>0"
+  },
+  {
+    "name": "이쿠노 딕터스",
+    "aptitude": [],
+    "presence": null
+  },
+  {
+    "name": "젠노 롭 로이",
+    "aptitude": [],
+    "presence": null
+  },
+  {
+    "name": "츠루마루 츠요시",
+    "aptitude": [],
+    "presence": null
+  },
+  {
+    "name": "카렌쨩",
+    "aptitude": ["A", "F", "A", "D", "G", "G", "B", "A", "E", "G"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "주행거리 50~65%",
+      "추월했을 때 2위~40% (2~4위)"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.25,
+      "acceleration": 0.3
+    },
+    "uniqueSkillCondition": "distance_rate>=50&distance_rate<=65&order>=2&order_rate<=40&change_order_onetime<0"
+  },
+  {
+    "name": "카렌쨩 (웨딩)",
+    "aptitude": ["A", "F", "A", "D", "G", "G", "B", "A", "E", "G"],
+    "presence": "j",
+    "uniqueSkillDescription": ["잔여거리 350m", "20~40% (2~4위)"],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.25,
+      "acceleration": 0.3
+    },
+    "uniqueSkillCondition": "remain_distance<=350&order_rate<=40&order_rate>=20&bashin_diff_behind<=1"
+  },
+  {
+    "name": "카와카미 프린세스",
+    "aptitude": ["A", "G", "D", "B", "A", "F", "G", "C", "A", "D"],
+    "presence": "j",
+    "uniqueSkillDescription": ["최종 직선", "몸싸움 2초 이상"],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": "is_finalcorner==1&corner==0&blocked_side_continuetime>=2"
   },
   {
     "name": "코파노 릿키",
     "aptitude": [],
-    "implemented": false
+    "presence": null
+  },
+  {
+    "name": "키타산 블랙",
+    "aptitude": ["A", "G", "E", "C", "A", "A", "A", "B", "C", "G"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "주행거리 50% 이상 코너",
+      "2위 이내 (1~2위)",
+      "장거리가 아닐 시 가속도 상승 없음"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.25,
+      "acceleration": 0.3
+    },
+    "uniqueSkillCondition": [
+      "distance_rate>=50&corner==3&order<=2",
+      "phase==2&straight_front_type==2&order<=2"
+    ]
+  },
+  {
+    "name": "킹 헤일로",
+    "aptitude": ["A", "G", "A", "B", "B", "C", "G", "B", "A", "D"],
+    "presence": "jk",
+    "uniqueSkillDescription": ["흥분 X", "4위~70% (4~6위)"],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.45
+    },
+    "uniqueSkillCondition": "temptation_count==0&remain_distance<=201&remain_distance>=199&order>=4&order_rate<=70"
+  },
+  {
+    "name": "킹 헤일로 (치어리더)",
+    "aptitude": ["A", "G", "A", "B", "B", "C", "G", "B", "A", "D"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "주행거리 50% 지점까지 70% 이하(6~9위) 유지, 흥분 X",
+      "최종 직선"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 4,
+      "acceleration": 0.4
+    },
+    "uniqueSkillPrecondition": "distance_rate>=50&order_rate_out70_continue==1&temptation_count==0",
+    "uniqueSkillCondition": "is_finalcorner==1&corner==0"
+  },
+  {
+    "name": "타니노 김렛",
+    "aptitude": [],
+    "presence": null
+  },
+  {
+    "name": "타마모 크로스",
+    "aptitude": ["A", "F", "G", "E", "A", "A", "G", "A", "A", "A"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "주행거리 50% 이상 직선",
+      "70~75% (6~7위)에서 추월 대상이 있음",
+      "OR 20~30% (2~3위)"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35,
+      "acceleration": 0.1
+    },
+    "uniqueSkillCondition": "distance_rate>=50&corner==0&order_rate>=70&order_rate<=75&is_overtake==1@distance_rate>=50&corner==0&order_rate<=30&order_rate>=20"
+  },
+  {
+    "name": "타이키 셔틀",
+    "aptitude": ["A", "B", "A", "A", "E", "G", "C", "A", "E", "G"],
+    "presence": "jk",
+    "uniqueSkillDescription": ["최종 코너 후반부", "3위~40% (3~4위)"],
+    "uniqueSkillEffect": {
+      "duration": 4,
+      "acceleration": 0.4
+    },
+    "uniqueSkillCondition": "is_finalcorner_laterhalf==1&corner!=0&order>=3&order_rate<=40"
+  },
+  {
+    "name": "타이키 셔틀 (캠핑)",
+    "uniqueSkillDescription": [
+      "잔여거리 199~201m",
+      "2위~40% (2~4위)",
+      "선두와 5m 이하 차이 → 현재속도 0.15 상승",
+      "선두와 5m 초과 차이 → 현재속도 상승 없음"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35,
+      "currentSpeed": 0.15
+    },
+    "uniqueSkillCondition": [
+      "distance_diff_top<=5&order>=2&order_rate<=40&remain_distance<=201&remain_distance>=199",
+      "order>=2&order_rate<=40&remain_distance<=201&remain_distance>=199"
+    ]
+  },
+  {
+    "name": "토센 조던",
+    "aptitude": ["A", "G", "G", "F", "A", "B", "C", "A", "B", "G"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "최종 직선",
+      "2위~30% (2~3위)에서 2초 이상 추월 대상이 됨",
+      "OR 추월했을 때 20% 이내 (1~2위)"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": "is_finalcorner==1&corner==0&order>=2&order_rate<=30&overtake_target_time>=2@is_finalcorner==1&corner==0&order_rate<=20&change_order_onetime<0"
+  },
+  {
+    "name": "토카이 테이오",
+    "aptitude": ["A", "G", "F", "E", "A", "B", "D", "A", "C", "E"],
+    "presence": "jk",
+    "uniqueSkillDescription": [
+      "최종 직선",
+      "3위 이내 (2~3위)",
+      "앞과 1마신 이하 차이",
+      "추월 대상이 있음"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.45
+    },
+    "uniqueSkillCondition": "is_finalcorner==1&corner==0&order<=3&bashin_diff_infront<=1&is_overtake==1"
+  },
+  {
+    "name": "토카이 테이오 (애니메이션)",
+    "aptitude": ["A", "G", "F", "E", "A", "B", "D", "A", "C", "E"],
+    "presence": "jk",
+    "uniqueSkillDescription": [
+      "최종 직선",
+      "최종 코너 이후에 추월 대상이 있음",
+      "5위 이내면서 50% 이내 (1~5위)",
+      "그 위치에서 2초 이상 순위 유지"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.45
+    },
+    "uniqueSkillPrecondition": "is_finalcorner==1&is_overtake==1&order<=5&order_rate<=50&overtake_target_no_order_up_time>=2",
+    "uniqueSkillCondition": "is_finalcorner==1&corner==0"
+  },
+  {
+    "name": "트윈 터보",
+    "aptitude": [],
+    "presence": null
+  },
+  {
+    "name": "티엠 오페라 오",
+    "aptitude": ["A", "E", "G", "E", "A", "A", "C", "A", "A", "G"],
+    "presence": "jk",
+    "uniqueSkillDescription": [
+      "최종 코너 이후",
+      "4위 이내 (1~4위)",
+      "앞 또는 뒤와 1마신 이하 차이"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": "is_finalcorner==1,&bashin_diff_behind<=1&order<=4@is_finalcorner==1&bashin_diff_infront<=1&order<=4"
+  },
+  {
+    "name": "티엠 오페라 오 (신년)",
+    "uniqueSkillDescription": [
+      "잔여거리 399~401m",
+      "40% 이내 (1~4위)",
+      "스킬 발동 수 7개 이상 → 속도 0.45",
+      "스킬 발동 수 6개 이하 → 속도 0.35"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 4,
+      "speed": 0.45
+    },
+    "uniqueSkillCondition": [
+      "remain_distance<=401&remain_distance>=399&order_rate<=40&activate_count_all>=7",
+      "remain_distance<=401&remain_distance>=399&order_rate<=40&activate_count_all<=6"
+    ]
+  },
+  {
+    "name": "파인 모션",
+    "aptitude": ["A", "G", "F", "A", "A", "C", "D", "A", "E", "C"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "주행거리 50% 이상",
+      "2위~40% (2~4위)",
+      "몸싸움 2초 이상"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": "distance_rate>=50&order>=2&order_rate<=40&blocked_side_continuetime>=2"
+  },
+  {
+    "name": "파인 모션 (웨딩)",
+    "aptitude": ["A", "G", "F", "A", "A", "C", "D", "A", "E", "C"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "최종 코너 이후",
+      "20~40% (2~4위)",
+      "잔여거리 401m 이상 → 가속도 0.1",
+      "잔여거리 401m 미만 → 가속도 0"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": [
+      "remain_distance>=401&phase>=2&is_finalcorner==1&order_rate>=20&order_rate<=40",
+      "remain_distance>=401&phase>=2&is_finalcorner==1&order_rate>=20&order_rate<=40"
+    ]
+  },
+  {
+    "name": "하루우라라",
+    "aptitude": ["G", "A", "A", "B", "G", "G", "G", "G", "A", "B"],
+    "presence": "jk",
+    "uniqueSkillDescription": [
+      "최종 코너",
+      "50% 이하 (5~9위)",
+      "전후좌우 1.5m 안에 다른 말딸이 1명 이상 존재"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 0,
+      "heal": 0.035
+    },
+    "uniqueSkillCondition": "is_finalcorner==1&corner!=0&order_rate>50&near_count>=1"
+  },
+  {
+    "name": "하루우라라 (신년)",
+    "aptitude": ["G", "A", "A", "B", "G", "G", "G", "G", "A", "B"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "최종 코너",
+      "선두와 7m 이상 차이",
+      "선두와 거리차(m) / 62.5 <= 미지수 x → 지속시간 4s",
+      "선두와 거리차(m) / 62.5 > 미지수 x → 지속시간 8s"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.25
+    },
+    "uniqueSkillCondition": "is_finalcorner==1&corner!=0&distance_diff_top>=7"
+  },
+  {
+    "name": "후지 키세키",
+    "aptitude": ["A", "F", "B", "A", "B", "E", "C", "A", "C", "G"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "최종 직선",
+      "30% 이내 (1~3위)",
+      "뒤에 다른 말딸이 1초간 있음"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.45
+    },
+    "uniqueSkillCondition": "is_finalcorner==1&corner==0&order_rate<=30&behind_near_lane_time_set1>=1"
+  },
+  {
+    "name": "후지 키세키 (무도회)",
+    "aptitude": ["A", "F", "B", "A", "B", "E", "C", "A", "C", "G"],
+    "presence": "j",
+    "uniqueSkillDescription": ["최종 코너", "추월했을 때 40% 이내 (1~4위)"],
+    "uniqueSkillEffect": {
+      "duration": 4,
+      "speed": 0.45
+    },
+    "uniqueSkillCondition": "is_finalcorner==1&change_order_onetime<0&order_rate<=40"
+  },
+  {
+    "name": "히시 아마존",
+    "aptitude": ["A", "E", "D", "A", "A", "B", "G", "B", "C", "A"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "최종 직선",
+      "최종 코너 이후에 뒤쪽 내곽에 말딸이 있음",
+      "40% 이하 (4~8위)"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillPrecondition": "is_finalcorner==1&is_behind_in==1&change_order_onetime<0&order_rate>=40",
+    "uniqueSkillCondition": "is_finalcorner==1&corner==0"
+  },
+  {
+    "name": "히시 아케보노",
+    "aptitude": ["A", "F", "A", "B", "F", "G", "B", "A", "C", "G"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "주행거리 45~60%",
+      "체력 70% 이하",
+      "3위~50% (3~5위)"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.25,
+      "acceleration": 0.3
+    },
+    "uniqueSkillCondition": "distance_rate>=45&distance_rate<=60&order>=3&order_rate<=50&hp_per<=70"
   }
 ]

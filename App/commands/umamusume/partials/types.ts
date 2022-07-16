@@ -12,8 +12,11 @@ export interface Umamusume {
     string,
     string,
   ];
-  japan: boolean;
-  korea: boolean;
+  presence: string | null;
+  uniqueSkillDescription: string[];
+  uniqueSkillEffect: SkillEffect;
+  uniqueSkillCondition: SkillCondition;
+  uniqueSkillPrecondition?: string;
 }
 
 export interface Race {
@@ -44,14 +47,6 @@ export interface RaceTrack {
 export interface Skill {
   ja: string;
   ko: string;
-}
-
-export interface UniqueSkill {
-  umamusume: string;
-  description: string[];
-  effect: SkillEffect;
-  precondition?: string;
-  condition: SkillCondition;
 }
 
 export interface SkillEffect {

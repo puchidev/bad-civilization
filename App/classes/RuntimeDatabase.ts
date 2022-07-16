@@ -13,26 +13,18 @@ class RuntimeDatabase<V extends Record<string, any>> extends Collection<
 > {
   /**
    * Adds a record in data.
-   * @param record database record
-   * @param idKey key used as record identifier
+   * @param key the key of the element
+   * @param value the element to be added
+   * @returns the collection to support chaining
    */
-  public add(record: V, idKey: keyof V) {
-    const key = record[idKey];
-
+  public insert(key: string, value: V) {
     if (this.has(key)) {
       throw new Error(`Duplicate database key: ${key}`);
     }
 
-    this.set(key, record);
-  }
+    this.set(key, value);
 
-  /**
-   * Adds multiple records in data.
-   * @param records database records
-   * @param idKey key used as record identifier
-   */
-  public addAll(records: V[], idKey: keyof V) {
-    records.forEach((record) => this.add(record, idKey));
+    return this;
   }
 
   /**
@@ -53,6 +45,7 @@ class RuntimeDatabase<V extends Record<string, any>> extends Collection<
   ) {
     const { test } = options;
 
+    // get database keys remove symbols
     const keys = [...(test ? this.filter(test) : this).keys()];
     const _keyword = keyword.trim();
     const isMultiple = _keyword.includes(' ');

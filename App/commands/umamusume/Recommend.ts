@@ -9,8 +9,8 @@ import {
   nonNullable,
   random,
 } from '#App/utils';
+import { umamusumes } from './partials/database';
 import type { Umamusume } from './partials/types';
-import { umamusume } from './partials/database';
 
 interface Conditions {
   trackSurface?: string;
@@ -74,13 +74,22 @@ const command: CommandConfig<Props> = {
     const { factors, server } = params;
     const conditions = parseConditions(params.conditions);
 
-    const characters =
-      requestor.id in preset
-        ? umamusume.filter((uma) => preset[requestor.id].includes(uma.name))
-        : umamusume.filter((uma) =>
-            server === 'korea' ? !!uma.korea : !!uma.japan,
-          );
-    const character = characters
+    const character = umamusumes
+      .filter((uma) => {
+        // use preset for predefined users
+        if (requestor.id in preset) {
+          return preset[requestor.id].includes(uma.name);
+        }
+        // skip unimplemented umamusumes
+        if (!uma.presence) {
+          return false;
+        }
+        // use server-specific umamusume list
+        if (server === 'korea') {
+          return uma.presence.includes('k');
+        }
+        return true;
+      })
       .filter((uma) => meetsConditions({ umamusume: uma, conditions, factors }))
       .random();
 

@@ -2,7 +2,8 @@ import { SlashCommandBuilder } from '@discordjs/builders';
 import { MessageEmbed } from 'discord.js';
 
 import type { CommandConfig } from '#App/models';
-import { uniqueSkills } from './partials/database';
+import { convertAliases } from './partials/aliases';
+import { umamusumes } from './partials/database';
 import type { SkillEffect } from './partials/types';
 
 const command: CommandConfig = {
@@ -20,33 +21,42 @@ const command: CommandConfig = {
       return '찾는 말딸의 이름 일부를 입력해줘';
     }
 
-    const umamusumeName = params[0];
-    const { match: skill, suggestions } = uniqueSkills.search(umamusumeName);
+    const keyword = convertAliases(params.join(' '));
 
-    if (!skill) {
+    const { match: umamusume, suggestions } = umamusumes.search(keyword, {
+      test: (umamusume) => umamusume.presence !== null,
+    });
+
+    if (!umamusume) {
       return '아무 것도 찾지 못했어…';
     }
 
-    const { umamusume, description, effect, precondition, condition } = skill;
-    const embed = new MessageEmbed().setTitle(`${umamusume}의 고유 스킬`);
+    const {
+      name,
+      uniqueSkillDescription,
+      uniqueSkillEffect,
+      uniqueSkillPrecondition,
+      uniqueSkillCondition,
+    } = umamusume;
+    const embed = new MessageEmbed().setTitle(`${name}의 고유 스킬`);
 
     if (suggestions) {
       embed.setFooter({ text: `유사한 검색어: ${suggestions.join(', ')}` });
     }
 
     embed
-      .addField('발동조건', description.join('\n'))
-      .addField('효과', formatEffect(effect));
+      .addField('발동조건', uniqueSkillDescription.join('\n'))
+      .addField('효과', formatEffect(uniqueSkillEffect));
 
-    if (precondition) {
-      embed.addField('전제조건식', beautifyCondition(precondition));
+    if (uniqueSkillPrecondition) {
+      embed.addField('전제조건식', beautifyCondition(uniqueSkillPrecondition));
     }
 
     embed.addField(
       '조건식',
-      Array.isArray(condition)
-        ? condition.map(beautifyCondition).join('\nOR\n')
-        : beautifyCondition(condition),
+      Array.isArray(uniqueSkillCondition)
+        ? uniqueSkillCondition.map(beautifyCondition).join('\nOR\n')
+        : beautifyCondition(uniqueSkillCondition),
     );
 
     return { embeds: [embed] };

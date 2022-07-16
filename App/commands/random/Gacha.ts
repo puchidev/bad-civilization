@@ -45,6 +45,7 @@ const command: CommandConfig = {
     }
 
     const [gameName, times] = params;
+    const { username } = requestor;
 
     if (!gameName) {
       return `돌릴 가챠를 입력해 줘. 지금은 이런 것들이 가능해. ${bold(
@@ -73,7 +74,7 @@ const command: CommandConfig = {
       times,
       topPullCount,
       topPullRates,
-      username: requestor,
+      username,
     });
     const embed = createResultEmbed({ game, pulls });
 
@@ -82,14 +83,14 @@ const command: CommandConfig = {
   parseInteraction(interaction) {
     const gameName = interaction.options.getString('종류', true);
     const times = interaction.options.getInteger('횟수', true);
-    const requestor = interaction.user.username;
+    const requestor = interaction.user;
 
     return { params: [gameName, times], requestor };
   },
   parseMessage(message) {
     const [, name, times] = message.content.trim().split(/ +/g);
     const timesAsNumber = parseInt(times, 10);
-    const requestor = message.author.username;
+    const requestor = message.author;
 
     return { params: [name, timesAsNumber], requestor };
   },
