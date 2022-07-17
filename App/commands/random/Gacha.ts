@@ -1,17 +1,28 @@
 import { bold, underscore, SlashCommandBuilder } from '@discordjs/builders';
 import type BigNumber from 'bignumber.js';
 import { MessageEmbed } from 'discord.js';
-import type { EmbedFieldData } from 'discord.js';
+import type { EmbedFieldData, User } from 'discord.js';
 import chunk from 'lodash/chunk';
 
 import type { CommandConfig } from '#App/models';
+import { getArguments } from '#App/utils';
 import { games } from './Gacha/database';
 import { roll } from './Gacha/roll';
 import type { GachaGame, GachaPull } from './Gacha/types';
 
+interface Props {
+  params: {
+    name: string;
+    times: number;
+  };
+  requestor: User;
+}
+
+const DEFAULT_PULL_SIZE = 10;
+const MIN_PULL_SIZE = 1;
 const MAX_PULL_SIZE = 60;
 
-const command: CommandConfig = {
+const command: CommandConfig<Props> = {
   data: new SlashCommandBuilder()
     .setName('가챠')
     .setDescription('가챠아ㅏ가챠다아아ㅏ앗 돌리고 또 돌린다아아')
@@ -28,40 +39,26 @@ const command: CommandConfig = {
     .addIntegerOption((option) =>
       option
         .setName('횟수')
-        .setDescription('가챠를 돌릴 횟수')
-        .setRequired(true)
-        .addChoices(
-          { name: '10연챠', value: 10 },
-          { name: '20연챠', value: 20 },
-          { name: '30연챠', value: 30 },
-          { name: '40연챠', value: 40 },
-          { name: '50연챠', value: 50 },
-          { name: '60연챠', value: 60 },
-        ),
+        .setDescription(`가챠를 돌릴 횟수 (기본 ${DEFAULT_PULL_SIZE}회)`)
+        .setMinValue(MIN_PULL_SIZE)
+        .setMaxValue(MAX_PULL_SIZE),
     ),
-  async execute({ params, requestor }) {
-    if (!params || !requestor) {
-      throw new Error('Params expected');
-    }
-
-    const [gameName, times] = params;
-    const { username } = requestor;
-
-    if (!gameName) {
+  async execute({ params: { name, times }, requestor }) {
+    if (!name) {
       return `돌릴 가챠를 입력해 줘. 지금은 이런 것들이 가능해. ${bold(
         [...games.keys()].join(', '),
       )}.`;
     }
 
-    if (isNaN(times)) {
-      return `돌릴 가챠 횟수를 입력해 줘. 최대 60까지 가능해.`;
+    if (
+      !Number.isInteger(times) ||
+      times < MIN_PULL_SIZE ||
+      MAX_PULL_SIZE < times
+    ) {
+      return `돌릴 횟수는 ${MIN_PULL_SIZE}~${MAX_PULL_SIZE} 사이의 수를 입력해 줘.`;
     }
 
-    if (times > MAX_PULL_SIZE) {
-      return `가챠는 ${MAX_PULL_SIZE}연챠까지만 가능해.`;
-    }
-
-    const game = games.get(gameName);
+    const game = games.get(name);
 
     if (!game) {
       return '처음 듣는 가챠인데?';
@@ -74,25 +71,27 @@ const command: CommandConfig = {
       times,
       topPullCount,
       topPullRates,
-      username,
+      username: requestor.username,
     });
     const embed = createResultEmbed({ game, pulls });
 
     return { content: title, embeds: [embed] };
   },
   parseInteraction(interaction) {
-    const gameName = interaction.options.getString('종류', true);
-    const times = interaction.options.getInteger('횟수', true);
+    const name = interaction.options.getString('종류', true);
+    const times = interaction.options.getInteger('횟수') ?? DEFAULT_PULL_SIZE;
     const requestor = interaction.user;
 
-    return { params: [gameName, times], requestor };
+    return { params: { name, times }, requestor };
   },
   parseMessage(message) {
-    const [, name, times] = message.content.trim().split(/ +/g);
-    const timesAsNumber = parseInt(times, 10);
     const requestor = message.author;
 
-    return { params: [name, timesAsNumber], requestor };
+    const { numbers, strings } = getArguments(message);
+    const name = strings[0] ?? '';
+    const times = numbers[0] ?? DEFAULT_PULL_SIZE;
+
+    return { params: { name, times }, requestor };
   },
 };
 

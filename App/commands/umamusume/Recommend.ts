@@ -6,6 +6,7 @@ import type { CommandConfig } from '#App/models';
 import {
   endsWithJongSeong,
   getAlphabetOffset,
+  getArguments,
   nonNullable,
   random,
 } from '#App/utils';
@@ -132,16 +133,13 @@ const command: CommandConfig<Props> = {
   },
   parseMessage(message) {
     const requestor = message.author;
-    const [, ...params] = message.content.trim().split(/ +/g);
 
-    const conditions = params.filter((param) =>
-      /^(?!japan|korea)(.+)$/.test(param),
+    const { numbers, strings } = getArguments(message);
+    const conditions = strings.filter((value) =>
+      /^(?!japan|korea)(.+)$/.test(value),
     );
-    const numericParam = params.find((param) =>
-      Number.isInteger(parseInt(param, 10)),
-    );
-    const factors = numericParam ? parseInt(numericParam, 10) : DEFAULT_FACTORS;
-    const server = params.includes('한국') ? 'korea' : DEFAULT_SERVER;
+    const factors = numbers[0] ?? DEFAULT_FACTORS;
+    const server = strings.includes('한국') ? 'korea' : DEFAULT_SERVER;
 
     return { params: { conditions, factors, server }, requestor };
   },

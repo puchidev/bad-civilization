@@ -141,7 +141,7 @@ class Bot extends Client {
         message.mentions.has(this.user.id) &&
         message.author.id === '499244060318367745'
       ) {
-        await message.reply('명령어를 갱신합니다, 마스터.');
+        await message.reply('갱신할까 마스터?');
         this.deployCommands(message.guild);
         return;
       }
