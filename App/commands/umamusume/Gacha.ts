@@ -6,9 +6,9 @@ import chunk from 'lodash/chunk';
 
 import type { CommandConfig } from '#App/models';
 import { getArguments } from '#App/utils';
-import { games } from './Gacha/database';
-import { roll } from './Gacha/roll';
-import type { GachaGame, GachaPull } from './Gacha/types';
+import { games } from './partials/database';
+import { roll } from './partials/roll';
+import type { GachaGame, GachaPull } from './partials/types';
 
 interface Props {
   params: {

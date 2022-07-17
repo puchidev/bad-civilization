@@ -1,7 +1,10 @@
 import { RuntimeDatabase } from '#App/classes';
 import { logger } from '#App/devtools';
-import { fetchData } from '#App/utils';
+import { fetchAllData, fetchData } from '#App/utils';
+import { createGame } from './game';
 import type {
+  GachaGame,
+  GachaGameConfig,
   Pickup,
   PickupRef,
   Race,
@@ -16,6 +19,7 @@ export const raceTracks = new RuntimeDatabase<RaceTrack>();
 export const skills = new RuntimeDatabase<Skill>();
 export const pickups = new RuntimeDatabase<Pickup>();
 export const pickupRefs = new RuntimeDatabase<PickupRef>();
+export const games = new RuntimeDatabase<GachaGame>();
 
 /** Load umamusume data */
 async function loadUmamusumes() {
@@ -108,7 +112,25 @@ async function loadPickups() {
   }
 }
 
+/** Load gacha games */
+async function loadGames() {
+  try {
+    const configs = await fetchAllData<GachaGameConfig>(
+      'database/gacha/*.json',
+    );
+
+    configs.forEach((config) => {
+      const game = createGame(config);
+      games.insert(game.name, game);
+    });
+  } catch (e) {
+    logger.debug(e);
+    logger.error(`Failed to establish gacha game list.`);
+  }
+}
+
 loadUmamusumes();
 loadRaces();
 loadSkills();
 loadPickups();
+loadGames();

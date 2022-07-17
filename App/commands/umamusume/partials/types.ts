@@ -1,3 +1,7 @@
+import type BigNumber from 'bignumber.js';
+
+// Characters --------------------
+
 export interface Umamusume {
   name: string;
   aptitude: [
@@ -18,6 +22,8 @@ export interface Umamusume {
   uniqueSkillCondition: SkillCondition;
   uniqueSkillPrecondition?: string;
 }
+
+// Race --------------------
 
 export interface Race {
   name: string;
@@ -44,6 +50,8 @@ export interface RaceTrack {
   statusRef: string[] | null;
 }
 
+// Skill --------------------
+
 export interface Skill {
   ja: string;
   ko: string;
@@ -60,6 +68,8 @@ export interface SkillEffect {
 }
 
 export type SkillCondition = string | string[];
+
+// Pickup --------------------
 
 interface PickupPeriod {
   since: string;
@@ -78,4 +88,62 @@ export interface PickupRef {
 export interface Pickup extends PickupPeriod {
   umamusume: string[];
   support: string[];
+}
+
+// Gacha --------------------
+
+export interface GachaRules {
+  guaranteeEvery: number;
+  guaranteeGroup: string;
+  sessionSize: number;
+}
+
+export interface GachaMember {
+  name: string;
+  pickup?: boolean;
+}
+
+export interface GachaGroup {
+  name: string;
+  tier: number;
+}
+
+export interface GachaGroupExtended extends GachaGroup {
+  rates: number;
+  pickupRatio: number;
+}
+
+export interface GachaGameConfig {
+  id: string;
+  name: string;
+  rules: GachaRules;
+  groups: GachaGroupExtended[];
+  membersByGroup: {
+    [groupName: string]: GachaMember[];
+  };
+}
+
+export interface GachaSortedGroup extends GachaGroup {
+  members: GachaMember[];
+  pickup: boolean;
+  rates: BigNumber;
+  ratesOnGuarantee: BigNumber;
+}
+
+export interface GachaGame {
+  id: string;
+  name: string;
+  rules: GachaRules;
+  groups: GachaSortedGroup[];
+}
+
+export interface GachaPull {
+  member: GachaMember;
+  group: GachaGroup;
+}
+
+export interface GachaResult {
+  pulls: GachaPull[];
+  topPullCount: number;
+  topPullRates: BigNumber;
 }
