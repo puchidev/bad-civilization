@@ -1,8 +1,4 @@
 import type {
-  SlashCommandBuilder,
-  SlashCommandSubcommandsOnlyBuilder,
-} from '@discordjs/builders';
-import type {
   ApplicationCommandOptionChoiceData,
   AutocompleteInteraction,
   Collection,
@@ -10,6 +6,8 @@ import type {
   Message,
   MessagePayload,
   MessageOptions,
+  SlashCommandBuilder,
+  SlashCommandSubcommandsOnlyBuilder,
   Snowflake,
   User,
 } from 'discord.js';

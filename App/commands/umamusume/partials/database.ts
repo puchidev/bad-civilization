@@ -2,6 +2,7 @@ import { RuntimeDatabase } from '#App/classes';
 import { logger } from '#App/devtools';
 import { fetchAllData, fetchData } from '#App/utils';
 import { createGame } from './game';
+
 import type {
   GachaGame,
   GachaGameConfig,

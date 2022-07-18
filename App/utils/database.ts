@@ -1,7 +1,6 @@
 import glob from 'glob';
 import { readFile as readFileAsync } from 'node:fs/promises';
 import path from 'node:path';
-
 import { logger } from '#App/devtools';
 
 /**

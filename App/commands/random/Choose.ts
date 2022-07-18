@@ -1,7 +1,7 @@
-import { bold, SlashCommandBuilder } from '@discordjs/builders';
+import { bold, SlashCommandBuilder } from 'discord.js';
+import { random } from '#App/utils';
 
 import type { CommandConfig } from '#App/models';
-import { random } from '#App/utils';
 
 const command: CommandConfig = {
   data: new SlashCommandBuilder()
@@ -31,6 +31,10 @@ const command: CommandConfig = {
     )}일까?`;
   },
   parseInteraction(interaction) {
+    if (!interaction.isChatInputCommand()) {
+      throw new Error('Expected a chat input command.');
+    }
+
     const options = interaction.options.getString('선택지', true).split(/ +/g);
     const uniqueOptions = [...new Set(options)];
 

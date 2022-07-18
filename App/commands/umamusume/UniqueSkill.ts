@@ -1,9 +1,8 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { MessageEmbed } from 'discord.js';
-
-import type { CommandConfig } from '#App/models';
+import { EmbedBuilder, SlashCommandBuilder } from 'discord.js';
 import { convertAliases } from './partials/aliases';
 import { umamusumes } from './partials/database';
+
+import type { CommandConfig } from '#App/models';
 import type { SkillEffect } from './partials/types';
 
 const command: CommandConfig = {
@@ -38,31 +37,40 @@ const command: CommandConfig = {
       uniqueSkillPrecondition,
       uniqueSkillCondition,
     } = umamusume;
-    const embed = new MessageEmbed().setTitle(`${name}의 고유 스킬`);
+    const embed = new EmbedBuilder().setTitle(`${name}의 고유 스킬`);
 
     if (suggestions) {
       embed.setFooter({ text: `유사한 검색어: ${suggestions.join(', ')}` });
     }
 
-    embed
-      .addField('발동조건', uniqueSkillDescription.join('\n'))
-      .addField('효과', formatEffect(uniqueSkillEffect));
-
-    if (uniqueSkillPrecondition) {
-      embed.addField('전제조건식', beautifyCondition(uniqueSkillPrecondition));
-    }
-
-    embed.addField(
-      '조건식',
-      Array.isArray(uniqueSkillCondition)
-        ? uniqueSkillCondition.map(beautifyCondition).join('\nOR\n')
-        : beautifyCondition(uniqueSkillCondition),
-    );
+    embed.addFields([
+      { name: '발동조건', value: uniqueSkillDescription.join('\n') },
+      { name: '효과', value: formatEffect(uniqueSkillEffect) },
+      ...(uniqueSkillPrecondition
+        ? [
+            {
+              name: '전제조건식',
+              value: beautifyCondition(uniqueSkillPrecondition),
+            },
+          ]
+        : []),
+      {
+        name: '조건식',
+        value: Array.isArray(uniqueSkillCondition)
+          ? uniqueSkillCondition.map(beautifyCondition).join('\nOR\n')
+          : beautifyCondition(uniqueSkillCondition),
+      },
+    ]);
 
     return { embeds: [embed] };
   },
   parseInteraction(interaction) {
+    if (!interaction.isChatInputCommand()) {
+      throw new Error('Expected a chat input command.');
+    }
+
     const umaName = interaction.options.getString('말딸', true);
+
     return { params: [umaName] };
   },
   parseMessage(message) {

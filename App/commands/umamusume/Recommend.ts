@@ -1,8 +1,5 @@
-import { bold, SlashCommandBuilder } from '@discordjs/builders';
+import { bold, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
 import dedent from 'dedent';
-import { MessageEmbed, User } from 'discord.js';
-
-import type { CommandConfig } from '#App/models';
 import {
   endsWithJongSeong,
   getAlphabetOffset,
@@ -11,6 +8,9 @@ import {
   random,
 } from '#App/utils';
 import { umamusumes } from './partials/database';
+
+import type { User } from 'discord.js';
+import type { CommandConfig } from '#App/models';
 import type { Umamusume } from './partials/types';
 
 interface Conditions {
@@ -113,7 +113,7 @@ const command: CommandConfig<Props> = {
       도주 ${g} 선행 ${h} 선입 ${i} 추입 ${j}
     `;
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setTitle(`${character.name}의 적성`)
       .setDescription(aptitudeTemplate);
 
@@ -124,6 +124,10 @@ const command: CommandConfig<Props> = {
     return { content: message, embeds: [embed] };
   },
   parseInteraction(interaction) {
+    if (!interaction.isChatInputCommand()) {
+      throw new Error('Expected a chat input command.');
+    }
+
     const requestor = interaction.user;
     const conditions = interaction.options.getString('조건')?.split(/ +/g);
     const server = interaction.options.getString('서버') ?? DEFAULT_SERVER;

@@ -1,8 +1,7 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
-import { MessageEmbed } from 'discord.js';
+import { EmbedBuilder, SlashCommandBuilder } from 'discord.js';
+import { races, raceTracks } from './partials/database';
 
 import type { CommandConfig } from '#App/models';
-import { races, raceTracks } from './partials/database';
 import type { RaceTrackRange } from './partials/types';
 
 const command: CommandConfig = {
@@ -45,7 +44,7 @@ const command: CommandConfig = {
     const slopes = track.slopes.map(formatRange).join('\n') || '없음';
     const segments = track.segments.map(formatRange).join('\n');
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setTitle(`${race.name} 경기장 정보`)
       .setDescription(trackInfo)
       .addFields(
@@ -64,7 +63,12 @@ const command: CommandConfig = {
     };
   },
   parseInteraction(interaction) {
+    if (!interaction.isChatInputCommand()) {
+      throw new Error('Expected a chat input command.');
+    }
+
     const name = interaction.options.getString('이름', true);
+
     return { params: [name] };
   },
   parseMessage(message) {

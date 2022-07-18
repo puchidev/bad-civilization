@@ -1,11 +1,17 @@
 import { REST } from '@discordjs/rest';
-import { Client, Collection, Intents } from 'discord.js';
+import {
+  Client,
+  Collection,
+  GatewayIntentBits,
+  InteractionType,
+  Partials,
+} from 'discord.js';
 import { Routes } from 'discord-api-types/v10';
 import glob from 'glob';
 import path from 'node:path';
-import type { Guild } from 'discord.js';
-
 import { logger } from '#App/devtools';
+
+import type { Guild } from 'discord.js';
 import type { CommandConfig } from '#App/models';
 
 /**
@@ -22,18 +28,21 @@ class Bot extends Client {
     if (!process.env.APP_ID) {
       throw new Error('App ID not found.');
     }
+
     if (!process.env.APP_TOKEN) {
       throw new Error('App token not found.');
     }
 
-    const intents = new Intents([
-      Intents.FLAGS.DIRECT_MESSAGES,
-      Intents.FLAGS.GUILDS,
-      Intents.FLAGS.GUILD_MESSAGES,
-      Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-    ]);
-
-    super({ intents });
+    super({
+      intents: [
+        GatewayIntentBits.DirectMessages,
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildMessageReactions,
+        GatewayIntentBits.MessageContent,
+      ],
+      partials: [Partials.Channel],
+    });
   }
 
   /**
@@ -181,8 +190,9 @@ class Bot extends Client {
     });
 
     this.on('interactionCreate', async (interaction) => {
-      const isCommand = interaction.isCommand();
-      const isAutocomplete = interaction.isAutocomplete();
+      const isCommand = interaction.type === InteractionType.ApplicationCommand;
+      const isAutocomplete =
+        interaction.type === InteractionType.ApplicationCommandAutocomplete;
 
       if (!isCommand && !isAutocomplete) {
         return;

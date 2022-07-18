@@ -1,8 +1,8 @@
-import { bold, SlashCommandBuilder } from '@discordjs/builders';
-
-import type { CommandConfig } from '#App/models';
+import { bold, SlashCommandBuilder } from 'discord.js';
 import { endsWithJongSeong, getLocalDate } from '#App/utils';
 import { umamusumes } from './partials/database';
+
+import type { CommandConfig } from '#App/models';
 
 const command: CommandConfig = {
   data: new SlashCommandBuilder()

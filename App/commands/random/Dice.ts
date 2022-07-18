@@ -1,4 +1,4 @@
-import { bold, SlashCommandBuilder } from '@discordjs/builders';
+import { bold, SlashCommandBuilder } from 'discord.js';
 
 import type { CommandConfig } from '#App/models';
 
@@ -30,7 +30,12 @@ const command: CommandConfig = {
     )}의 눈이 나왔어.`;
   },
   parseInteraction(interaction) {
+    if (!interaction.isChatInputCommand()) {
+      throw new Error('Expected a chat input command.');
+    }
+
     const size = interaction.options.getInteger('눈', true);
+
     return { params: [size] };
   },
   parseMessage(message) {

@@ -1,7 +1,7 @@
-import { bold, SlashCommandBuilder } from '@discordjs/builders';
+import { bold, SlashCommandBuilder } from 'discord.js';
+import { skills } from './partials/database';
 
 import type { CommandConfig } from '#App/models';
-import { skills } from './partials/database';
 
 const command: CommandConfig = {
   data: new SlashCommandBuilder()
@@ -34,7 +34,12 @@ const command: CommandConfig = {
     return result;
   },
   parseInteraction(interaction) {
+    if (!interaction.isChatInputCommand()) {
+      throw new Error('Expected a chat input command.');
+    }
+
     const name = interaction.options.getString('스킬명', true);
+
     return { params: [name] };
   },
   parseMessage(message) {

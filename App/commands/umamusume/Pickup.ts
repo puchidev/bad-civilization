@@ -1,12 +1,11 @@
 /* eslint-disable no-irregular-whitespace */
-import { SlashCommandBuilder } from '@discordjs/builders';
 import dayjs from 'dayjs';
 import dedent from 'dedent';
-import { MessageEmbed } from 'discord.js';
-
-import type { CommandConfig } from '#App/models';
+import { EmbedBuilder, SlashCommandBuilder } from 'discord.js';
 import { convertAliases } from './partials/aliases';
 import { pickupRefs, pickups } from './partials/database';
+
+import type { CommandConfig } from '#App/models';
 
 const SERVICE_START_JAPAN = '2021-02-24';
 const SERVICE_START_KOREA = '2022-06-20';
@@ -97,7 +96,7 @@ const command: CommandConfig = {
       return { name, value };
     });
 
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setTitle(`${subcommand} 픽업 정보`)
       .addFields(fields);
 
@@ -110,6 +109,10 @@ const command: CommandConfig = {
     };
   },
   parseInteraction(interaction) {
+    if (!interaction.isChatInputCommand()) {
+      throw new Error('Expected a chat input command.');
+    }
+
     const subcommand = interaction.options.getSubcommand();
     const keyword = interaction.options.getString('이름', true);
 

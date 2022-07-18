@@ -1,13 +1,17 @@
-import { bold, underscore, SlashCommandBuilder } from '@discordjs/builders';
-import type BigNumber from 'bignumber.js';
-import { MessageEmbed } from 'discord.js';
-import type { EmbedFieldData, User } from 'discord.js';
+import {
+  bold,
+  EmbedBuilder,
+  SlashCommandBuilder,
+  underscore,
+} from 'discord.js';
 import chunk from 'lodash/chunk';
-
-import type { CommandConfig } from '#App/models';
 import { getArguments } from '#App/utils';
 import { games } from './partials/database';
 import { roll } from './partials/roll';
+
+import type BigNumber from 'bignumber.js';
+import type { APIEmbedField, User } from 'discord.js';
+import type { CommandConfig } from '#App/models';
 import type { GachaGame, GachaPull } from './partials/types';
 
 interface Props {
@@ -78,6 +82,10 @@ const command: CommandConfig<Props> = {
     return { content: title, embeds: [embed] };
   },
   parseInteraction(interaction) {
+    if (!interaction.isChatInputCommand()) {
+      throw new Error('Expected a chat input command.');
+    }
+
     const name = interaction.options.getString('종류', true);
     const times = interaction.options.getInteger('횟수') ?? DEFAULT_PULL_SIZE;
     const requestor = interaction.user;
@@ -140,7 +148,7 @@ function createResultEmbed({
   game: GachaGame;
   pulls: GachaPull[];
 }) {
-  const fields = chunk(pulls, game.rules.sessionSize).map<EmbedFieldData>(
+  const fields = chunk(pulls, game.rules.sessionSize).map<APIEmbedField>(
     (chunk, chunkIndex) => {
       const name = `${(chunkIndex + 1) * game.rules.sessionSize}연째`;
       const value = chunk
@@ -170,7 +178,7 @@ function createResultEmbed({
     },
   );
 
-  const embed = new MessageEmbed();
+  const embed = new EmbedBuilder();
 
   fields.forEach((field) => embed.addFields(field));
 

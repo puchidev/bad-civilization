@@ -13,6 +13,7 @@ import {
   format,
   transports,
 } from 'winston';
+
 import type { LeveledLogMethod, Logger } from 'winston';
 
 type CustomLevel = 'fatal' | 'error' | 'warn' | 'info' | 'debug' | 'trace';

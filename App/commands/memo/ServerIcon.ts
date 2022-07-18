@@ -1,8 +1,8 @@
-import { bold, SlashCommandBuilder } from '@discordjs/builders';
+import dedent from 'dedent';
+import { bold, SlashCommandBuilder } from 'discord.js';
+import { getLocalDate } from '#App/utils';
 
 import type { CommandConfig } from '#App/models';
-import { getLocalDate } from '#App/utils';
-import dedent from 'dedent';
 
 const command: CommandConfig = {
   data: new SlashCommandBuilder()
