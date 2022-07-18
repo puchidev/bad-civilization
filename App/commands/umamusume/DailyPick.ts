@@ -20,7 +20,9 @@ const command: CommandConfig = {
       today.getDate(),
       requestor.username,
     ].join('-');
-    const myUmamusume = umamusumes.pseudoRandom(seed);
+    const myUmamusume = umamusumes.pseudoRandom(seed, {
+      test: (umamusume) => !umamusume.name.includes('('),
+    });
 
     return `오늘 ${bold(requestor.username)} 트레이너님의 애마는 ${bold(
       myUmamusume.name,

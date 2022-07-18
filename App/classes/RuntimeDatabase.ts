@@ -28,6 +28,16 @@ class RuntimeDatabase<V extends Record<string, any>> extends Collection<
   }
 
   /**
+   * Returns keys of records that satisfy the passed function
+   * @param predicate function invoked on all iterations
+   * @returns matching keys
+   */
+  public keysWith(predicate: (record: V, key: string) => boolean) {
+    const keys = this.filter(predicate).keys();
+    return keys;
+  }
+
+  /**
    * Finds all records in database that match the given keyword(s).
    * @example
    *  key `foo` matches `foo`, `fooo`, `foox`, `afoo`, etc.
@@ -46,7 +56,7 @@ class RuntimeDatabase<V extends Record<string, any>> extends Collection<
     const { test } = options;
 
     // get database keys remove symbols
-    const keys = [...(test ? this.filter(test) : this).keys()];
+    const keys = [...(test ? this.keysWith(test) : this.keys())];
     const _keyword = keyword.trim();
     const isMultiple = _keyword.includes(' ');
 
@@ -80,10 +90,19 @@ class RuntimeDatabase<V extends Record<string, any>> extends Collection<
   /**
    * Returns a record matching the given `seed`.
    * @param seed string used to trigger pseudo-random number generation
+   * @param options operation options
+   * @param options.test predicate function to run before perform the search
    * @returns selected record
    */
-  public pseudoRandom(seed: string) {
-    const keys = [...this.keys()];
+  public pseudoRandom(
+    seed: string,
+    options: {
+      test?: (record: V, key: string) => boolean;
+    } = {},
+  ) {
+    const { test } = options;
+
+    const keys = [...(test ? this.keysWith(test) : this.keys())];
     const matchingKey = random(keys, seed);
     const matchingItem = this.get(matchingKey);
 
