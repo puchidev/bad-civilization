@@ -1,4 +1,5 @@
 import { EmbedBuilder, SlashCommandBuilder } from 'discord.js';
+import { convertAliases } from './partials/aliases';
 import { races, raceTracks } from './partials/database';
 
 import type { CommandConfig } from '#App/models';
@@ -19,7 +20,7 @@ const command: CommandConfig = {
       return `검색할 경마장의 이름 일부를 입력해줘.`;
     }
 
-    const keywords = params.join(' ');
+    const keywords = convertAliases(params.join(' '));
     const { match: race, suggestions } = races.search(keywords);
 
     if (!race) {
@@ -36,7 +37,7 @@ const command: CommandConfig = {
       track.racetrack,
       track.terrain,
       `${track.length}m (${getLengthType(track.length)})`,
-      `${[track.direction, track.course].join(', ')}`,
+      `${[track.direction, track.course].filter(Boolean).join(', ')}`,
       `${track.statusRef ? track.statusRef.join(', ') + ' 보정' : '무보정'}`,
     ].join(' | ');
 

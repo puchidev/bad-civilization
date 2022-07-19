@@ -68,7 +68,7 @@
     "trackId": "kyoto-turf-2000"
   },
   {
-    "name": "천황상 가을",
+    "name": "천황상 (가을)",
     "trackId": "tokyo-turf-2000"
   },
   {
@@ -120,11 +120,11 @@
     "trackId": "kyoto-turf-3000"
   },
   {
-    "name": "천황상 봄",
+    "name": "천황상 (봄)",
     "trackId": "kyoto-turf-3200"
   },
   {
-    "name": "천황상 봄 (한신)",
+    "name": "천황상 (봄) 한신",
     "trackId": "hanshin-turf-3200"
   }
 ]
