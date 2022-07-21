@@ -75,6 +75,8 @@ const command: CommandConfig<Props> = {
     const { factors, server } = params;
     const conditions = parseConditions(params.conditions);
 
+    console.log(conditions);
+
     const character = umamusumes
       .filter((uma) => {
         // use preset for predefined users
@@ -117,9 +119,10 @@ const command: CommandConfig<Props> = {
       .setTitle(`${character.name}의 적성`)
       .setDescription(aptitudeTemplate);
 
-    const message = `${sample}${
-      endsWithJongSeong(character.name) ? '은' : '는'
-    } 어때?`;
+    const message = dedent`
+      ${sample}${endsWithJongSeong(character.name) ? '은' : '는'} 어때?
+      (${server === 'korea' ? '한국' : '일본'} 서버, 인자 ${factors}개 사용)
+    `;
 
     return { content: message, embeds: [embed] };
   },
@@ -181,6 +184,11 @@ function parseConditions(userConditions?: string[]): Conditions {
     }
 
     conditions[key as keyof Conditions] = matches[0];
+  }
+
+  // Turf is inferred by default
+  if (!conditions.trackSurface) {
+    conditions.trackSurface = '잔디';
   }
 
   return conditions;
