@@ -117,7 +117,7 @@ async function loadPickups() {
 async function loadGames() {
   try {
     const configs = await fetchAllData<GachaGameConfig>(
-      'database/gacha/*.json',
+      'database/umamusume/gacha-*.json',
     );
 
     configs.forEach((config) => {
