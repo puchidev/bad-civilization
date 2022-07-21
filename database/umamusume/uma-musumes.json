@@ -718,6 +718,23 @@
     "uniqueSkillCondition": "phase==1&order>=2&order_rate<=70&activate_count_middle>=2"
   },
   {
+    "name": "스페셜 위크 (총대장)",
+    "aptitude": ["A", "G", "F", "C", "A", "A", "G", "A", "A", "C"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "최종 코너",
+      "스킬을 발동",
+      "나카야마 경기장 → 속도 0.45",
+      "그 밖의 경기장 → 속도 0.25"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.45
+    },
+    "uniqueSkillCondition": "phase>=2&is_finalcorner==1&corner!=0&is_activate_any_skill==1",
+    "uniqueSkillPrecondition": "track_id==10005"
+  },
+  {
     "name": "시리우스 심볼리",
     "aptitude": [],
     "presence": null
@@ -770,7 +787,8 @@
     "uniqueSkillDescription": ["종반", "종반에 2회 이상 추월"],
     "uniqueSkillEffect": {
       "duration": 5,
-      "speed": 0.35
+      "speed": 0.35,
+      "movement": 0.35
     },
     "uniqueSkillCondition": "change_order_up_end_after>=2"
   },
@@ -874,9 +892,20 @@
     "uniqueSkillCondition": "phase==1&order>=3&order_rate<=50&is_overtake==1"
   },
   {
-    "name": "에어 샤칼",
-    "aptitude": [],
-    "presence": null
+    "name": "에어 샤커",
+    "aptitude": ["A", "G", "G", "E", "A", "A", "G", "C", "A", "A"],
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "최종 직선",
+      "최종 코너 이후에 40~75% 사이(4~7위)에서 가장 안쪽 코스를 달림"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35,
+      "movement": 0.35
+    },
+    "uniqueSkillCondition": "is_finalcorner==1&corner==0",
+    "uniqueSkillPrecondition": "is_finalcorner==1&order_rate>=40&order_rate<=75&lane_type==0"
   },
   {
     "name": "에이신 플래시",

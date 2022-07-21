@@ -75,8 +75,6 @@ const command: CommandConfig<Props> = {
     const { factors, server } = params;
     const conditions = parseConditions(params.conditions);
 
-    console.log(conditions);
-
     const character = umamusumes
       .filter((uma) => {
         // use preset for predefined users
