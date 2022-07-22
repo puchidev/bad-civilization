@@ -31,23 +31,33 @@ interface Props {
 const DEFAULT_FACTORS = 10;
 const DEFAULT_SERVER = 'japan';
 
-const preset: Record<string, string[]> = {
-  '270871717654691850': [
-    '토카이 테이오',
-    '오구리 캡',
-    '골드 쉽',
-    '보드카',
-    '다이와 스칼렛',
-    '그래스 원더',
-    '에어 그루브',
-    '마야노 탑건',
-    '메지로 라이언',
-    '위닝 티켓',
-    '사쿠라 바쿠신 오',
-    '하루우라라',
-    '나이스 네이처',
-    '킹 헤일로',
-  ],
+interface Preset {
+  entries: string[];
+  factors: number;
+  server: string;
+}
+
+const presets: Record<string, Preset> = {
+  '270871717654691850': {
+    entries: [
+      '토카이 테이오',
+      '오구리 캡',
+      '골드 쉽',
+      '보드카',
+      '다이와 스칼렛',
+      '그래스 원더',
+      '에어 그루브',
+      '마야노 탑건',
+      '메지로 라이언',
+      '위닝 티켓',
+      '사쿠라 바쿠신 오',
+      '하루우라라',
+      '나이스 네이처',
+      '킹 헤일로',
+    ],
+    factors: 0,
+    server: 'korea',
+  },
 };
 
 const command: CommandConfig<Props> = {
@@ -78,8 +88,8 @@ const command: CommandConfig<Props> = {
     const character = umamusumes
       .filter((uma) => {
         // use preset for predefined users
-        if (requestor.id in preset) {
-          return preset[requestor.id].includes(uma.name);
+        if (requestor.id in presets) {
+          return presets[requestor.id].entries.includes(uma.name);
         }
         // skip unimplemented umamusumes
         if (!uma.presence) {
@@ -130,21 +140,30 @@ const command: CommandConfig<Props> = {
     }
 
     const requestor = interaction.user;
+    const preset = presets[requestor.id];
+
     const conditions = interaction.options.getString('조건')?.split(/ +/g);
-    const server = interaction.options.getString('서버') ?? DEFAULT_SERVER;
-    const factors = interaction.options.getInteger('인자') ?? DEFAULT_FACTORS;
+    const factors =
+      interaction.options.getInteger('인자') ??
+      preset?.factors ??
+      DEFAULT_FACTORS;
+    const server =
+      interaction.options.getString('서버') ?? preset?.server ?? DEFAULT_SERVER;
 
     return { params: { conditions, factors, server }, requestor };
   },
   parseMessage(message) {
     const requestor = message.author;
+    const preset = presets[requestor.id];
 
     const { numbers, strings } = getArguments(message);
     const conditions = strings.filter((value) =>
       /^(?!japan|korea)(.+)$/.test(value),
     );
-    const factors = numbers[0] ?? DEFAULT_FACTORS;
-    const server = strings.includes('한국') ? 'korea' : DEFAULT_SERVER;
+    const factors = numbers[0] ?? preset?.factors ?? DEFAULT_FACTORS;
+    const server = strings.includes('한국')
+      ? 'korea'
+      : preset?.server ?? DEFAULT_SERVER;
 
     return { params: { conditions, factors, server }, requestor };
   },
