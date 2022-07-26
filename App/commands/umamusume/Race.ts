@@ -15,6 +15,7 @@ const command: CommandConfig = {
         .setDescription('레이스 이름의 일부 (ex. 아리마, 야스, …)')
         .setRequired(true),
     ),
+  ephemeral: true,
   async execute({ params }) {
     if (!params) {
       return `검색할 경마장의 이름 일부를 입력해줘.`;

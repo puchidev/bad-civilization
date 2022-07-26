@@ -235,7 +235,16 @@ class Bot extends Client {
             : {};
 
           const result = await command.execute(payload);
-          interaction.reply(result);
+
+          if (command.ephemeral) {
+            if (typeof result === 'string') {
+              interaction.reply({ content: result, ephemeral: true });
+            } else {
+              interaction.reply({ ...result, ephemeral: true });
+            }
+          } else {
+            interaction.reply(result);
+          }
         } catch (e) {
           logger.debug(e);
           interaction.reply({

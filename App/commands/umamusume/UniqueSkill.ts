@@ -15,6 +15,7 @@ const command: CommandConfig = {
         .setDescription('말딸의 이름 일부 (ex. 네이처, 치어 네이처, …)')
         .setRequired(true),
     ),
+  ephemeral: true,
   async execute({ params }) {
     if (!params) {
       return '찾는 말딸의 이름 일부를 입력해줘';

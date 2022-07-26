@@ -13,6 +13,7 @@ const command: CommandConfig = {
         .setDescription('찾으려는 스킬명을 일본어로(!) 적어 주세요.')
         .setRequired(true),
     ),
+  ephemeral: true,
   async execute({ params }) {
     if (!params || params.length === 0) {
       return '찾는 스킬의 이름 일부를 입력해줘. 가령 `!스킬 全身` 처럼?';

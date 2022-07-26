@@ -4,7 +4,6 @@ import type {
   Collection,
   CommandInteraction,
   Message,
-  MessagePayload,
   MessageOptions,
   SlashCommandBuilder,
   SlashCommandSubcommandsOnlyBuilder,
@@ -31,11 +30,11 @@ export interface CommandPayload {
 
 export type CommandResponse =
   | string
-  | MessagePayload
   | Omit<MessageOptions, 'avatarURL' | 'flags' | 'username'>;
 
 export interface CommandConfig<T = CommandPayload> {
   readonly data: SlashCommandData;
+  readonly ephemeral?: boolean;
   readonly guilds?: Snowflake[];
   readonly autocomplete?: (
     interaction: AutocompleteInteraction,
