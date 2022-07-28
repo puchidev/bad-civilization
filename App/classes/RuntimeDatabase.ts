@@ -44,16 +44,18 @@ class RuntimeDatabase<V extends Record<string, any>> extends Collection<
    *  key `foo bar` matches `foo bar` `bar foo` ` afoo bbar ` ` xbar yfoo`
    * @param keyword a single search keyword, or multiple keywords seperated by spaces
    * @param options operation options
+   * @param options.strategy search method
    * @param options.test predicate function to run before perform the search
    * @returns found records
    */
   public search(
     keyword: string,
     options: {
+      strategy?: 'match' | 'similarity';
       test?: (record: V, key: string) => boolean;
     } = {},
   ) {
-    const { test } = options;
+    const { strategy = 'match', test } = options;
 
     // get database keys remove symbols
     const keys = [...(test ? this.keysWith(test) : this.keys())];
@@ -65,10 +67,40 @@ class RuntimeDatabase<V extends Record<string, any>> extends Collection<
       return { match: exactMatch };
     }
 
-    const matchingKeys = keys.filter((key) => {
-      const similarity = compareTwoStrings(key, keyword);
-      return similarity > 0;
-    });
+    let matchingKeys: string[] = [];
+
+    switch (strategy) {
+      case 'match':
+        {
+          // Filter out keys that contain all search keywords
+          // `foo` -> /foo/i
+          // `foo bar baz` -> /^(?=.*foo)(?=.*bar)(?=.*baz).*$/i
+          const pattern = new RegExp(
+            isMultiple
+              ? `^${_keyword
+                  .split(/ /g)
+                  .map((word) => `(?=.*${word})`)
+                  .join('')}.*$`
+              : _keyword,
+            'i',
+          );
+
+          matchingKeys = keys.filter((key) => pattern.test(key));
+        }
+        break;
+
+      case 'similarity':
+        {
+          matchingKeys = keys.filter((key) => {
+            const similarity = compareTwoStrings(key, keyword);
+            return similarity > 0;
+          });
+        }
+        break;
+
+      default:
+        throw new Error(`Unhandled search strategy: ${strategy}.`);
+    }
 
     if (matchingKeys.length === 0) {
       return { match: null };

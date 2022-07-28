@@ -5,7 +5,7 @@ import {
   underscore,
 } from 'discord.js';
 import chunk from 'lodash/chunk';
-import { getArguments } from '#App/utils';
+import { endsWithJongSeong, getArguments } from '#App/utils';
 import { games } from './partials/database';
 import { roll } from './partials/roll';
 
@@ -133,7 +133,9 @@ function createResultTitle({
           pulledAboveAverage ? '!✨' : '🤔'
         }`;
 
-  return `${username}는 ${game.name} ${timesText}로 ${resultText}`;
+  return `${username}${endsWithJongSeong(username) ? '은' : '는'} ${
+    game.name
+  } ${timesText}로 ${resultText}`;
 }
 
 /**

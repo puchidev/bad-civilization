@@ -1,5 +1,6 @@
 import { bold, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
 import dedent from 'dedent';
+import type { User } from 'discord.js';
 import {
   endsWithJongSeong,
   getAlphabetOffset,
@@ -9,7 +10,6 @@ import {
 } from '#App/utils';
 import { umamusumes } from './partials/database';
 
-import type { User } from 'discord.js';
 import type { CommandConfig } from '#App/models';
 import type { Umamusume } from './partials/types';
 

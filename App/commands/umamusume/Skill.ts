@@ -1,4 +1,5 @@
 import { bold, SlashCommandBuilder } from 'discord.js';
+import { getArguments } from '#App/utils';
 import { skills } from './partials/database';
 
 import type { CommandConfig } from '#App/models';
@@ -20,7 +21,10 @@ const command: CommandConfig = {
     }
 
     const name = params[0];
-    const { match, suggestions } = skills.search(name);
+
+    const { match, suggestions } = skills.search(name, {
+      strategy: 'similarity',
+    });
 
     if (!match) {
       return '아무 것도 찾지 못했어…';
@@ -44,7 +48,7 @@ const command: CommandConfig = {
     return { params: [name] };
   },
   parseMessage(message) {
-    const [, ...keywords] = message.content.trim().split(/ +/g);
+    const { strings: keywords } = getArguments(message);
     return { params: keywords };
   },
 };

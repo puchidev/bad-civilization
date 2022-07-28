@@ -2,6 +2,7 @@
 import dayjs from 'dayjs';
 import dedent from 'dedent';
 import { EmbedBuilder, SlashCommandBuilder } from 'discord.js';
+import { getArguments } from '#App/utils';
 import { convertAliases } from './partials/aliases';
 import { pickupRefs, pickups } from './partials/database';
 
@@ -53,6 +54,7 @@ const command: CommandConfig = {
     const keyword: string = convertAliases(params.join(' '));
 
     const { match: pickupRef, suggestions } = pickupRefs.search(keyword, {
+      strategy: 'match',
       test: (ref) => ref.type === subcommand,
     });
 
@@ -122,7 +124,9 @@ const command: CommandConfig = {
     };
   },
   parseMessage(message) {
-    const [, subcommand, ...keywords] = message.content.trim().split(/ +/g);
+    const {
+      strings: [subcommand, ...keywords],
+    } = getArguments(message);
 
     return {
       subcommand,

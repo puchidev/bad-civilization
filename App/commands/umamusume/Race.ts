@@ -1,4 +1,5 @@
 import { EmbedBuilder, SlashCommandBuilder } from 'discord.js';
+import { getArguments } from '#App/utils';
 import { convertAliases } from './partials/aliases';
 import { races, raceTracks } from './partials/database';
 
@@ -22,7 +23,9 @@ const command: CommandConfig = {
     }
 
     const keywords = convertAliases(params.join(' '));
-    const { match: race, suggestions } = races.search(keywords);
+    const { match: race, suggestions } = races.search(keywords, {
+      strategy: 'similarity',
+    });
 
     if (!race) {
       return '아무 것도 찾지 못했어…';
@@ -74,7 +77,7 @@ const command: CommandConfig = {
     return { params: [name] };
   },
   parseMessage(message) {
-    const [, ...keywords] = message.content.trim().split(/ +/g);
+    const { strings: keywords } = getArguments(message);
     return { params: keywords };
   },
 };

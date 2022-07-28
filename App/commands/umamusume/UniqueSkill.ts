@@ -1,4 +1,5 @@
 import { EmbedBuilder, SlashCommandBuilder } from 'discord.js';
+import { getArguments } from '#App/utils';
 import { convertAliases } from './partials/aliases';
 import { umamusumes } from './partials/database';
 
@@ -24,6 +25,7 @@ const command: CommandConfig = {
     const keyword = convertAliases(params.join(' '));
 
     const { match: umamusume, suggestions } = umamusumes.search(keyword, {
+      strategy: 'similarity',
       test: (umamusume) => umamusume.presence !== null,
     });
 
@@ -75,7 +77,7 @@ const command: CommandConfig = {
     return { params: [umaName] };
   },
   parseMessage(message) {
-    const [, ...keywords] = message.content.trim().split(/ +/g);
+    const { strings: keywords } = getArguments(message);
     return { params: keywords };
   },
 };
