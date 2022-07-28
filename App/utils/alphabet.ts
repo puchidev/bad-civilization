@@ -13,4 +13,13 @@ function getAlphabetOffset(letter: string) {
   return code - 65;
 }
 
-export { getAlphabetOffset };
+/**
+ * Removes all instance of special characters inside the given text.
+ * @param text text to replace
+ * @returns replaced string
+ */
+function removeSpecialCharacters(text: string) {
+  return text.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
+}
+
+export { getAlphabetOffset, removeSpecialCharacters };

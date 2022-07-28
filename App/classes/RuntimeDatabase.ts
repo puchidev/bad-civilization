@@ -1,6 +1,6 @@
 import { Collection } from 'discord.js';
 import { compareTwoStrings, findBestMatch } from 'string-similarity';
-import { random } from '#App/utils';
+import { random, removeSpecialCharacters } from '#App/utils';
 
 /**
  * @class
@@ -111,7 +111,12 @@ class RuntimeDatabase<V extends Record<string, any>> extends Collection<
       return { match: matchingValue };
     }
 
-    const { bestMatchIndex } = findBestMatch(_keyword, matchingKeys);
+    // special characters should be trimmed out first,
+    // since users usually don't enter them while searching.
+    const { bestMatchIndex } = findBestMatch(
+      _keyword,
+      matchingKeys.map(removeSpecialCharacters),
+    );
     const bestMatchKey = matchingKeys[bestMatchIndex];
     const bestMatchValue = this.get(bestMatchKey)!;
     const suggestions = matchingKeys.filter((key) => key !== bestMatchKey);
