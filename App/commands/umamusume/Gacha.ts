@@ -1,5 +1,6 @@
 import {
   bold,
+  ChannelType,
   EmbedBuilder,
   SlashCommandBuilder,
   underscore,
@@ -10,11 +11,16 @@ import { games } from './partials/database';
 import { roll } from './partials/roll';
 
 import type BigNumber from 'bignumber.js';
-import type { APIEmbedField, User } from 'discord.js';
+import type {
+  APIEmbedField,
+  ChannelType as ChannelTypeType,
+  User,
+} from 'discord.js';
 import type { CommandConfig } from '#App/models';
 import type { GachaGame, GachaPull } from './partials/types';
 
 interface Props {
+  channelType?: ChannelTypeType | null;
   params: {
     name: string;
     times: number;
@@ -24,7 +30,8 @@ interface Props {
 
 const DEFAULT_PULL_SIZE = 10;
 const MIN_PULL_SIZE = 1;
-const MAX_PULL_SIZE = 60;
+const MAX_PULL_SIZE = 200;
+const MAX_PULL_SIZE_INSIDE_CHANNEL = 30;
 
 const command: CommandConfig<Props> = {
   data: new SlashCommandBuilder()
@@ -47,19 +54,20 @@ const command: CommandConfig<Props> = {
         .setMinValue(MIN_PULL_SIZE)
         .setMaxValue(MAX_PULL_SIZE),
     ),
-  async execute({ params: { name, times }, requestor }) {
+  async execute({ channelType, params: { name, times }, requestor }) {
+    const isThread =
+      channelType === ChannelType.GuildPrivateThread ||
+      channelType === ChannelType.GuildPublicThread;
+    const maxSize = isThread ? MAX_PULL_SIZE : MAX_PULL_SIZE_INSIDE_CHANNEL;
+
     if (!name) {
       return `돌릴 가챠를 입력해 줘. 지금은 이런 것들이 가능해. ${bold(
         [...games.keys()].join(', '),
       )}.`;
     }
 
-    if (
-      !Number.isInteger(times) ||
-      times < MIN_PULL_SIZE ||
-      MAX_PULL_SIZE < times
-    ) {
-      return `돌릴 횟수는 ${MIN_PULL_SIZE}~${MAX_PULL_SIZE} 사이의 수를 입력해 줘.`;
+    if (!Number.isInteger(times) || times < MIN_PULL_SIZE || maxSize < times) {
+      return `돌릴 횟수는 ${MIN_PULL_SIZE}~${maxSize} 사이의 수를 입력해 줘.`;
     }
 
     const game = games.get(name);
@@ -86,20 +94,23 @@ const command: CommandConfig<Props> = {
       throw new Error('Expected a chat input command.');
     }
 
-    const name = interaction.options.getString('종류', true);
-    const times = interaction.options.getInteger('횟수') ?? DEFAULT_PULL_SIZE;
+    const channelType = interaction.channel?.type;
     const requestor = interaction.user;
 
-    return { params: { name, times }, requestor };
+    const name = interaction.options.getString('종류', true);
+    const times = interaction.options.getInteger('횟수') ?? DEFAULT_PULL_SIZE;
+
+    return { channelType, params: { name, times }, requestor };
   },
   parseMessage(message) {
+    const channelType = message.channel.type;
     const requestor = message.author;
 
     const { numbers, strings } = getArguments(message);
     const name = strings[0] ?? '';
     const times = numbers[0] ?? DEFAULT_PULL_SIZE;
 
-    return { params: { name, times }, requestor };
+    return { channelType, params: { name, times }, requestor };
   },
 };
 
