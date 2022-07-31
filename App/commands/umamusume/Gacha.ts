@@ -10,14 +10,13 @@ import { endsWithJongSeong, getArguments } from '#App/utils';
 import { games } from './partials/database';
 import { roll } from './partials/roll';
 
-import type BigNumber from 'bignumber.js';
 import type {
   APIEmbedField,
   ChannelType as ChannelTypeType,
   User,
 } from 'discord.js';
 import type { CommandConfig } from '#App/models';
-import type { GachaGame, GachaPull } from './partials/types';
+import type { GachaGame, GachaPull, GachaResult } from './partials/types';
 
 interface Props {
   channelType?: ChannelTypeType | null;
@@ -32,6 +31,7 @@ const DEFAULT_PULL_SIZE = 10;
 const MIN_PULL_SIZE = 1;
 const MAX_PULL_SIZE = 200;
 const MAX_PULL_SIZE_INSIDE_CHANNEL = 30;
+const UNIT_PRICE = 150;
 
 const command: CommandConfig<Props> = {
   data: new SlashCommandBuilder()
@@ -81,6 +81,7 @@ const command: CommandConfig<Props> = {
     const title = createResultTitle({
       game,
       times,
+      pulls,
       topPullCount,
       topPullRates,
       username: requestor.username,
@@ -122,31 +123,45 @@ const command: CommandConfig<Props> = {
 function createResultTitle({
   game,
   times,
+  pulls,
   topPullCount,
   topPullRates,
   username,
-}: {
+}: GachaResult & {
   game: GachaGame;
   times: number;
-  topPullCount: number;
-  topPullRates: BigNumber;
   username: string;
 }) {
   const topGroupName = game.groups[0].name;
   const topGroupRates = game.groups[0].rates;
   const pulledAboveAverage = topPullRates.isGreaterThan(topGroupRates);
 
-  const timesText = times === 1 ? '단챠' : `${times}연챠`;
-  const resultText =
+  const topPulls = new Map<string, number>();
+
+  pulls
+    .filter((pull) => pull.group.name === topGroupName)
+    .forEach((pull) => {
+      const { name } = pull.member;
+      const currentCount = topPulls.get(name) ?? 0;
+      topPulls.set(name, currentCount + 1);
+    });
+
+  const line1 = [
+    `${username}${endsWithJongSeong(username) ? '은' : '는'}`,
+    `${game.name} ${times === 1 ? '단챠' : `${times}연챠`}에`,
+    `${times * UNIT_PRICE} 쥬얼을 사용해`,
     topPullCount === 0
       ? `의욕을 잃었다…😷`
       : `${topPullCount}개의 ${topGroupName}을 손에 넣었다${
           pulledAboveAverage ? '!✨' : '🤔'
-        }`;
+        }`,
+  ].join(' ');
 
-  return `${username}${endsWithJongSeong(username) ? '은' : '는'} ${
-    game.name
-  } ${timesText}로 ${resultText}`;
+  const line2 = [...topPulls.entries()]
+    .map(([name, count]) => `・${name} ×${count}`)
+    .join('\n');
+
+  return [line1, line2].join('\n');
 }
 
 /**
