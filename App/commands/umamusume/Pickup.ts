@@ -71,23 +71,23 @@ const command: CommandConfig = {
     const fields = matches.map((pickup) => {
       const { since, until, sinceKR, untilKR, umamusume, support } = pickup;
 
-      const sinceDate = dayjs(since);
-      const untilDate = dayjs(until);
-      const sinceDateKR = sinceKR
-        ? dayjs(sinceKR)
-        : sinceDate.add(PICKUP_OFFSET_DAYS, 'days');
-      const untilDateKR = untilKR
-        ? dayjs(untilKR)
-        : untilDate.add(PICKUP_OFFSET_DAYS, 'days');
+      const $since = dayjs(since);
+      const $until = dayjs(until);
+      const diff = $until.diff($since, 'day') + 1;
 
-      const period = [
-        sinceDate.format(DATE_OUTPUT_FORMAT),
-        untilDate.format(DATE_OUTPUT_FORMAT),
-      ].join(' ~ ');
-      const periodKR = [
-        sinceDateKR.format(DATE_OUTPUT_FORMAT),
-        untilDateKR.format(DATE_OUTPUT_FORMAT),
-      ].join(' ~ ');
+      const $sinceKR = sinceKR
+        ? dayjs(sinceKR)
+        : $since.add(PICKUP_OFFSET_DAYS, 'days');
+      const $untilKR = untilKR
+        ? dayjs(untilKR)
+        : $until.add(PICKUP_OFFSET_DAYS, 'days');
+
+      const period = `${$since.format(DATE_OUTPUT_FORMAT)} ~ ${$until.format(
+        DATE_OUTPUT_FORMAT,
+      )} (${diff}일간)`;
+      const periodKR = `${$sinceKR.format(
+        DATE_OUTPUT_FORMAT,
+      )} ~ ${$untilKR.format(DATE_OUTPUT_FORMAT)} (${diff}일간)`;
 
       const name = (subcommand === '말' ? umamusume : support).join('\n');
       const value = dedent`
