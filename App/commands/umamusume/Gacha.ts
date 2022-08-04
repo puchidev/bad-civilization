@@ -177,8 +177,13 @@ function createResultEmbed({
   pulls: GachaPull[];
 }) {
   const fields = chunk(pulls, game.rules.sessionSize).map<APIEmbedField>(
-    (chunk, chunkIndex) => {
-      const name = `${(chunkIndex + 1) * game.rules.sessionSize}연째`;
+    (chunk, chunkIndex, chunks) => {
+      const isLastChunk = chunkIndex === chunks.length - 1;
+      const pullTimes = isLastChunk
+        ? pulls.length
+        : (chunkIndex + 1) * game.rules.sessionSize;
+
+      const name = `${pullTimes}연째`;
       const value = chunk
         .map(({ member, group }) => {
           if (!group) {
