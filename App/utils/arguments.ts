@@ -12,7 +12,7 @@ function getArguments(message: Message) {
   const strings: string[] = [];
 
   for (const part of parts) {
-    const number = parseInt(part, 10);
+    const number = Number(part);
     const isNumber = !isNaN(number) && isFinite(number);
 
     if (isNumber) {

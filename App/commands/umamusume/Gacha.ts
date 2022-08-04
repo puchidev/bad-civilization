@@ -67,7 +67,7 @@ const command: CommandConfig<Props> = {
     }
 
     if (!Number.isInteger(times) || times < MIN_PULL_SIZE || maxSize < times) {
-      return `돌릴 횟수는 ${MIN_PULL_SIZE}~${maxSize} 사이의 수를 입력해 줘.`;
+      return `돌릴 횟수는 ${MIN_PULL_SIZE} ~ ${maxSize} 사이의 정수를 입력해 줘.`;
     }
 
     const game = games.get(name);
@@ -149,7 +149,7 @@ function createResultTitle({
   const line1 = [
     `${username}${endsWithJongSeong(username) ? '은' : '는'}`,
     `${game.name} ${times === 1 ? '단챠' : `${times}연챠`}에`,
-    `${times * UNIT_PRICE} 쥬얼을 사용해`,
+    `${times * UNIT_PRICE}쥬얼을 사용해`,
     topPullCount === 0
       ? `의욕을 잃었다…😷`
       : `${topPullCount}개의 ${topGroupName}을 손에 넣었다${
