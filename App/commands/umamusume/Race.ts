@@ -56,8 +56,11 @@ const command: CommandConfig = {
         { name: '구분', value: legs },
         { name: '언덕', value: slopes },
         { name: '시퀀스', value: segments },
-      )
-      .setImage(track.map);
+      );
+
+    if (track.map) {
+      embed.setImage(track.map);
+    }
 
     if (suggestions) {
       embed.setFooter({ text: `유사한 검색어: ${suggestions.join(', ')}` });

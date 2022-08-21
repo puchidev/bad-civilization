@@ -1621,5 +1621,774 @@
       }
     ],
     "statusRef": null
+  },
+  {
+    "id": "kawasaki-dirt-1400",
+    "racetrack": "카와사키",
+    "terrain": "더트",
+    "length": 1400,
+    "direction": "좌회전",
+    "course": null,
+    "map": "",
+    "legs": [
+      {
+        "type": "초반",
+        "from": 0,
+        "to": 233
+      },
+      {
+        "type": "중반",
+        "from": 233,
+        "to": 933
+      },
+      {
+        "type": "종반",
+        "from": 933,
+        "to": 1400
+      }
+    ],
+    "slopes": [],
+    "segments": [
+      {
+        "type": "직선",
+        "from": 0,
+        "to": 300
+      },
+      {
+        "type": "코너",
+        "from": 300,
+        "to": 400
+      },
+      {
+        "type": "코너",
+        "from": 400,
+        "to": 500
+      },
+      {
+        "type": "직선",
+        "from": 500,
+        "to": 900
+      },
+      {
+        "type": "코너",
+        "from": 900,
+        "to": 1000
+      },
+      {
+        "type": "코너",
+        "from": 1000,
+        "to": 1100
+      },
+      {
+        "type": "직선",
+        "from": 1100,
+        "to": 1400
+      }
+    ],
+    "statusRef": ["지능"]
+  },
+  {
+    "id": "kawasaki-dirt-1600",
+    "racetrack": "카와사키",
+    "terrain": "더트",
+    "length": 1600,
+    "direction": "좌회전",
+    "course": null,
+    "map": "",
+    "legs": [
+      {
+        "type": "초반",
+        "from": 0,
+        "to": 267
+      },
+      {
+        "type": "중반",
+        "from": 267,
+        "to": 1067
+      },
+      {
+        "type": "종반",
+        "from": 1067,
+        "to": 1600
+      }
+    ],
+    "slopes": [],
+    "segments": [
+      {
+        "type": "직선",
+        "from": 100,
+        "to": 500
+      },
+      {
+        "type": "코너",
+        "from": 500,
+        "to": 600
+      },
+      {
+        "type": "코너",
+        "from": 600,
+        "to": 700
+      },
+      {
+        "type": "직선",
+        "from": 700,
+        "to": 1100
+      },
+      {
+        "type": "코너",
+        "from": 1100,
+        "to": 1200
+      },
+      {
+        "type": "코너",
+        "from": 1200,
+        "to": 1300
+      },
+      {
+        "type": "직선",
+        "from": 1300,
+        "to": 1600
+      }
+    ],
+    "statusRef": ["지능"]
+  },
+  {
+    "id": "kawasaki-dirt-2100",
+    "racetrack": "카와사키",
+    "terrain": "더트",
+    "length": 2100,
+    "direction": "좌회전",
+    "course": null,
+    "map": "",
+    "legs": [
+      {
+        "type": "초반",
+        "from": 0,
+        "to": 350
+      },
+      {
+        "type": "중반",
+        "from": 350,
+        "to": 1400
+      },
+      {
+        "type": "종반",
+        "from": 1400,
+        "to": 2100
+      }
+    ],
+    "slopes": [],
+    "segments": [
+      {
+        "type": "직선",
+        "from": 0,
+        "to": 400
+      },
+      {
+        "type": "코너",
+        "from": 400,
+        "to": 500
+      },
+      {
+        "type": "코너",
+        "from": 500,
+        "to": 600
+      },
+      {
+        "type": "직선",
+        "from": 600,
+        "to": 1000
+      },
+      {
+        "type": "코너",
+        "from": 1000,
+        "to": 1100
+      },
+      {
+        "type": "코너",
+        "from": 1100,
+        "to": 1200
+      },
+      {
+        "type": "직선",
+        "from": 1200,
+        "to": 1600
+      },
+      {
+        "type": "코너",
+        "from": 1600,
+        "to": 1700
+      },
+      {
+        "type": "코너",
+        "from": 1700,
+        "to": 1800
+      },
+      {
+        "type": "직선",
+        "from": 1800,
+        "to": 2100
+      }
+    ],
+    "statusRef": ["스태미너", "지능"]
+  },
+  {
+    "id": "funabashi-dirt-1000",
+    "racetrack": "후나바시",
+    "terrain": "더트",
+    "length": 1000,
+    "direction": "좌회전",
+    "course": null,
+    "map": "",
+    "legs": [
+      {
+        "type": "초반",
+        "from": 0,
+        "to": 167
+      },
+      {
+        "type": "중반",
+        "from": 167,
+        "to": 667
+      },
+      {
+        "type": "종반",
+        "from": 667,
+        "to": 1000
+      }
+    ],
+    "slopes": [],
+    "segments": [
+      {
+        "type": "직선",
+        "from": 0,
+        "to": 370
+      },
+      {
+        "type": "코너",
+        "from": 370,
+        "to": 540
+      },
+      {
+        "type": "코너",
+        "from": 540,
+        "to": 690
+      },
+      {
+        "type": "직선",
+        "from": 690,
+        "to": 1000
+      }
+    ],
+    "statusRef": ["스피드"]
+  },
+  {
+    "id": "funabashi-dirt-1600",
+    "racetrack": "후나바시",
+    "terrain": "더트",
+    "length": 1600,
+    "direction": "좌회전",
+    "course": null,
+    "map": "",
+    "legs": [
+      {
+        "type": "초반",
+        "from": 0,
+        "to": 267
+      },
+      {
+        "type": "중반",
+        "from": 267,
+        "to": 1067
+      },
+      {
+        "type": "종반",
+        "from": 1067,
+        "to": 1600
+      }
+    ],
+    "slopes": [],
+    "segments": [
+      {
+        "type": "직선",
+        "from": 0,
+        "to": 260
+      },
+      {
+        "type": "코너",
+        "from": 260,
+        "to": 440
+      },
+      {
+        "type": "코너",
+        "from": 440,
+        "to": 600
+      },
+      {
+        "type": "직선",
+        "from": 600,
+        "to": 970
+      },
+      {
+        "type": "코너",
+        "from": 970,
+        "to": 1140
+      },
+      {
+        "type": "코너",
+        "from": 1140,
+        "to": 1290
+      },
+      {
+        "type": "직선",
+        "from": 1290,
+        "to": 1600
+      }
+    ],
+    "statusRef": null
+  },
+  {
+    "id": "funabashi-dirt-1800",
+    "racetrack": "후나바시",
+    "terrain": "더트",
+    "length": 1800,
+    "direction": "좌회전",
+    "course": null,
+    "map": "",
+    "legs": [
+      {
+        "type": "초반",
+        "from": 0,
+        "to": 300
+      },
+      {
+        "type": "중반",
+        "from": 300,
+        "to": 1200
+      },
+      {
+        "type": "종반",
+        "from": 1200,
+        "to": 1800
+      }
+    ],
+    "slopes": [],
+    "segments": [
+      {
+        "type": "직선",
+        "from": 90,
+        "to": 460
+      },
+      {
+        "type": "코너",
+        "from": 460,
+        "to": 640
+      },
+      {
+        "type": "코너",
+        "from": 640,
+        "to": 800
+      },
+      {
+        "type": "직선",
+        "from": 800,
+        "to": 1170
+      },
+      {
+        "type": "코너",
+        "from": 1170,
+        "to": 1340
+      },
+      {
+        "type": "코너",
+        "from": 1340,
+        "to": 1490
+      },
+      {
+        "type": "직선",
+        "from": 1490,
+        "to": 1800
+      }
+    ],
+    "statusRef": null
+  },
+  {
+    "id": "funabashi-dirt-2400",
+    "racetrack": "후나바시",
+    "terrain": "더트",
+    "length": 2400,
+    "direction": "좌회전",
+    "course": null,
+    "map": "",
+    "legs": [
+      {
+        "type": "초반",
+        "from": 0,
+        "to": 400
+      },
+      {
+        "type": "중반",
+        "from": 400,
+        "to": 1600
+      },
+      {
+        "type": "종반",
+        "from": 1600,
+        "to": 2400
+      }
+    ],
+    "slopes": [],
+    "segments": [
+      {
+        "type": "직선",
+        "from": 0,
+        "to": 370
+      },
+      {
+        "type": "코너",
+        "from": 370,
+        "to": 540
+      },
+      {
+        "type": "코너",
+        "from": 540,
+        "to": 690
+      },
+      {
+        "type": "직선",
+        "from": 690,
+        "to": 1060
+      },
+      {
+        "type": "코너",
+        "from": 1060,
+        "to": 1240
+      },
+      {
+        "type": "코너",
+        "from": 1240,
+        "to": 1400
+      },
+      {
+        "type": "직선",
+        "from": 1400,
+        "to": 1770
+      },
+      {
+        "type": "코너",
+        "from": 1770,
+        "to": 1940
+      },
+      {
+        "type": "코너",
+        "from": 1940,
+        "to": 2090
+      },
+      {
+        "type": "직선",
+        "from": 2090,
+        "to": 2400
+      }
+    ],
+    "statusRef": ["스태미너"]
+  },
+  {
+    "id": "morioka-dirt-1200",
+    "racetrack": "모리오카",
+    "terrain": "더트",
+    "length": 1200,
+    "direction": "좌회전",
+    "course": null,
+    "map": "",
+    "legs": [
+      {
+        "type": "초반",
+        "from": 0,
+        "to": 200
+      },
+      {
+        "type": "중반",
+        "from": 200,
+        "to": 800
+      },
+      {
+        "type": "종반",
+        "from": 800,
+        "to": 1200
+      }
+    ],
+    "slopes": [
+      {
+        "type": "오르막",
+        "from": 100,
+        "to": 475
+      },
+      {
+        "type": "내리막",
+        "from": 475,
+        "to": 925
+      },
+      {
+        "type": "오르막",
+        "from": 975,
+        "to": 1150
+      }
+    ],
+    "segments": [
+      {
+        "type": "직선",
+        "from": 100,
+        "to": 500
+      },
+      {
+        "type": "코너",
+        "from": 500,
+        "to": 700
+      },
+      {
+        "type": "코너",
+        "from": 700,
+        "to": 900
+      },
+      {
+        "type": "직선",
+        "from": 900,
+        "to": 1200
+      }
+    ],
+    "statusRef": ["스태미너"]
+  },
+  {
+    "id": "morioka-dirt-1600",
+    "racetrack": "모리오카",
+    "terrain": "더트",
+    "length": 1600,
+    "direction": "좌회전",
+    "course": null,
+    "map": "",
+    "legs": [
+      {
+        "type": "초반",
+        "from": 0,
+        "to": 267
+      },
+      {
+        "type": "중반",
+        "from": 267,
+        "to": 1067
+      },
+      {
+        "type": "종반",
+        "from": 1067,
+        "to": 1600
+      }
+    ],
+    "slopes": [
+      {
+        "type": "오르막",
+        "from": 500,
+        "to": 875
+      },
+      {
+        "type": "내리막",
+        "from": 875,
+        "to": 1325
+      },
+      {
+        "type": "오르막",
+        "from": 1375,
+        "to": 1550
+      }
+    ],
+    "segments": [
+      {
+        "type": "직선",
+        "from": 500,
+        "to": 900
+      },
+      {
+        "type": "코너",
+        "from": 900,
+        "to": 1100
+      },
+      {
+        "type": "코너",
+        "from": 1100,
+        "to": 1300
+      },
+      {
+        "type": "직선",
+        "from": 1300,
+        "to": 1600
+      }
+    ],
+    "statusRef": ["스태미너", "지능"]
+  },
+  {
+    "id": "morioka-dirt-1800",
+    "racetrack": "모리오카",
+    "terrain": "더트",
+    "length": 1800,
+    "direction": "좌회전",
+    "course": null,
+    "map": "",
+    "legs": [
+      {
+        "type": "초반",
+        "from": 0,
+        "to": 300
+      },
+      {
+        "type": "중반",
+        "from": 300,
+        "to": 1200
+      },
+      {
+        "type": "종반",
+        "from": 1200,
+        "to": 1800
+      }
+    ],
+    "slopes": [
+      {
+        "type": "오르막",
+        "from": 0,
+        "to": 150
+      },
+      {
+        "type": "내리막",
+        "from": 700,
+        "to": 1150
+      },
+      {
+        "type": "오르막",
+        "from": 1575,
+        "to": 1750
+      }
+    ],
+    "segments": [
+      {
+        "type": "직선",
+        "from": 0,
+        "to": 300
+      },
+      {
+        "type": "코너",
+        "from": 300,
+        "to": 500
+      },
+      {
+        "type": "코너",
+        "from": 500,
+        "to": 700
+      },
+      {
+        "type": "직선",
+        "from": 700,
+        "to": 1100
+      },
+      {
+        "type": "코너",
+        "from": 1100,
+        "to": 1300
+      },
+      {
+        "type": "코너",
+        "from": 1300,
+        "to": 1500
+      },
+      {
+        "type": "직선",
+        "from": 1500,
+        "to": 1800
+      }
+    ],
+    "statusRef": ["스태미너", "지능"]
+  },
+  {
+    "id": "morioka-dirt-2000",
+    "racetrack": "모리오카",
+    "terrain": "더트",
+    "length": 2000,
+    "direction": "좌회전",
+    "course": null,
+    "map": "",
+    "legs": [
+      {
+        "type": "초반",
+        "from": 0,
+        "to": 333
+      },
+      {
+        "type": "중반",
+        "from": 333,
+        "to": 1333
+      },
+      {
+        "type": "종반",
+        "from": 1333,
+        "to": 2000
+      }
+    ],
+    "slopes": [
+      {
+        "type": "오르막",
+        "from": 175,
+        "to": 350
+      },
+      {
+        "type": "오르막",
+        "from": 900,
+        "to": 1275
+      },
+      {
+        "type": "내리막",
+        "from": 1275,
+        "to": 1725
+      },
+      {
+        "type": "오르막",
+        "from": 1775,
+        "to": 1950
+      }
+    ],
+    "segments": [
+      {
+        "type": "직선",
+        "from": 100,
+        "to": 500
+      },
+      {
+        "type": "코너",
+        "from": 500,
+        "to": 700
+      },
+      {
+        "type": "코너",
+        "from": 700,
+        "to": 900
+      },
+      {
+        "type": "직선",
+        "from": 900,
+        "to": 1300
+      },
+      {
+        "type": "코너",
+        "from": 1300,
+        "to": 1500
+      },
+      {
+        "type": "코너",
+        "from": 1500,
+        "to": 1700
+      },
+      {
+        "type": "직선",
+        "from": 1700,
+        "to": 2000
+      }
+    ],
+    "statusRef": ["스태미너"]
   }
 ]

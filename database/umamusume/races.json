@@ -126,5 +126,17 @@
   {
     "name": "천황상 (봄) 한신",
     "trackId": "hanshin-turf-3200"
+  },
+  {
+    "name": "카시와 기념",
+    "trackId": "funabashi-dirt-1600"
+  },
+  {
+    "name": "마일 챔피언십 남부배",
+    "trackId": "morioka-dirt-1600"
+  },
+  {
+    "name": "카와사키 기념",
+    "trackId": "kawasaki-dirt-2100"
   }
 ]
