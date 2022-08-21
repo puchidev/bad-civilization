@@ -53,7 +53,7 @@
       "duration": 5,
       "speed": 0.15
     },
-    "uniqueSkillCondition": "distance_rate>=50&distance_rate<=60&order_rate>50"
+    "uniqueSkillCondition": "distance_rate_after_random==50"
   },
   {
     "name": "그래스 원더",
