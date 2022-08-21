@@ -4,18 +4,7 @@ import type BigNumber from 'bignumber.js';
 
 export interface Umamusume {
   name: string;
-  aptitude: [
-    string,
-    string,
-    string,
-    string,
-    string,
-    string,
-    string,
-    string,
-    string,
-    string,
-  ];
+  aptitude: string;
   presence: string | null;
   uniqueSkillDescription: string[];
   uniqueSkillEffect: SkillEffect;
@@ -113,7 +102,7 @@ export interface GachaGroupExtended extends GachaGroup {
   pickupRatio: number;
 }
 
-export interface GachaGameConfig {
+export interface GachaGameData {
   id: string;
   name: string;
   rules: GachaRules;

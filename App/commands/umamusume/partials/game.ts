@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 
-import type { GachaGameConfig, GachaGame, GachaSortedGroup } from './types';
+import type { GachaGameData, GachaGame, GachaSortedGroup } from './types';
 
 /**
  * Create a new game object using provided configuration.
@@ -8,7 +8,7 @@ import type { GachaGameConfig, GachaGame, GachaSortedGroup } from './types';
  * @param config Game configuration data (JSON)
  * @returns Processed game data
  */
-function createGame(config: GachaGameConfig) {
+function createGame(config: GachaGameData) {
   const { id, name, rules, groups, membersByGroup } = config;
 
   // sort groups by highest tier

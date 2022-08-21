@@ -5,7 +5,7 @@ import { createGame } from './game';
 
 import type {
   GachaGame,
-  GachaGameConfig,
+  GachaGameData,
   Pickup,
   PickupRef,
   Race,
@@ -116,7 +116,7 @@ async function loadPickups() {
 /** Load gacha games */
 async function loadGames() {
   try {
-    const configs = await fetchAllData<GachaGameConfig>(
+    const configs = await fetchAllData<GachaGameData>(
       'database/umamusume/gacha-*.json',
     );
 

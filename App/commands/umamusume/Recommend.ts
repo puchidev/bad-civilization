@@ -115,7 +115,7 @@ const command: CommandConfig<Props> = {
     });
     const sample = `${aptitude} ${bold(character.name)}`;
 
-    const [a, b, c, d, e, f, g, h, i, j] = character.aptitude;
+    const [a, b, c, d, e, f, g, h, i, j] = character.aptitude.split('');
 
     const aptitudeTemplate = dedent`
       잔디 ${a} 더트 ${b}
@@ -242,7 +242,7 @@ function meetsConditions(options: {
 
   const map = new Map<string, number>();
 
-  umamusume.aptitude.forEach((rank, index) => {
+  umamusume.aptitude.split('').forEach((rank, index) => {
     const name = names[index];
     const factors = getRequiredFactors(rank);
     map.set(name, factors);
@@ -284,7 +284,7 @@ function generateAptitude(options: {
     '추입',
   ];
 
-  const requiredFactors = umamusume.aptitude.map((rank, index) => ({
+  const requiredFactors = umamusume.aptitude.split('').map((rank, index) => ({
     name: names[index],
     factors: getRequiredFactors(rank),
   }));
