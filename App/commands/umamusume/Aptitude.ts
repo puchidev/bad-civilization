@@ -17,15 +17,14 @@ const command: CommandConfig = {
         .setRequired(true),
     ),
   async execute({ params }) {
-    const { name } = params;
+    const { keyword } = params;
 
-    if (!name) {
+    if (!keyword) {
       return `검색어를 입력해줘. \`적성 키타산\``;
     }
 
-    const keyword: string = convertAliases(name);
-
-    const { match: umamusume, suggestions } = umamusumes.search(keyword, {
+    const _keyword = convertAliases(keyword);
+    const { match: umamusume, suggestions } = umamusumes.search(_keyword, {
       strategy: 'similarity',
     });
 
@@ -56,15 +55,15 @@ const command: CommandConfig = {
       throw new Error('Expected a chat input command.');
     }
 
-    const name = interaction.options.getString('이름');
+    const keyword = interaction.options.getString('이름');
 
-    return { params: { name } };
+    return { params: { keyword } };
   },
   parseMessage(message) {
     const { strings } = getArguments(message);
-    const [name] = strings;
+    const keyword = strings.join(' ');
 
-    return { params: { name } };
+    return { params: { keyword } };
   },
 };
 
