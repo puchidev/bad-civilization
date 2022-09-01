@@ -111,6 +111,17 @@
     "uniqueSkillCondition": "is_finalcorner==1&order_rate>=40&order_rate<=75&is_overtake==1"
   },
   {
+    "name": "나리타 타이신 (스팀펑크)",
+    "aptitude": "AGFDAAGFBA",
+    "presence": "j",
+    "uniqueSkillDescription": ["종반 최종코너 후반부", "40~75% (4~7위)"],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.35
+    },
+    "uniqueSkillCondition": "phase>=2&is_finalcorner_laterhalf==1&order_rate<=75&order_rate>=40"
+  },
+  {
     "name": "나리타 톱 로드",
     "aptitude": [],
     "presence": null
@@ -673,7 +684,7 @@
     "uniqueSkillDescription": [
       "종반 직선",
       "2위 이내 (1~2위)",
-      "안쪽 코스면 추가로 가속도 1.0"
+      "관객석 맞은편 레인이면 추가로 가속도 1.0"
     ],
     "uniqueSkillEffect": {
       "duration": 5,
@@ -721,6 +732,26 @@
       "speed": 0.35
     },
     "uniqueSkillCondition": "phase==1&corner==0&order<=2&bashin_diff_behind<=1"
+  },
+  {
+    "name": "스마트 팔콘 (라이브)",
+    "aptitude": "EABAAEADGG",
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "주행거리 40~50%",
+      "모든 말딸 사이 거리상 상위 10% 이내 포지션",
+      "더트 레이스장 → 회복 0.35",
+      "잔디 레이스장 → 회복없음"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 6,
+      "speed": 0.25,
+      "heal": 0.35
+    },
+    "uniqueSkillCondition": [
+      "distance_rate>=40&distance_rate<=50&distance_diff_rate<=10&ground_type==2",
+      "distance_rate>=40&distance_rate<=50&distance_diff_rate<=10"
+    ]
   },
   {
     "name": "스윕 토쇼",
@@ -1050,6 +1081,17 @@
     "uniqueSkillCondition": "is_finalcorner==1&corner==0&order<=5"
   },
   {
+    "name": "위닝 티켓 (스팀펑크)",
+    "aptitude": "AGGFABGBAG",
+    "presence": "jk",
+    "uniqueSkillDescription": ["라스트 스퍼트 최종 직선", "40% 이하 (4~8위)"],
+    "uniqueSkillEffect": {
+      "duration": 6,
+      "speed": 0.25
+    },
+    "uniqueSkillCondition": "is_lastspurt==1&is_finalcorner==1&corner==0&order_rate>=40"
+  },
+  {
     "name": "유키노 비진",
     "aptitude": [],
     "presence": null
@@ -1125,17 +1167,30 @@
   },
   {
     "name": "코파노 릿키",
-    "aptitude": [],
-    "presence": null
+    "aptitude": "FACAAGAACG",
+    "presence": "j",
+    "uniqueSkillDescription": [
+      "중반 후반부 랜덤",
+      "발동한 패시브 스킬 갯수에 따라 효과 추가",
+      "0~2 | 0x | 속도 0 | 가속도 0",
+      "3~4 | 1x | 속도 0.05 | 가속도 0.05",
+      "5 | 2x | 속도 0.1 | 가속도 0.1",
+      "6~ | 3x | 속도 0.15 | 가속도 0.15"
+    ],
+    "uniqueSkillEffect": {
+      "duration": 5,
+      "speed": 0.25
+    },
+    "uniqueSkillCondition": "phase_laterhalf_random==1"
   },
   {
     "name": "키타산 블랙",
     "aptitude": "AGECAAABCG",
     "presence": "j",
     "uniqueSkillDescription": [
-      "주행거리 50% 이상 코너",
       "2위 이내 (1~2위)",
-      "장거리가 아닐 시 가속도 상승 없음"
+      "종반 직선, 관객석 맞은편 레인 → 가속도 0.3",
+      "주행거리 50% 이상 코너 → 가속도 0"
     ],
     "uniqueSkillEffect": {
       "duration": 5,
