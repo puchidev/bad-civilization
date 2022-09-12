@@ -1206,7 +1206,7 @@
         "to": 1200
       }
     ],
-    "statusRef": null
+    "statusRef": ["근성", "지능"]
   },
   {
     "id": "ooi-dirt-1800",
@@ -1271,7 +1271,7 @@
         "to": 1800
       }
     ],
-    "statusRef": null
+    "statusRef": ["파워"]
   },
   {
     "id": "ooi-dirt-2000",
@@ -1336,7 +1336,7 @@
         "to": 2000
       }
     ],
-    "statusRef": null
+    "statusRef": ["스태미너"]
   },
   {
     "id": "tokyo-dirt-1600",
